@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Message } from '@send.partners/api-interfaces';
 
 @Component({
-  selector: 'send.partners-root',
+  selector: 'send-partners-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
