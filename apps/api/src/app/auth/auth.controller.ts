@@ -1,8 +1,8 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { APIEndpoint, LoginResponse, removeParentUrlParts, User } from '@send.partners/common';
+import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { APIEndpoint, JwtPayload, JwtPayloadWithRefreshToken, JwtTokens, removeParentUrlParts } from '@send.partners/common';
 import { Public } from './decorators';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './guards';
+import { JwtRefreshAuthGuard, LocalAuthGuard } from './guards';
 
 @Controller(APIEndpoint.Auth)
 export class AuthController {
@@ -11,7 +11,19 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.Login))
-  public login(@Request() { user }: { user: User }): Promise<LoginResponse> {
+  public login(@Request() { user }: { user: string }): Promise<JwtTokens> {
     return this.authService.login(user);
+  }
+
+  @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.Logout))
+  public logout(@Request() { id }: JwtPayload): Promise<void> {
+    return this.authService.logout(id);
+  }
+
+  @Public()
+  @UseGuards(JwtRefreshAuthGuard)
+  @Get(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.RefreshTokens))
+  public refresh(@Request() { user }: { user: JwtPayloadWithRefreshToken }): Promise<JwtTokens> {
+    return this.authService.refresh(user.id, user.refresh_token);
   }
 }

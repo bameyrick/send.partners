@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { FullUser } from '@send.partners/common';
-import { hash } from 'bcrypt';
+import { hash } from '../helpers';
 
 @Injectable()
 export class UsersService {
@@ -16,12 +16,32 @@ export class UsersService {
         id: 'sysadmin',
         email: 'sysadmin',
         name: 'sysadmin',
-        password: await hash('password', 10),
+        password: await hash('password'),
       },
     ];
   }
 
-  public async findOne(email: string): Promise<FullUser | undefined> {
+  public async findByEmail(email: string): Promise<FullUser | undefined> {
     return this.users.find(user => user.email === email);
+  }
+
+  public async findById(id: string): Promise<FullUser | undefined> {
+    return this.users.find(user => user.id === id);
+  }
+
+  public async updateRefreshHash(id: string, refreshToken: string): Promise<void> {
+    const user = await this.findById(id);
+
+    if (user) {
+      user.refresh_hash = await hash(refreshToken);
+    }
+  }
+
+  public async removeRefreshHash(id: string): Promise<void> {
+    const user = await this.findById(id);
+
+    if (user) {
+      user.refresh_hash = undefined;
+    }
   }
 }

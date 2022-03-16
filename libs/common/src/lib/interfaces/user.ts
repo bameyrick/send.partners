@@ -6,4 +6,5 @@ export interface User {
 
 export interface FullUser extends User {
   password: string;
+  refresh_hash?: string;
 }
