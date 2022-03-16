@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Message } from '@send.partners/api-interfaces';
+import { Message } from '@send.partners/common';
 
 @Component({
   selector: 'send-partners-root',

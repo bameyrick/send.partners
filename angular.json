@@ -2,7 +2,7 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "api-interfaces": "libs/api-interfaces",
+    "common": "libs/common",
     "send.partners": "apps/send.partners",
     "send.partners-e2e": "apps/send.partners-e2e"
   }

@@ -15,20 +15,10 @@
     "upgrade-interactive": "npm-check --update"
   },
   "lint-staged": {
-    "*.ts": [
-      "prettier --print-width 140 --single-quote --trailing-comma es5 --parser typescript --write"
-    ],
-    "*.scss": [
-      "prettier --print-width 140 --single-quote --parser css --write",
-      "sass-lint"
-    ],
-    "*.json": [
-      "prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write"
-    ],
-    "*.md": [
-      "prettier --write",
-      "remark"
-    ]
+    "*.ts": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser typescript --write"],
+    "*.scss": ["prettier --print-width 140 --single-quote --parser css --write", "sass-lint"],
+    "*.json": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write"],
+    "*.md": ["prettier --write", "remark"]
   },
   "private": true,
   "dependencies": {
@@ -42,8 +32,14 @@
     "@angular/router": "~13.2.0",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/jwt": "^8.0.0",
+    "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nrwl/angular": "13.9.0",
+    "bcrypt": "^5.0.1",
+    "passport": "^0.5.2",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.4.0",
     "tslib": "^2.0.0",
@@ -71,8 +67,11 @@
     "@storybook/angular": "~6.4.12",
     "@storybook/builder-webpack5": "~6.4.12",
     "@storybook/manager-webpack5": "~6.4.12",
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
+    "@types/passport-jwt": "^3.0.6",
+    "@types/passport-local": "^1.0.34",
     "@typescript-eslint/eslint-plugin": "~5.10.0",
     "@typescript-eslint/parser": "~5.10.0",
     "concurrently-await": "^1.1.4",
