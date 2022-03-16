@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "projects": {
+    "api": "apps/api",
+    "api-interfaces": "libs/api-interfaces",
+    "send.partners": "apps/send.partners",
+    "send.partners-e2e": "apps/send.partners-e2e"
+  }
+}
