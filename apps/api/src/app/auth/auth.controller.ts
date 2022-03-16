@@ -1,6 +1,6 @@
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { APIEndpoint, LoginResponse, removeParentUrlParts, User } from '@send.partners/common';
-import { Public } from './public.decorator';
+import { Public } from './decorators';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards';
 
