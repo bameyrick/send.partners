@@ -1,6 +1,8 @@
 {
   "version": 2,
   "projects": {
+    "admin.send.partners": "apps/admin.send.partners",
+    "admin.send.partners-e2e": "apps/admin.send.partners-e2e",
     "api": "apps/api",
     "common": "libs/common",
     "send.partners": "apps/send.partners",

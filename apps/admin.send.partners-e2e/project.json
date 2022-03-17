@@ -1,0 +1,28 @@
+{
+  "root": "apps/admin.send.partners-e2e",
+  "sourceRoot": "apps/admin.send.partners-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/admin.send.partners-e2e/cypress.json",
+        "devServerTarget": "admin.send.partners:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "admin.send.partners:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/admin.send.partners-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["admin.send.partners"]
+}
