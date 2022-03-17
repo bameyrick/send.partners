@@ -6,7 +6,7 @@
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "start": "concurrently-await \"nx serve api\" \"nx serve\"",
-    "storybook": "nx storybook",
+    "storybook": "nx storybook send-partners-common-ui",
     "build": "nx build",
     "test": "nx test",
     "lint": "nx lint && nx lint api && remark .",
@@ -100,6 +100,7 @@
     "remark-lint": "^9.1.1",
     "remark-preset-lint-recommended": "^6.1.2",
     "sass-lint": "^1.13.1",
+    "storybook-dark-mode": "^1.0.9",
     "ts-jest": "27.0.5",
     "typescript": "~4.5.2",
     "webpack": "^5.64.0"

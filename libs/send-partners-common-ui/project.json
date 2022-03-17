@@ -1,0 +1,56 @@
+{
+  "projectType": "library",
+  "root": "libs/send-partners-common-ui",
+  "sourceRoot": "libs/send-partners-common-ui/src",
+  "prefix": "send.partners",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/send-partners-common-ui"],
+      "options": {
+        "jestConfig": "libs/send-partners-common-ui/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/send-partners-common-ui/src/**/*.ts", "libs/send-partners-common-ui/src/**/*.html"]
+      }
+    },
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "port": 4400,
+        "config": {
+          "configFolder": "libs/send-partners-common-ui/.storybook"
+        },
+        "projectBuildConfig": "send-partners-common-ui:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "outputPath": "dist/storybook/send-partners-common-ui",
+        "config": {
+          "configFolder": "libs/send-partners-common-ui/.storybook"
+        },
+        "projectBuildConfig": "send-partners-common-ui:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
