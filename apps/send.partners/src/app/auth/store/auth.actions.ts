@@ -11,7 +11,7 @@ const logout = createAction('[AUTH] Logout');
 
 const logoutSuccess = createAction('[AUTH] Logout success');
 
-const logoutFailed = createAction('[AUTH] Login failed');
+const logoutFailed = createAction('[AUTH] Logout failed');
 
 const refreshToken = createAction('[AUTH] Refresh Token');
 
