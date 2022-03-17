@@ -59,6 +59,11 @@
         },
         "development": {
           "browserTarget": "admin.send.partners:build:development"
+        },
+        "defaultConfiguration": "development",
+        "options": {
+          "proxyConfig": "apps/send.partners/proxy.conf.json",
+          "port": 5000
         }
       },
       "defaultConfiguration": "development"

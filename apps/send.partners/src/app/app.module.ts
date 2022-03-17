@@ -7,14 +7,13 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { AuthModule } from './auth';
 import { AppRoutingModule, ROOT_REDUCERS } from './routing';
 import { environment } from '../environments/environment';
 import { TokenInterceptor } from './interceptors';
 
 @NgModule({
-  declarations: [AppComponent, NxWelcomeComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
