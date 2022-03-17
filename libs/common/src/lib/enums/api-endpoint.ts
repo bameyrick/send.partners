@@ -1,5 +1,6 @@
 export enum APIEndpoint {
   Auth = '/api/auth',
+  Csrf = '/api/auth/csrf',
   Login = '/api/auth/login',
   Logout = '/api/auth/logout',
   SignUp = '/api/auth/sign-up',

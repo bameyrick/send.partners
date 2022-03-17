@@ -11,11 +11,13 @@ import helmet from 'helmet';
 
 import { AppModule } from './app/app.module';
 
+export const csrfProtection = csurf({ cookie: true });
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(helmet());
   app.use(cookieParser());
-  // app.use(csurf({ cookie: true }));
+  app.use(csrfProtection);
 
   const port = process.env.PORT || 3333;
   await app.listen(port);

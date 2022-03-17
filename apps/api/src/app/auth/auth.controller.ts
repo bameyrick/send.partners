@@ -9,6 +9,12 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Public()
+  @Get(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.Csrf))
+  public csrf(): void {
+    return;
+  }
+
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.Login))
   public login(@Request() { user }: { user: string }): Promise<JwtTokens> {

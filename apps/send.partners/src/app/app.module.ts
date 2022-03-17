@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
@@ -11,10 +11,12 @@ import { AuthModule } from './auth';
 import { AppRoutingModule, ROOT_REDUCERS } from './routing';
 import { environment } from '../environments/environment';
 import { TokenInterceptor } from './interceptors';
+import { AppLoadService, SendPartnersCommonUiModule } from '@send.partners/send-partners-common-ui';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    SendPartnersCommonUiModule,
     BrowserModule,
     HttpClientModule,
     StoreRouterConnectingModule.forRoot(),
@@ -35,6 +37,13 @@ import { TokenInterceptor } from './interceptors';
     AuthModule,
   ],
   providers: [
+    AppLoadService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (appLoadService: AppLoadService) => () => appLoadService.initializeApp(),
+      deps: [AppLoadService],
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
