@@ -22,11 +22,11 @@ export class UsersService {
   }
 
   public async findByEmail(email: string): Promise<FullUser | undefined> {
-    return this.users.find(user => user.email === email);
+    return this.users?.find(user => user.email === email);
   }
 
   public async findById(id: string): Promise<FullUser | undefined> {
-    return this.users.find(user => user.id === id);
+    return this.users?.find(user => user.id === id);
   }
 
   public async updateRefreshHash(id: string, refreshToken: string): Promise<void> {
