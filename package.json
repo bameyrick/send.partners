@@ -12,7 +12,8 @@
     "lint": "nx lint && nx lint api && remark .",
     "pre-commit": "lint-staged",
     "prepare-husky": "husky install",
-    "upgrade-interactive": "npm-check --update"
+    "upgrade-interactive": "npm-check --update",
+    "generate-stories": "nx g @nrwl/angular:stories send-partners-common-ui"
   },
   "lint-staged": {
     "*.ts": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser typescript --write"],
