@@ -6,7 +6,8 @@ const routes: Routes = [
   {
     path: AppPath.Root,
     children: [
-      { path: AppPath.Root, loadChildren: () => import('../home/home.module').then(m => m.HomeModule) },
+      { path: AppPath.Root, loadChildren: () => import('../pages/home/home.module').then(m => m.HomeModule) },
+      { path: AppPath.Signup, loadChildren: () => import('../pages/signup/signup.module').then(m => m.SignupModule) },
       { path: '**', redirectTo: AppPath.Root },
     ],
   },
