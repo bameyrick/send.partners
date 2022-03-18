@@ -43,7 +43,9 @@
         "config": {
           "configFolder": "libs/send-partners-common-ui/.storybook"
         },
-        "projectBuildConfig": "send-partners-common-ui:build-storybook"
+        "projectBuildConfig": "send-partners-common-ui:build-storybook",
+        "styles": ["libs/send-partners-common-ui/src/lib/styles/index.scss"],
+        "assets": [{ "input": "libs/send-partners-common-ui/src/lib/assets", "glob": "**/*", "output": "assets" }]
       },
       "configurations": {
         "ci": {

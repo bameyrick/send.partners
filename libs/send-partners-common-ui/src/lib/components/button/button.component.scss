@@ -1,0 +1,77 @@
+@import '../../styles/base';
+
+.Button {
+  @include button-reset;
+
+  display: flex;
+  position: relative;
+  padding: 0.5em;
+  min-width: 2em;
+  min-height: 2em;
+  background: $color-blue;
+  color: $color-white;
+  font-weight: bold;
+  transition: color, background-color 0.2s;
+
+  &__inner {
+    line-height: 1;
+  }
+
+  &:hover {
+    background: darken($color-blue, 10%);
+  }
+
+  &:disabled {
+    background: lighten($color-blue, 20%);
+  }
+
+  &__icon,
+  &__inner,
+  &__spinner {
+    transition: opacity 0.3s ease;
+  }
+
+  &__icon,
+  &__spinner-svg {
+    display: block;
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+  }
+
+  &__icon + &__inner:not(:empty),
+  &__inner:not(:empty) + &__icon {
+    margin-left: 0.5em;
+  }
+
+  &__spinner {
+    @include spinner;
+
+    opacity: 0;
+  }
+
+  &--icon-only {
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    background: transparent;
+    color: $color-text;
+    font-size: 1.5rem;
+
+    &:hover,
+    &:disabled {
+      background: transparent;
+    }
+  }
+
+  &--loading & {
+    &__icon,
+    &__inner {
+      opacity: 0;
+    }
+
+    &__spinner {
+      opacity: 1;
+    }
+  }
+}

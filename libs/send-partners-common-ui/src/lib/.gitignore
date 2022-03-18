@@ -1,0 +1,6 @@
+assets
+enums/asset-paths.ts
+enums/icons.ts
+raw-assets/svg
+raw-assets/symbols.svg
+styles/settings/_asset-paths.scss

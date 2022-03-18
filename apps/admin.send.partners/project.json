@@ -14,8 +14,15 @@
         "polyfills": "apps/admin.send.partners/src/polyfills.ts",
         "tsConfig": "apps/admin.send.partners/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/admin.send.partners/src/favicon.ico", "apps/admin.send.partners/src/assets"],
-        "styles": ["apps/admin.send.partners/src/styles.scss"],
+        "assets": [
+          "apps/admin.send.partners/src/favicon.ico",
+          "apps/admin.send.partners/src/assets",
+          { "input": "libs/send-partners-common-ui/src/lib/assets", "glob": "**/*", "output": "assets" }
+        ],
+        "styles": ["apps/admin.send.partners/src/styles.scss", "libs/send-partners-common-ui/src/lib/styles/index.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/send-partners-common-ui/src/lib/styles"]
+        },
         "scripts": []
       },
       "configurations": {

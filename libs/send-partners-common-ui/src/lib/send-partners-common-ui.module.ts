@@ -1,9 +1,11 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ButtonComponent } from './components/button/button.component';
+import { ButtonComponent } from './components';
+import { IconModule } from './icon/icon.module';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [HttpClientModule, IconModule],
   declarations: [ButtonComponent],
+  exports: [IconModule],
 })
 export class SendPartnersCommonUiModule {}

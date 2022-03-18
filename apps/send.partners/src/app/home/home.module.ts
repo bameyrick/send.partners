@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home.routing.module';
+import { SendPartnersCommonUiModule } from '@send.partners/send-partners-common-ui';
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [CommonModule, HomeRoutingModule],
+  imports: [SendPartnersCommonUiModule, HomeRoutingModule],
 })
 export class HomeModule {}
