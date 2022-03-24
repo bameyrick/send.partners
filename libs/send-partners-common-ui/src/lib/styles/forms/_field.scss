@@ -1,0 +1,41 @@
+.Field {
+  display: block;
+
+  &__label {
+    display: block;
+  }
+
+  &__outer {
+    display: inline-flex;
+    position: relative;
+  }
+
+  &__icon,
+  &__button {
+    position: absolute !important;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    width: 1em !important;
+    height: 1em !important;
+  }
+
+  &__icon {
+    &--spin {
+      animation: field-icon-spin 1s infinite linear;
+    }
+  }
+
+  &__button {
+    font-size: 1em !important;
+  }
+}
+
+@keyframes field-icon-spin {
+  0% {
+    transform: translate(0, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(0, -50%) rotate(360deg);
+  }
+}

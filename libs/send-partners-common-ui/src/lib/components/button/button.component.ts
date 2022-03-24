@@ -1,4 +1,5 @@
-import { Component, HostBinding, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostBinding, Inject, Injector, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { IconDirective } from '../../icon';
 import { AbstractComponent } from '../abstracts';
 
 @Component({
@@ -26,13 +27,25 @@ export class ButtonComponent extends AbstractComponent implements OnChanges {
   /**
    * Whether this is am icon only button
    */
-
   @Input() public iconOnly?: boolean;
 
   /**
    * Whether to mark the button as disabled
    */
   @HostBinding('disabled') protected shouldDisable?: boolean;
+
+  /**
+   * The attached icon directive
+   */
+  private readonly iconDirective = this.injector.get(IconDirective, null);
+
+  constructor(elementRef: ElementRef, private injector: Injector) {
+    super(elementRef);
+
+    if (this.iconDirective) {
+      this.iconDirective.iconClass = 'Button__icon';
+    }
+  }
 
   public ngOnChanges(): void {
     this.shouldDisable = this.disabled || !!this.loading;

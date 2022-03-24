@@ -6,8 +6,7 @@
   display: flex;
   position: relative;
   padding: 0.5em;
-  min-width: 2em;
-  min-height: 2em;
+
   background: $color-blue;
   color: $color-white;
   font-weight: bold;
@@ -62,6 +61,11 @@
     &:disabled {
       background: transparent;
     }
+  }
+
+  &:not(&--icon-only) & {
+    min-width: 2em;
+    min-height: 2em;
   }
 
   &--loading & {

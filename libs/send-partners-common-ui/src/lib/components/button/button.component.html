@@ -1,3 +1,3 @@
-<span class="Button__inner"><ng-content></ng-content></span>
+<span *ngIf="!iconOnly" class="Button__inner"><ng-content></ng-content></span>
 
 <span class="Button__spinner" [icon]="Icon.Spinner" [iconClass]="'Button__spinner-svg'"></span>

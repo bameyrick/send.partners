@@ -1,0 +1,32 @@
+<label *ngIf="label" [for]="id" class="Field__label">{{ label }}</label>
+
+<span class="Field__outer" [icon]="icon" [iconClass]="iconClass" [iconPlacement]="IconPlacement.After">
+  <input
+    class="Field__input Input"
+    [ngClass]="inputClasses"
+    [attr.type]="inputType"
+    [id]="id"
+    [attr.name]="name"
+    [required]="required"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [attr.tabIndex]="readonly || disabled ? -1 : 0"
+    [autocomplete]="autocomplete"
+    [placeholder]="placeholder"
+    [attr.maxlength]="maxlength"
+    [ngModel]="value"
+    (ngModelChange)="setValue($event)"
+    (focus)="focus.emit($event)"
+    (blur)="blur.emit($event)"
+    (enter)="enter.emit($event)"
+    (keydown)="onKeyDown($event)"
+  />
+
+  <button
+    *ngIf="!disabled && !readonly && !loading && type === 'password'"
+    class="Field__button"
+    [iconOnly]="true"
+    [icon]="inputType === 'password' ? Icon.EyeCrossed : Icon.Eye"
+    (click)="toggleInputType()"
+  ></button>
+</span>
