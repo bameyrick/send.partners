@@ -1,6 +1,7 @@
-import { Component, ElementRef, HostBinding, Inject, Injector, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostBinding, Injector, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 import { IconDirective } from '../../icon';
 import { AbstractComponent } from '../abstracts';
+import { ButtonStyle } from './button-style';
 
 @Component({
   selector: 'button',
@@ -13,6 +14,11 @@ export class ButtonComponent extends AbstractComponent implements OnChanges {
    * The type of button we are displaying
    */
   @HostBinding('type') @Input() public type: 'button' | 'submit' = 'button';
+
+  /**
+   * The style of button to render
+   */
+  @Input() public style = ButtonStyle.Primary;
 
   /**
    * Whether the button should be disabled
@@ -55,6 +61,8 @@ export class ButtonComponent extends AbstractComponent implements OnChanges {
 
   protected override getHostClass(): string {
     const classes = super.getHostClass().split(' ');
+
+    classes.push(`${this.bemBlockClass}--${this.style}`);
 
     if (this.iconOnly) {
       classes.push(`${this.bemBlockClass}--icon-only`);

@@ -29,4 +29,5 @@ export const Primary = Template.bind({});
 Primary.args = {
   label: 'Text Input',
   loading: false,
+  disabled: false,
 };

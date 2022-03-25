@@ -12,20 +12,32 @@ async function colours(): Promise<void> {
 
   let enumFileContents: string = `${AUTO_GENERATED_MESSAGE}export enum Colour {`;
 
-  fs.readFileSync(COLOURS_SCSS_DIR, 'utf-8')
+  const colours = fs
+    .readFileSync(COLOURS_SCSS_DIR, 'utf-8')
     .split('\n')
     .filter(item => !isEmpty(item))
-    .forEach(item => {
-      let [key, colour] = item.split(':');
+    .map(item => {
+      const [key, colour] = item.split(':');
 
-      key = key.replace('$colour-', '').trim();
-
-      if (key.includes('-')) {
-        key = `['${key}']`;
-      }
-
-      enumFileContents += `\n  ${key} = '${colour.replace(';', '').trim()}',`;
+      return {
+        key: key.trim(),
+        colour: colour.replace(';', '').trim(),
+      };
     });
+
+  colours.forEach(({ key, colour }) => {
+    key = key.replace('$colour-', '').trim();
+
+    if (key.includes('-')) {
+      key = `['${key}']`;
+    }
+
+    if (!colour.includes('#')) {
+      colour = colours.find(({ key }) => key === colour)!.colour;
+    }
+
+    enumFileContents += `\n  ${key} = '${colour}',`;
+  });
 
   enumFileContents += `\n}\n`;
 

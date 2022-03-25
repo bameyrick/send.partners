@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { Icon } from '../../enums';
 import { IconModule } from '../../icon';
+import { ButtonStyle } from './button-style';
 import { ButtonComponent } from './button.component';
 
 interface ButtonWithContent extends ButtonComponent {
@@ -17,6 +18,12 @@ export default {
     }),
   ],
   argTypes: {
+    style: {
+      options: Object.values(ButtonStyle),
+      control: {
+        type: 'radio',
+      },
+    },
     icon: {
       options: Object.values(Icon),
       control: {
@@ -36,6 +43,7 @@ const Template: Story<ButtonWithContent> = (args: ButtonWithContent) => ({
 export const Primary = Template.bind({});
 Primary.args = {
   content: 'Button',
+  style: ButtonStyle.Primary,
   disabled: false,
   loading: false,
   iconOnly: false,

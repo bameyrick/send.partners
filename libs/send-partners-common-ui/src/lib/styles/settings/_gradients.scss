@@ -1,0 +1,14 @@
+$gradient-primary: linear-gradient(45deg, $colour-primary 0%, lighten($colour-primary, 20%) 100%);
+$gradient-primary-hover: linear-gradient(45deg, lighten($colour-primary, 10%) 0%, lighten($colour-primary, 30%) 100%);
+$gradient-primary-disabled: linear-gradient(
+  45deg,
+  desaturate($colour-primary, 40%) 0%,
+  desaturate(lighten($colour-primary, 10%), 40%) 100%
+);
+$gradient-secondary: linear-gradient(45deg, $colour-secondary 0%, lighten($colour-secondary, 15%) 100%);
+$gradient-secondary-hover: linear-gradient(45deg, lighten($colour-secondary, 10%) 0%, lighten($colour-secondary, 25%) 100%);
+$gradient-secondary-disabled: linear-gradient(
+  45deg,
+  desaturate($colour-secondary, 40%) 0%,
+  desaturate(lighten($colour-secondary, 10%), 40%) 100%
+);

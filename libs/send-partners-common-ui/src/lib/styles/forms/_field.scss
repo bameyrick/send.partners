@@ -2,7 +2,10 @@
   display: block;
 
   &__label {
+    @extend .fs-s;
+
     display: block;
+    font-weight: bold;
   }
 
   &__outer {

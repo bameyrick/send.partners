@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import '../../styles/base';
 
 .Button {
@@ -5,28 +6,55 @@
 
   display: flex;
   position: relative;
-  padding: 0.5em;
+  padding: math.div($input-height - $input-font-size, 2);
 
-  background: $colour-blue;
+  overflow: hidden;
+  border-radius: $radius;
+  background: $gradient-primary;
   color: $colour-white;
   font-weight: bold;
-  transition: color, background-color 0.2s;
+  line-height: 1;
+  transition: color 0.3s;
 
-  &__inner {
-    line-height: 1;
+  &:before,
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
   }
 
-  &:hover {
-    background: darken($colour-blue, 10%);
+  &:before {
+    background: $gradient-primary-hover;
+  }
+
+  &:after {
+    z-index: 1;
+    background: $gradient-primary-disabled;
+  }
+
+  &:hover:not(:disabled) {
+    &:before {
+      opacity: 1;
+    }
   }
 
   &:disabled {
-    background: lighten($colour-blue, 20%);
+    &:after {
+      opacity: 1;
+    }
   }
 
   &__icon,
   &__inner,
   &__spinner {
+    z-index: 2;
+    position: relative;
     transition: opacity 0.3s ease;
   }
 
@@ -66,6 +94,19 @@
   &:not(&--icon-only) & {
     min-width: 2em;
     min-height: 2em;
+  }
+
+  &--secondary {
+    background: $gradient-secondary;
+
+    &:before {
+      background: $gradient-secondary-hover;
+    }
+
+    &:after {
+      z-index: 1;
+      background: $gradient-secondary-disabled;
+    }
   }
 
   &--loading & {
