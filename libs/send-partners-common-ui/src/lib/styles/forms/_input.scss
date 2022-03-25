@@ -1,7 +1,7 @@
 @use 'sass:math';
 
 .Input {
-  padding: math.div($input-height - round-to-decimal-places($input-font-size * 1.138, 1), 2);
+  padding: $input-padding;
   border: 0;
   border-radius: $radius;
   background: $colour-concrete;
@@ -9,7 +9,19 @@
   font-size: rems($input-font-size);
   line-height: 1;
 
+  &[type='password'] {
+    letter-spacing: 0.2em;
+  }
+
   &:focus {
     outline: 2px solid $colour-primary;
+  }
+
+  &--with-icon {
+    padding-right: calc(ems($input-padding * 2) + 1em);
+  }
+
+  &--invalid {
+    outline: 2px solid $colour-red;
   }
 }

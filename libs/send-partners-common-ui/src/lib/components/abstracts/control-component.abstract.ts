@@ -1,11 +1,27 @@
-import { Component, ElementRef, EventEmitter, Injector, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Injector,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
 import { Dictionary } from '@qntm-code/utils';
 import { debounceTime, Subject } from 'rxjs';
+import { FormComponent } from '../form/form.component';
 import { AbstractComponent } from './component.abstract';
 
 @Component({ template: '' })
-export abstract class AbstractControlComponent<ValueType> extends AbstractComponent implements ControlValueAccessor, OnInit, OnChanges {
+export abstract class AbstractControlComponent<ValueType>
+  extends AbstractComponent
+  implements ControlValueAccessor, OnInit, AfterContentInit, OnChanges
+{
   /**
    * The input element's label
    */
@@ -171,6 +187,26 @@ export abstract class AbstractControlComponent<ValueType> extends AbstractCompon
   }
 
   /**
+   * Whether content has been initialised
+   */
+  protected contentInitialised = false;
+
+  /**
+   * The value the control was initialised with
+   */
+  protected initialValue?: ValueType | null;
+
+  /**
+   * Whether the value has changed from the initial value
+   */
+  public valueChanged = false;
+
+  /**
+   * Whether the form has been submitted
+   */
+  public submitted = false;
+
+  /**
    * A subject to debounce the set state function
    */
   protected readonly setStateQueue$ = new Subject<void>();
@@ -189,6 +225,19 @@ export abstract class AbstractControlComponent<ValueType> extends AbstractCompon
     super.ngOnInit();
 
     this.control = this.injector.get<NgControl | null>(NgControl, null);
+
+    const form = this.injector.get<FormComponent | null>(FormComponent, null);
+
+    if (form) {
+      form.submit$.subscribe(() => {
+        this.submitted = true;
+        this.setStateQueue$.next();
+      });
+    }
+  }
+
+  public ngAfterContentInit(): void {
+    this.contentInitialised = true;
   }
 
   public ngOnChanges(_changes: SimpleChanges): void {
@@ -197,6 +246,12 @@ export abstract class AbstractControlComponent<ValueType> extends AbstractCompon
 
   public writeValue(value?: ValueType | null): void {
     this.value = value;
+
+    if (!this.contentInitialised) {
+      this.initialValue = value;
+    }
+
+    this.valueChanged = this.initialValue !== value;
   }
 
   public registerOnChange(onChange: (value?: ValueType | null) => void): void {
@@ -298,6 +353,7 @@ export abstract class AbstractControlComponent<ValueType> extends AbstractCompon
    */
   public setValue(value?: ValueType | null): void {
     this.value = value;
+    this.valueChanged = this.initialValue !== value;
 
     this.onTouched();
     this.onChange(value);
@@ -320,7 +376,7 @@ export abstract class AbstractControlComponent<ValueType> extends AbstractCompon
 
     // this.showValidationErrors = this.getShowValidationErrors();
     this.inputClasses = this.getInputClasses();
-    this.hostClass = this.getHostClass();
+    this.setHostClass();
   }
 
   /**
@@ -351,16 +407,17 @@ export abstract class AbstractControlComponent<ValueType> extends AbstractCompon
    */
   protected getInputClasses(): Dictionary<boolean> {
     const classes: Dictionary<boolean> = {
-      'ng-invalid': this.invalid,
-      'ng-valid': this.valid,
-      'ng-pending': this.pending,
-      'ng-pristine': this.pristine,
-      'ng-dirty': this.dirty,
-      'ng-untouched': this.untouched,
-      'ng-touched': this.touched,
+      'Input--invalid': this.invalid && (this.valueChanged || this.submitted),
+      'Input--valid': this.valid && this.valueChanged,
+      'Input--pending': this.pending,
+      'Input--pristine': this.pristine,
+      'Input--dirty': this.dirty,
+      'Input--untouched': this.untouched,
+      'Input--touched': this.touched,
       'Input--focused': this.focused,
       'Input--disabled': this.disabled,
       'Input--readonly': this.readonly,
+      'Input--value-changed': this.valueChanged,
     };
 
     if (this.inputClass) {

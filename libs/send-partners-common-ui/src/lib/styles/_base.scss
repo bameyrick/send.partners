@@ -3,6 +3,8 @@
 ------------------------------------------------------- */
 @import 'normalize-scss';
 
+@import 'utils/round-to-decimal-places';
+
 /*  ---------------------------------------------------
     Variables
 ------------------------------------------------------- */
@@ -12,8 +14,8 @@
 @import 'settings/easings';
 @import 'settings/keyframes';
 @import 'settings/grid';
-@import 'settings/typography';
 @import 'settings/layout';
+@import 'settings/typography';
 @import 'settings/input';
 
 /*  ---------------------------------------------------
@@ -21,7 +23,6 @@
 ------------------------------------------------------- */
 @import 'utils/rems';
 @import 'utils/ems';
-@import 'utils/round-to-decimal-places';
 
 /*  ---------------------------------------------------
     Resets

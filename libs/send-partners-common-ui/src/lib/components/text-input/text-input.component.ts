@@ -67,7 +67,7 @@ export class TextInputComponent extends AbstractTextInputComponent implements On
   protected override getInputClasses(): Dictionary<boolean> {
     const classes: Dictionary<boolean> = super.getInputClasses();
 
-    classes[`Field__input--with-icon`] = !!this.icon || this.type === 'password';
+    classes[`Input--with-icon`] = !!this.icon || this.type === 'password';
 
     return classes;
   }

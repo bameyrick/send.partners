@@ -9,15 +9,19 @@
   }
 
   &__outer {
-    display: inline-flex;
+    display: flex;
     position: relative;
+  }
+
+  &__input {
+    flex: 1 1 auto;
   }
 
   &__icon,
   &__button {
     position: absolute !important;
     top: 50%;
-    right: 0;
+    right: $input-padding;
     transform: translate(0, -50%);
     width: 1em !important;
     height: 1em !important;

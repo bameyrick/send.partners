@@ -14,6 +14,7 @@
   color: $colour-white;
   font-weight: bold;
   line-height: 1;
+  text-align: center;
   transition: color 0.3s;
 
   &:before,
@@ -58,6 +59,10 @@
     transition: opacity 0.3s ease;
   }
 
+  &__inner {
+    flex: 1 1 auto;
+  }
+
   &__icon,
   &__spinner-svg {
     display: block;
@@ -85,8 +90,8 @@
     color: $colour-text;
     font-size: 1.5rem;
 
-    &:hover,
-    &:disabled {
+    &:before,
+    &:after {
       background: transparent;
     }
   }

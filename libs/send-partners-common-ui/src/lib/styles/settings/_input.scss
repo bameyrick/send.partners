@@ -1,2 +1,5 @@
+@use 'sass:math';
+
 $input-height: 40px;
 $input-font-size: $base-font-size;
+$input-padding: math.div($input-height - round-to-decimal-places($input-font-size * 1.138, 1), 2);

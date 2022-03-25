@@ -1,0 +1,9 @@
+@use 'sass:math';
+@import '../../styles/base';
+
+.Login {
+  &__field,
+  &__button {
+    width: 100%;
+  }
+}

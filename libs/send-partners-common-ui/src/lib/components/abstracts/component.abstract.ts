@@ -43,14 +43,24 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
   public readonly isNullOrUndefined = isNullOrUndefined;
 
   /**
+   * Reference to the native element
+   */
+  protected readonly nativeElement = this.elementRef.nativeElement as HTMLElement;
+
+  /**
    * Subscriptions to unsubscribe from on destroy
    */
   protected readonly subscriptions: Subscription = new Subscription();
 
-  constructor(public readonly elementRef: ElementRef) {}
+  constructor(protected readonly elementRef: ElementRef) {}
 
   public ngOnInit(): void {
-    this.initialClasses = (this.elementRef.nativeElement as HTMLElement).getAttribute('class');
+    this.initialClasses = (this.nativeElement as HTMLElement).getAttribute('class');
+
+    this.setHostClass();
+  }
+
+  protected setHostClass(): void {
     this.hostClass = this.getHostClass();
   }
 

@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { Icon } from '../../enums';
 import { IconModule } from '../../icon';
+import { SendPartnersCommonUiModule } from '../../send-partners-common-ui.module';
 import { ButtonStyle } from './button-style';
 import { ButtonComponent } from './button.component';
 
@@ -14,7 +15,7 @@ export default {
   component: ButtonComponent,
   decorators: [
     moduleMetadata({
-      imports: [IconModule, HttpClientModule],
+      imports: [SendPartnersCommonUiModule],
     }),
   ],
   argTypes: {

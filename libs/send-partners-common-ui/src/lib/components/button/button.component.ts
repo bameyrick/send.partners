@@ -56,7 +56,7 @@ export class ButtonComponent extends AbstractComponent implements OnChanges {
   public ngOnChanges(): void {
     this.shouldDisable = this.disabled || !!this.loading;
 
-    this.hostClass = this.getHostClass();
+    this.setHostClass();
   }
 
   protected override getHostClass(): string {
