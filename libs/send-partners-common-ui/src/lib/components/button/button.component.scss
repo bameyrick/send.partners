@@ -7,8 +7,8 @@
   position: relative;
   padding: 0.5em;
 
-  background: $color-blue;
-  color: $color-white;
+  background: $colour-blue;
+  color: $colour-white;
   font-weight: bold;
   transition: color, background-color 0.2s;
 
@@ -17,11 +17,11 @@
   }
 
   &:hover {
-    background: darken($color-blue, 10%);
+    background: darken($colour-blue, 10%);
   }
 
   &:disabled {
-    background: lighten($color-blue, 20%);
+    background: lighten($colour-blue, 20%);
   }
 
   &__icon,
@@ -54,7 +54,7 @@
     width: 1em;
     height: 1em;
     background: transparent;
-    color: $color-text;
+    color: $colour-text;
     font-size: 1.5rem;
 
     &:hover,

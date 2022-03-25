@@ -7,9 +7,16 @@
     Variables
 ------------------------------------------------------- */
 @import 'settings/asset-paths';
-@import 'settings/colors';
+@import 'settings/colours';
 @import 'settings/easings';
 @import 'settings/keyframes';
+@import 'settings/grid';
+@import 'settings/typography';
+
+/*  ---------------------------------------------------
+    Utils
+------------------------------------------------------- */
+@import 'utils/rems';
 
 /*  ---------------------------------------------------
     Resets
@@ -21,4 +28,6 @@
 /*  ---------------------------------------------------
     Mixins
 ------------------------------------------------------- */
+@import 'mixins/font-size';
+@import 'mixins/media-query';
 @import 'mixins/spinner';

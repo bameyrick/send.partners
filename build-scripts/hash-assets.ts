@@ -41,8 +41,6 @@ function hashAssets(): void {
     copyMap[filePath] = hashedFilePath;
 
     pathMap[filePath.replace(new RegExp(`^${ASSETS_DIR}/`), '')] = hashedFilePath.replace(new RegExp(`^${HASHED_ASSETS_DIR}`), 'assets');
-
-    console.log(pathMap);
   });
 
   let tsFileContents = `${AUTO_GENERATED_MESSAGE}export enum AssetPath {`;

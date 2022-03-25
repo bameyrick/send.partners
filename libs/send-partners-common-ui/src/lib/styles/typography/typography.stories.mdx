@@ -1,0 +1,87 @@
+import { Canvas, Meta, Typeset } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Style/Typography" />
+
+export const typography = {
+  type: {
+    primary: '"Gilroy", "Helvetica Neue", Helvetica, Arial, sans-serif',
+  },
+  weight: {
+    light: '100',
+    regular: '400',
+    medium: '500',
+    bold: '700',
+    heavy: '800',
+  },
+  size: {
+    ['m-fs-s']: 14,
+    ['m-fs-r']: 18,
+    ['m-fs-m']: 20,
+    ['m-fs-l']: 24,
+    ['m-fs-xl']: 26,
+    ['m-fs-xxl']: 28,
+    ['m-fs-xxxl']: 32,
+    ['d-fs-s']: 14,
+    ['d-fs-r']: 18,
+    ['d-fs-m']: 22,
+    ['d-fs-l']: 26,
+    ['d-fs-xl']: 30,
+    ['d-fs-xxl']: 36,
+    ['d-fs-xxxl']: 48,
+  },
+};
+
+export const SampleText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+
+# Typography
+
+**Font:** Gilroy
+
+**Weights:** 100(light), 400(regular) 500(medium), 700(bold), 800(heavy)
+
+## Mobile Sizes < 740px
+
+<Typeset
+  fontSizes={[
+    Number(typography.size['m-fs-s']),
+    Number(typography.size['m-fs-r']),
+    Number(typography.size['m-fs-m']),
+    Number(typography.size['m-fs-l']),
+    Number(typography.size['m-fs-xl']),
+    Number(typography.size['m-fs-xxl']),
+    Number(typography.size['m-fs-xxxl']),
+  ]}
+  fontWeight={typography.weight.bold}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>
+
+## Desktop Sizes >= 740px
+
+<Typeset
+  fontSizes={[
+    Number(typography.size['d-fs-s']),
+    Number(typography.size['d-fs-r']),
+    Number(typography.size['d-fs-m']),
+    Number(typography.size['d-fs-l']),
+    Number(typography.size['d-fs-xl']),
+    Number(typography.size['d-fs-xxl']),
+    Number(typography.size['d-fs-xxxl']),
+  ]}
+  fontWeight={typography.weight.bold}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>
+
+## Headings
+
+<Canvas>
+  <div>
+    <h1>Heading 1</h1>
+    <h2>Heading 2</h2>
+    <h3>Heading 3</h3>
+    <h4>Heading 4</h4>
+    <h5>Heading 5</h5>
+    <h6>Heading 6</h6>
+  </div>
+</Canvas>

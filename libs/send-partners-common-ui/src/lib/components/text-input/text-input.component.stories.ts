@@ -3,7 +3,7 @@ import { SendPartnersCommonUiModule } from '../../send-partners-common-ui.module
 import { TextInputComponent } from './text-input.component';
 
 export default {
-  title: 'TextInputComponent',
+  title: 'Components/Text Input',
   component: TextInputComponent,
   decorators: [
     moduleMetadata({

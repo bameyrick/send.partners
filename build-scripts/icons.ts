@@ -8,6 +8,7 @@ import { ASSETS_DIR, ENUMS_DIR, ICONS_ENUM_PATH, SVG_RESULT_DIR, SVG_SOURCE_DIR,
 import { AUTO_GENERATED_MESSAGE } from './auto-generated-message';
 import { mkdir } from './mkdir';
 import { removeParentUrlParts } from '../libs/common/src';
+import { toEnumKey } from '../libs/common/src/lib/helpers/to-enum-key';
 
 async function icons(): Promise<void> {
   console.log(chalk.blue('PROCESSING ICONS'));
@@ -59,10 +60,7 @@ async function icons(): Promise<void> {
 
     spriter.add(optimisedPath, name, data);
 
-    const key = id
-      .split('-')
-      .map(word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
-      .join('');
+    const key = toEnumKey(id);
 
     enumFileContents += `\n  ${key} = '${id}',`;
   });

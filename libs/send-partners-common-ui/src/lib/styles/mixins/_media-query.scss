@@ -1,0 +1,49 @@
+@mixin media-query($from: none, $to: none, $from-operator: none, $to-operator: none) {
+  @if $from != none and type-of($from) == 'string' {
+    $from: get-breakpoint-width($from);
+  }
+
+  @if $to != none and type-of($to) == 'string' {
+    $to: get-breakpoint-width($to);
+  }
+
+  @if ($from == none or $from <= nth(nth($grid-breakpoint, 1), 2)) and $to == none {
+    @content;
+  } @else if $from == none or $from <= nth(nth($grid-breakpoint, 1), 2) {
+    @if $to-operator != none and $to-operator == '<' {
+      $to: $to - 1;
+    }
+
+    @media (max-width: $to) {
+      @content;
+    }
+  } @else if $to == none {
+    @if $from-operator != none and $from-operator == '<' {
+      $from: $from + 1;
+    }
+
+    @media (min-width: $from) {
+      @content;
+    }
+  } @else {
+    @if $from-operator != none and $from-operator == '<' {
+      $from: $from + 1;
+    }
+
+    @if $to-operator != none and $to-operator == '<' {
+      $to: $to - 1;
+    }
+
+    @media (min-width: $from) and (max-width: $to) {
+      @content;
+    }
+  }
+}
+
+@function get-breakpoint-width($name, $breakpoints: $grid-breakpoint) {
+  @if map-has-key($breakpoints, $name) {
+    @return map-get($breakpoints, $name);
+  } @else {
+    @warn 'Breakpoint #{$name} wasn\'t found in $breakpoints.';
+  }
+}

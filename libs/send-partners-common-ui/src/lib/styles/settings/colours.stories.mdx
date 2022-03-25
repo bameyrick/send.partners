@@ -1,0 +1,12 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+import { Colour } from '../../enums/colour';
+
+<Meta title="Foundations/Style/Colours" />
+
+# Colours
+
+<ColorPalette>
+  {Object.entries(Colour).map(([key, colour]) => (
+    <ColorItem key={key} title={key} colors={{ [key]: colour }} />
+  ))}
+</ColorPalette>
