@@ -44,6 +44,11 @@ export abstract class AbstractControlComponent<ValueType>
   @Input() public inputClass?: string;
 
   /**
+   * Whether to force the invalid border to show
+   */
+  @Input() public forceInvalidBorder?: boolean;
+
+  /**
    * The field icon to use
    */
   public icon?: Icon | null;
@@ -460,8 +465,8 @@ export abstract class AbstractControlComponent<ValueType>
    */
   protected getInputClasses(): Dictionary<boolean> {
     const classes: Dictionary<boolean> = {
-      'Input--invalid': !!this.errorsSnapshot,
-      'Input--valid': !this.errorsSnapshot,
+      'Input--invalid': !!this.errorsSnapshot || !!this.forceInvalidBorder,
+      'Input--valid': !this.errorsSnapshot && !this.forceInvalidBorder,
       'Input--pending': this.pending,
       'Input--pristine': this.pristine,
       'Input--dirty': this.dirty,

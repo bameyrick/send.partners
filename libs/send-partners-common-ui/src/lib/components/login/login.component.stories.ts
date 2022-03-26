@@ -17,4 +17,6 @@ const Template: Story<LoginComponent> = (args: LoginComponent) => ({
 });
 
 export const Primary = Template.bind({});
-Primary.args = {};
+Primary.args = {
+  error: '',
+};

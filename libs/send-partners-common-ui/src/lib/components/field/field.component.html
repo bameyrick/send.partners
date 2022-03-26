@@ -1,5 +1,5 @@
 <send-partners-common-panel [type]="control?.errorsSnapshot ? PanelType.Error : PanelType.None">
-  <strong *ngIf="control?.errorsSnapshot" class="Field__error">{{ control?.errorsSnapshot | json }}</strong>
+  <strong *ngIf="control?.errorsSnapshot">{{ control?.errorsSnapshot | json }}</strong>
 
   <label *ngIf="control?.label" [for]="id" class="Field__label">{{ control?.label }}</label>
 

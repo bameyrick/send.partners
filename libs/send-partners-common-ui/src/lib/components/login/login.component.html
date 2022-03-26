@@ -1,4 +1,6 @@
-<form class="Login__form" [formGroup]="form" (submit)="login($event)">
+<form class="Login__form" [formGroup]="form" (submit)="submit()">
+  <send-partners-common-panel *ngIf="error" [type]="PanelType.Error">{{ error }}</send-partners-common-panel>
+
   <text-input
     class="Login__field"
     [label]="'Email'"
@@ -6,9 +8,17 @@
     [formControlName]="'email'"
     [email]="true"
     [required]="true"
+    [forceInvalidBorder]="!!error"
   ></text-input>
 
-  <text-input class="Login__field" [label]="'Password'" [type]="'password'" [formControlName]="'password'" [required]="true"></text-input>
+  <text-input
+    class="Login__field"
+    [label]="'Password'"
+    [type]="'password'"
+    [formControlName]="'password'"
+    [required]="true"
+    [forceInvalidBorder]="!!error"
+  ></text-input>
 
   <button [type]="'submit'" class="Login__button" [loading]="form.disabled">Login</button>
 </form>

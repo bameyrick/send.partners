@@ -8,11 +8,8 @@
     @include font-size('fs-s');
 
     display: block;
+    color: $colour-text;
     font-weight: bold;
-  }
-
-  &__error {
-    color: $colour-red;
   }
 
   &__inner {
