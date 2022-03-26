@@ -10,5 +10,5 @@
 
   <text-input class="Login__field" [label]="'Password'" [type]="'password'" [formControlName]="'password'" [required]="true"></text-input>
 
-  <button [type]="'submit'" class="Login__button">Login</button>
+  <button [type]="'submit'" class="Login__button" [loading]="form.disabled">Login</button>
 </form>

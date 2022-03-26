@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { fromEvent } from 'rxjs';
 import { AbstractComponent } from '../abstracts';
 
@@ -9,6 +10,11 @@ import { AbstractComponent } from '../abstracts';
   encapsulation: ViewEncapsulation.None,
 })
 export class FormComponent extends AbstractComponent {
+  /**
+   * Reference to the provided form group
+   */
+  @Input() public formGroup?: FormGroup;
+
   /**
    * Event listener for the submit
    */
@@ -25,6 +31,10 @@ export class FormComponent extends AbstractComponent {
     this.subscriptions.add(
       this.submit$.subscribe(() => {
         this.submitted = true;
+
+        if (this.formGroup?.valid) {
+          this.formGroup?.disable();
+        }
 
         this.setHostClass();
       })

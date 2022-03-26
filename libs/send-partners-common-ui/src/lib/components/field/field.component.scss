@@ -11,6 +11,10 @@
     font-weight: bold;
   }
 
+  &__error {
+    color: $colour-red;
+  }
+
   &__inner {
     display: flex;
     position: relative;
