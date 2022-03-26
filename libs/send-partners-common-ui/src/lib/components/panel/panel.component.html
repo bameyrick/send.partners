@@ -1,0 +1,5 @@
+<div *ngIf="title && type !== PanelType.None" class="Panel__header" [innerHTML]="titleHTML"></div>
+
+<div class="Panel__body">
+  <ng-content></ng-content>
+</div>

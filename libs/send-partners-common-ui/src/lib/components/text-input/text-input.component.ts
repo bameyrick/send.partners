@@ -34,16 +34,6 @@ export class TextInputComponent extends AbstractTextInputComponent implements On
    */
   public inputType = this.type;
 
-  /**
-   * The field icon to use
-   */
-  public icon?: Icon | null;
-
-  /**
-   * The icon class to use
-   */
-  public iconClass?: string;
-
   public override ngOnChanges(changes: SimpleChanges): void {
     this.setIcon();
 
@@ -76,8 +66,6 @@ export class TextInputComponent extends AbstractTextInputComponent implements On
    * Sets the field icon depending on the input type / whether its loading
    */
   private setIcon(): void {
-    const iconClasses = ['Field__icon'];
-
     this.icon = null;
 
     if (this.type === 'search') {
@@ -86,9 +74,16 @@ export class TextInputComponent extends AbstractTextInputComponent implements On
 
     if (this.loading) {
       this.icon = Icon.Spinner;
-      iconClasses.push('Field__icon--spin');
+    }
+  }
+
+  protected override getIconClasses(): string[] {
+    const classes = super.getIconClasses();
+
+    if (this.loading) {
+      classes.push('Field__icon--spin');
     }
 
-    this.iconClass = iconClasses.join(' ');
+    return classes;
   }
 }

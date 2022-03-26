@@ -23,7 +23,7 @@ h6 {
 
 @each $name, $props in $type-matrix {
   .#{$name} {
-    @include font-size($props, $base-font-size);
+    @include type-matrix-font-size($props, $base-font-size);
   }
 }
 

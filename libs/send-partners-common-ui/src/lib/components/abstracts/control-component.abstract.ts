@@ -12,8 +12,9 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
-import { Dictionary } from '@qntm-code/utils';
+import { Dictionary, isEmpty, isString } from '@qntm-code/utils';
 import { debounceTime, Subject } from 'rxjs';
+import { Icon } from '../../enums';
 import { FormComponent } from '../form/form.component';
 import { AbstractComponent } from './component.abstract';
 
@@ -41,6 +42,16 @@ export abstract class AbstractControlComponent<ValueType>
    * Optional input classes to apply to the actual html input element
    */
   @Input() public inputClass?: string;
+
+  /**
+   * The field icon to use
+   */
+  public icon?: Icon | null;
+
+  /**
+   * The icon class to use
+   */
+  public iconClass?: string;
 
   /**
    * Emits an event on form field focus
@@ -112,7 +123,12 @@ export abstract class AbstractControlComponent<ValueType>
   /**
    * Validation errors for this control
    */
-  public errors: ValidationErrors = {};
+  public errors?: ValidationErrors | null;
+
+  /**
+   * Snapshot of validation errors for this control
+   */
+  public errorsSnapshot?: ValidationErrors | null;
 
   /**
    *  The controls input classes
@@ -229,10 +245,19 @@ export abstract class AbstractControlComponent<ValueType>
     const form = this.injector.get<FormComponent | null>(FormComponent, null);
 
     if (form) {
-      form.submit$.subscribe(() => {
-        this.submitted = true;
-        this.setStateQueue$.next();
-      });
+      this.subscriptions.add(
+        form.submit$.subscribe(() => {
+          this.submitted = true;
+
+          if (this.invalid) {
+            this.errorsSnapshot = this.errors;
+          } else {
+            this.errorsSnapshot = null;
+          }
+
+          this.setStateQueue$.next();
+        })
+      );
     }
   }
 
@@ -241,6 +266,8 @@ export abstract class AbstractControlComponent<ValueType>
   }
 
   public ngOnChanges(_changes: SimpleChanges): void {
+    this.setIconClass();
+
     this.setStateQueue$.next();
   }
 
@@ -349,6 +376,30 @@ export abstract class AbstractControlComponent<ValueType>
   }
 
   /**
+   * Handles a focus event
+   */
+  public onFocus(event: FocusEvent): void {
+    if (!this.disabled && !this.readonly) {
+      this.focused = true;
+    }
+
+    this.setStateQueue$.next();
+
+    this.focus.emit(event);
+  }
+
+  /**
+   * Handles a blur event
+   */
+  public onBlur(event: FocusEvent): void {
+    this.focused = false;
+
+    this.setStateQueue$.next();
+
+    this.blur.emit(event);
+  }
+
+  /**
    * Sets the value
    */
   public setValue(value?: ValueType | null): void {
@@ -371,7 +422,7 @@ export abstract class AbstractControlComponent<ValueType>
       this.untouched = !!this.control.untouched;
       this.touched = !!this.control.touched;
       this.dirty = !!this.control.dirty;
-      this.errors = this.control.errors || {};
+      this.errors = this.control.errors;
     }
 
     // this.showValidationErrors = this.getShowValidationErrors();
@@ -382,13 +433,15 @@ export abstract class AbstractControlComponent<ValueType>
   /**
    * Gets the host class and allows extending classes to extend by returning super.hostClass + 'custom-class'
    */
-  protected override getHostClass(): string {
-    const classes: string[] = [super.getHostClass(), 'Field'];
+  protected override getHostClasses(): string[] {
+    const classes: string[] = super.getHostClasses();
+
+    classes.push('Field__control');
 
     // if (this.inFieldset) {
     //   classes.push('Fieldset__field');
     // } else {
-    classes.push('Form__field');
+    // classes.push('Form__field');
     // }
 
     if (this.disabled) {
@@ -399,7 +452,7 @@ export abstract class AbstractControlComponent<ValueType>
       classes.push('Field--readonly');
     }
 
-    return classes.join(' ');
+    return classes;
   }
 
   /**
@@ -407,8 +460,8 @@ export abstract class AbstractControlComponent<ValueType>
    */
   protected getInputClasses(): Dictionary<boolean> {
     const classes: Dictionary<boolean> = {
-      'Input--invalid': this.invalid && (this.valueChanged || this.submitted),
-      'Input--valid': this.valid && this.valueChanged,
+      'Input--invalid': !!this.errorsSnapshot,
+      'Input--valid': !this.errorsSnapshot,
       'Input--pending': this.pending,
       'Input--pristine': this.pristine,
       'Input--dirty': this.dirty,
@@ -425,6 +478,17 @@ export abstract class AbstractControlComponent<ValueType>
     }
 
     return classes;
+  }
+
+  private setIconClass(): void {
+    this.iconClass = this.getIconClasses().join(' ');
+  }
+
+  /**
+   * Gets icons classes
+   */
+  protected getIconClasses(): string[] {
+    return ['Field__icon'];
   }
 
   /**

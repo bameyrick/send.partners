@@ -1,7 +1,6 @@
-<label *ngIf="label" [for]="id" class="Field__label">{{ label }}</label>
-
-<span class="Field__outer" [icon]="icon" [iconClass]="iconClass" [iconPlacement]="IconPlacement.After">
+<send-partners-common-field [parent]="this">
   <input
+    #input
     class="Field__input Input"
     [ngClass]="inputClasses"
     [attr.type]="inputType"
@@ -16,8 +15,8 @@
     [attr.maxlength]="maxlength"
     [ngModel]="value"
     (ngModelChange)="setValue($event)"
-    (focus)="focus.emit($event)"
-    (blur)="blur.emit($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
     (enter)="enter.emit($event)"
     (keydown)="onKeyDown($event)"
   />
@@ -29,4 +28,4 @@
     [icon]="inputType === 'password' ? Icon.EyeCrossed : Icon.Eye"
     (click)="toggleInputType()"
   ></button>
-</span>
+</send-partners-common-field>

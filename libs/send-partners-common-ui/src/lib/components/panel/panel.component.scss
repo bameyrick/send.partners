@@ -1,0 +1,79 @@
+@use 'sass:math';
+@import '../../styles/base';
+
+$panel-padding: math.div($element-spacing, 1);
+
+.Panel {
+  display: block;
+
+  &__title {
+    margin: 0;
+    padding: $panel-padding;
+    border-top-left-radius: $radius;
+    border-top-right-radius: $radius;
+    color: $colour-white;
+  }
+
+  &__body {
+    padding: $panel-padding;
+    border-left: 1rem solid;
+    border-radius: $radius;
+  }
+
+  &__header + &__body {
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  &--none & {
+    &__body {
+      padding: 0;
+      border-left: 0;
+    }
+  }
+
+  &--info & {
+    &__title {
+      background: $colour-blue;
+    }
+
+    &__body {
+      border-left-color: $colour-blue;
+      background: lighten($colour-blue, 50%);
+    }
+  }
+
+  &--error & {
+    &__title {
+      background: $colour-red;
+    }
+
+    &__body {
+      border-left-color: $colour-red;
+      background: lighten($colour-red, 40%);
+    }
+  }
+
+  &--success & {
+    &__title {
+      background: $colour-green;
+    }
+
+    &__body {
+      border-left-color: $colour-green;
+      background: lighten($colour-green, 40%);
+    }
+  }
+
+  &--warn & {
+    &__title {
+      background: $colour-yellow;
+    }
+
+    &__body {
+      border-left-color: $colour-yellow;
+      background: lighten($colour-yellow, 40%);
+    }
+  }
+}

@@ -59,8 +59,8 @@ export class ButtonComponent extends AbstractComponent implements OnChanges {
     this.setHostClass();
   }
 
-  protected override getHostClass(): string {
-    const classes = super.getHostClass().split(' ');
+  protected override getHostClasses(): string[] {
+    const classes = super.getHostClasses();
 
     classes.push(`${this.bemBlockClass}--${this.style}`);
 
@@ -72,6 +72,6 @@ export class ButtonComponent extends AbstractComponent implements OnChanges {
       classes.push(`${this.bemBlockClass}--loading`);
     }
 
-    return classes.join(' ');
+    return classes;
   }
 }

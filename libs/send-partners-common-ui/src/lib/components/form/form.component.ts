@@ -22,20 +22,22 @@ export class FormComponent extends AbstractComponent {
   constructor(elementRef: ElementRef) {
     super(elementRef);
 
-    this.submit$.subscribe(() => {
-      this.submitted = true;
+    this.subscriptions.add(
+      this.submit$.subscribe(() => {
+        this.submitted = true;
 
-      this.setHostClass();
-    });
+        this.setHostClass();
+      })
+    );
   }
 
-  protected override getHostClass(): string {
-    const classes = super.getHostClass().split(' ');
+  protected override getHostClasses(): string[] {
+    const classes = super.getHostClasses();
 
     if (this.submitted) {
       classes.push(`${this.bemBlockClass}--submitted`);
     }
 
-    return classes.join(' ');
+    return classes;
   }
 }

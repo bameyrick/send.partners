@@ -1,14 +1,17 @@
+@use 'sass:math';
+@import '../../styles/base';
+
 .Field {
   display: block;
 
   &__label {
-    @extend .fs-s;
+    @include font-size('fs-s');
 
     display: block;
     font-weight: bold;
   }
 
-  &__outer {
+  &__inner {
     display: flex;
     position: relative;
   }

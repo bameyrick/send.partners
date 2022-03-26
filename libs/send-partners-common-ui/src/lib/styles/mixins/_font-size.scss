@@ -1,4 +1,4 @@
-@mixin font-size($props, $base) {
+@mixin type-matrix-font-size($props, $base) {
   $small-size: map-get($props, small);
   $large-size: map-get($props, large);
 

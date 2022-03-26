@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Icon } from '../../enums';
 import { IconPlacement } from '../../icon';
+import { PanelType } from '../panel';
 
 @Component({ template: '' })
 export abstract class AbstractComponent implements OnInit, OnDestroy {
@@ -38,6 +39,11 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
   public readonly IconPlacement = IconPlacement;
 
   /**
+   * Expose the PanelType enum to the view
+   */
+  public readonly PanelType = PanelType;
+
+  /**
    * Expose isNullOrUndefined helper to the view
    */
   public readonly isNullOrUndefined = isNullOrUndefined;
@@ -61,20 +67,20 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
   }
 
   protected setHostClass(): void {
-    this.hostClass = this.getHostClass();
+    this.hostClass = this.getHostClasses().join(' ');
   }
 
   /**
    * Builds the string for the host class
    */
-  protected getHostClass(): string {
+  protected getHostClasses(): string[] {
     const hostClasses: string[] = [this.bemBlockClass];
 
     if (this.initialClasses) {
       hostClasses.push(this.initialClasses);
     }
 
-    return hostClasses.join(' ');
+    return hostClasses;
   }
 
   public ngOnDestroy(): void {
