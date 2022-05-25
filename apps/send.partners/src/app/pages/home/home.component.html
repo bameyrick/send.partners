@@ -1,7 +1,6 @@
 <h1>Send Partners</h1>
 
-<send-partners-common-login *ngIf="showLogin$ | async; else signUp"></send-partners-common-login>
-
-<ng-template #signUp>
-  <send-partners-signup-form></send-partners-signup-form>
-</ng-template>
+<ng-container *ngIf="(authenticated$ | async) === false">
+  <send-partners-common-login></send-partners-common-login>
+  Or <a [routerLink]="AppPath.Signup">Sign Up</a>
+</ng-container>

@@ -1,16 +1,23 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { APIEndpoint, FullUser, JwtTokens } from '@send.partners/common';
-import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
+import { catchError, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { AppPath } from '../../routing';
 import { AuthActions } from './auth.actions';
 import { AUTH_TOKEN_STORAGE_KEY } from './auth.reducer';
 import { selectAuthTokens } from './auth.selectors';
 
 @Injectable()
 export class AuthEffects {
-  constructor(private readonly actions$: Actions, private readonly store: Store, private readonly http: HttpClient) {}
+  constructor(
+    private readonly actions$: Actions,
+    private readonly store: Store,
+    private readonly http: HttpClient,
+    private readonly router: Router
+  ) {}
 
   public signup$ = createEffect(() =>
     this.actions$.pipe(
@@ -27,6 +34,7 @@ export class AuthEffects {
   public signUpSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUpSuccess),
+      tap(() => this.router.navigateByUrl(AppPath.SignupName)),
       switchMap(({ tokens }) => of(AuthActions.storeTokens({ tokens })))
     )
   );

@@ -14,7 +14,9 @@ export class HomeComponent extends AppAbstractComponent {
   /**
    * Whether to show login or signup
    */
-  public showLogin$ = this.store.select(selectAuthTokens).pipe(map(tokens => !!tokens));
+  public readonly authenticated$ = this.store.select(selectAuthTokens).pipe(map(tokens => !!tokens));
+
+  public signingUp = false;
 
   constructor(elementRef: ElementRef, private readonly store: Store) {
     super(elementRef);
