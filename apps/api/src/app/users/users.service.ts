@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FullUser } from '@send.partners/common';
+import { APIErrorCode, FullUser, passwordRegex } from '@send.partners/common';
 import { hash } from '../helpers';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class UsersService {
     this.users = [
       {
         id: 'sysadmin',
-        email: 'sysadmin',
+        email: 'sysadmin@email.com',
         name: 'sysadmin',
         password: await hash('password'),
       },
@@ -42,6 +42,22 @@ export class UsersService {
 
     if (user) {
       user.refresh_hash = undefined;
+    }
+  }
+
+  public async createUser(email, password): Promise<FullUser> {
+    if (passwordRegex.test(password)) {
+      const user = {
+        id: email,
+        email,
+        password: await hash(password),
+      };
+
+      this.users.push(user);
+
+      return user;
+    } else {
+      throw new Error(APIErrorCode.PasswordDoesNotMeetRequirements);
     }
   }
 }

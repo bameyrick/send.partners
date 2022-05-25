@@ -1,18 +1,6 @@
-import {
-  AfterContentInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Inject,
-  Injector,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { AfterContentInit, Component, ElementRef, EventEmitter, Injector, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
-import { Dictionary, isEmpty, isString } from '@qntm-code/utils';
+import { delay, Dictionary } from '@qntm-code/utils';
 import { debounceTime, Subject } from 'rxjs';
 import { Icon } from '../../enums';
 import { FormComponent } from '../form/form.component';
@@ -21,7 +9,7 @@ import { AbstractComponent } from './component.abstract';
 @Component({ template: '' })
 export abstract class AbstractControlComponent<ValueType>
   extends AbstractComponent
-  implements ControlValueAccessor, OnInit, AfterContentInit, OnChanges
+  implements ControlValueAccessor, AfterContentInit, OnChanges
 {
   /**
    * The input element's label
@@ -242,10 +230,14 @@ export abstract class AbstractControlComponent<ValueType>
     this.setStateQueue$.pipe(debounceTime(0)).subscribe(() => this.setState());
   }
 
-  public override ngOnInit(): void {
-    super.ngOnInit();
+  public async ngAfterContentInit(): Promise<void> {
+    this.contentInitialised = true;
 
     this.control = this.injector.get<NgControl | null>(NgControl, null);
+
+    if (this.control && this.control.statusChanges) {
+      this.subscriptions.add(this.control.statusChanges.subscribe(() => this.setStateQueue$.next()));
+    }
 
     const form = this.injector.get<FormComponent | null>(FormComponent, null);
 
@@ -264,10 +256,11 @@ export abstract class AbstractControlComponent<ValueType>
         })
       );
     }
-  }
 
-  public ngAfterContentInit(): void {
-    this.contentInitialised = true;
+    await delay();
+
+    this.checkIfControlIsRequired();
+    this.setStateQueue$.next();
   }
 
   public ngOnChanges(_changes: SimpleChanges): void {

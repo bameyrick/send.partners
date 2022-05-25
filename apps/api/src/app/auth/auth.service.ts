@@ -1,6 +1,6 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload, JwtTokens } from '@send.partners/common';
+import { APIErrorCode, JwtPayload, JwtTokens } from '@send.partners/common';
 import { compare } from 'bcrypt';
 import { UsersService } from '../users';
 import { JwtConstants } from './constants';
@@ -8,6 +8,18 @@ import { JwtConstants } from './constants';
 @Injectable()
 export class AuthService {
   constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
+
+  public async signUp(email: string, password: string): Promise<JwtTokens> {
+    let user = await this.usersService.findByEmail(email);
+
+    if (user) {
+      throw new BadRequestException(APIErrorCode.UserAlreadyExists);
+    }
+
+    user = await this.usersService.createUser(email, password);
+
+    return this.generateTokens({ id: user.id });
+  }
 
   public async validateUser(email: string, password: string): Promise<string | null> {
     const user = await this.usersService.findByEmail(email);

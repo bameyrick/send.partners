@@ -11,16 +11,21 @@ import helmet from 'helmet';
 
 import { AppModule } from './app/app.module';
 
-export const csrfProtection = csurf({ cookie: true });
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(helmet());
   app.use(cookieParser());
-  app.use(csrfProtection);
+  app.use(csurf({ cookie: true }));
+
+  app.use((request, response, next) => {
+    response.cookie('XSRF-TOKEN', request.csrfToken());
+
+    next();
+  });
 
   const port = process.env.PORT || 3333;
   await app.listen(port);
+
   Logger.log(`🚀 Application is running on: http://localhost:${port}`);
 }
 

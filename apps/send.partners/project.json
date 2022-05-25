@@ -70,7 +70,9 @@
       },
       "defaultConfiguration": "development",
       "options": {
-        "proxyConfig": "apps/send.partners/proxy.conf.json"
+        "proxyConfig": "apps/send.partners/proxy.conf.json",
+        "port": 4300,
+        "disableHostCheck": true
       }
     },
     "extract-i18n": {

@@ -10,11 +10,29 @@ import { FormComponent } from './components/form/form.component';
 import { FieldComponent } from './components/field/field.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { LoginComponent } from './components/login/login.component';
+import { PasswordStrengthComponent } from './components/password-strength/password-strength.component';
 
 const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, IconModule];
 @NgModule({
   imports,
-  declarations: [ButtonComponent, TextInputComponent, FormComponent, FieldComponent, PanelComponent, LoginComponent],
-  exports: [...imports, ButtonComponent, TextInputComponent, FormComponent, FieldComponent, PanelComponent, LoginComponent],
+  declarations: [
+    ButtonComponent,
+    TextInputComponent,
+    FormComponent,
+    FieldComponent,
+    PanelComponent,
+    LoginComponent,
+    PasswordStrengthComponent,
+  ],
+  exports: [
+    ...imports,
+    ButtonComponent,
+    TextInputComponent,
+    FormComponent,
+    FieldComponent,
+    PanelComponent,
+    LoginComponent,
+    PasswordStrengthComponent,
+  ],
 })
 export class SendPartnersCommonUiModule {}

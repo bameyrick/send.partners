@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { delay } from '@qntm-code/utils';
 import { fromEvent } from 'rxjs';
 import { AbstractComponent } from '../abstracts';
 
@@ -29,10 +30,12 @@ export class FormComponent extends AbstractComponent {
     super(elementRef);
 
     this.subscriptions.add(
-      this.submit$.subscribe(() => {
+      this.submit$.subscribe(async () => {
         this.submitted = true;
 
         if (this.formGroup?.valid) {
+          await delay();
+
           this.formGroup?.disable();
         }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { firstValueFrom, from, Observable } from 'rxjs';
+import { firstValueFrom, from, lastValueFrom, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectAuthTokens } from '../auth';
 
@@ -24,6 +24,6 @@ export class TokenInterceptor implements HttpInterceptor {
       }
     }
 
-    return await firstValueFrom(next.handle(request));
+    return lastValueFrom(next.handle(request));
   }
 }

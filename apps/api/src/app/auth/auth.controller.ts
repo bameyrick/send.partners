@@ -1,5 +1,12 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
-import { APIEndpoint, JwtPayload, JwtPayloadWithRefreshToken, JwtTokens, removeParentUrlParts } from '@send.partners/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  APIEndpoint,
+  JwtPayload,
+  JwtPayloadWithRefreshToken,
+  JwtTokens,
+  LoginCredentials,
+  removeParentUrlParts,
+} from '@send.partners/common';
 import { Public } from './decorators';
 import { AuthService } from './auth.service';
 import { JwtRefreshAuthGuard, LocalAuthGuard } from './guards';
@@ -9,9 +16,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Public()
-  @Get(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.Csrf))
-  public csrf(): void {
-    return;
+  @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.SignUp))
+  public signUp(@Body() { email, password }: LoginCredentials): Promise<JwtTokens> {
+    return this.authService.signUp(email, password);
   }
 
   @Public()

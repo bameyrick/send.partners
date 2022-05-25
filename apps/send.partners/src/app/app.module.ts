@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
@@ -19,6 +19,7 @@ import { AppLoadService, SendPartnersCommonUiModule } from '@send.partners/send-
     SendPartnersCommonUiModule,
     BrowserModule,
     HttpClientModule,
+    HttpClientXsrfModule.withOptions(),
     StoreRouterConnectingModule.forRoot(),
     StoreModule.forRoot(ROOT_REDUCERS, {
       runtimeChecks: {
