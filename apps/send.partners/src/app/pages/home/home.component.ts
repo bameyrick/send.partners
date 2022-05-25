@@ -1,7 +1,8 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { LoginCredentials } from '@send.partners/common';
 import { map } from 'rxjs';
-import { selectAuthTokens } from '../../auth';
+import { AuthActions, selectAuthTokens } from '../../auth';
 import { AppAbstractComponent } from '../../common';
 
 @Component({
@@ -20,5 +21,9 @@ export class HomeComponent extends AppAbstractComponent {
 
   constructor(elementRef: ElementRef, private readonly store: Store) {
     super(elementRef);
+  }
+
+  public login(credentials: LoginCredentials): void {
+    this.store.dispatch(AuthActions.login({ credentials }));
   }
 }

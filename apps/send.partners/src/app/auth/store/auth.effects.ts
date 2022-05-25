@@ -42,12 +42,19 @@ export class AuthEffects {
   public login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      switchMap(credentials =>
+      switchMap(({ credentials }) =>
         this.http.post<JwtTokens>(APIEndpoint.Login, credentials).pipe(
           map(tokens => AuthActions.loginSuccess({ tokens })),
           catchError(() => of(AuthActions.loginFailed()))
         )
       )
+    )
+  );
+
+  public loginSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginSuccess),
+      switchMap(({ tokens }) => of(AuthActions.storeTokens({ tokens })))
     )
   );
 
