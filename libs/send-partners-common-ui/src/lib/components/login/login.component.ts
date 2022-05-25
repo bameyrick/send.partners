@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { LoginCredentials } from '@send.partners/common';
+import { Observable } from 'rxjs';
 import { didChange } from '../../helpers';
 import { AbstractComponent } from '../abstracts';
 
@@ -19,7 +20,7 @@ export class LoginComponent extends AbstractComponent implements OnChanges {
   /**
    * Error message to display
    */
-  @Input() public error?: string;
+  @Input() public error$?: Observable<string | undefined>;
 
   /**
    * The form controls

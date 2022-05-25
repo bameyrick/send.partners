@@ -25,11 +25,29 @@ export const authReducer = createReducer<AuthState>(
 
   on(AuthActions.refreshTokenFailed, state => ({ ...state, tokens: null })),
 
-  on(AuthActions.signUp, state => ({ ...state, authorizing: true })),
+  on(AuthActions.signUp, state => onAuth(state)),
 
-  on(AuthActions.signUpFailed, (state, { errorCode }) => ({ ...state, authorizing: false, errorCode })),
+  on(AuthActions.signUpFailed, (state, { errorCode }) => onAuthFailed(state, errorCode)),
 
-  on(AuthActions.signUpSuccess, (state, { tokens }) => ({ ...state, tokens, authorizing: false, errorCode: undefined })),
+  on(AuthActions.signUpSuccess, (state, { tokens }) => onAuthSuccess(state, tokens)),
+
+  on(AuthActions.login, state => onAuth(state)),
+
+  on(AuthActions.loginFailed, (state, { errorCode }) => onAuthFailed(state, errorCode)),
+
+  on(AuthActions.loginSuccess, (state, { tokens }) => onAuthSuccess(state, tokens)),
 
   on(AuthActions.getProfileSuccess, (state, { profile }) => ({ ...state, profile }))
 );
+
+function onAuth(state: AuthState): AuthState {
+  return { ...state, authorizing: true };
+}
+
+function onAuthFailed(state: AuthState, errorCode: APIErrorCode): AuthState {
+  return { ...state, authorizing: false, errorCode };
+}
+
+function onAuthSuccess(state: AuthState, tokens: JwtTokens): AuthState {
+  return { ...state, tokens, authorizing: false, errorCode: undefined };
+}

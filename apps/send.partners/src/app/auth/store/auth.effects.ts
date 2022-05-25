@@ -45,7 +45,7 @@ export class AuthEffects {
       switchMap(({ credentials }) =>
         this.http.post<JwtTokens>(APIEndpoint.Login, credentials).pipe(
           map(tokens => AuthActions.loginSuccess({ tokens })),
-          catchError(() => of(AuthActions.loginFailed()))
+          catchError(({ error }) => of(AuthActions.loginFailed({ errorCode: error.message })))
         )
       )
     )
@@ -64,7 +64,7 @@ export class AuthEffects {
       switchMap(() =>
         this.http.get<void>(APIEndpoint.Logout).pipe(
           map(() => AuthActions.logoutSuccess()),
-          catchError(() => of(AuthActions.loginFailed()))
+          catchError(() => of(AuthActions.logoutFailed()))
         )
       )
     )

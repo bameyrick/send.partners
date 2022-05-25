@@ -1,8 +1,9 @@
-import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { LoginCredentials } from '@send.partners/common';
-import { map } from 'rxjs';
-import { AuthActions, selectAuthTokens } from '../../auth';
+import { APIErrorCodeTranslation, LoginCredentials } from '@send.partners/common';
+import { LoginComponent } from '@send.partners/send-partners-common-ui';
+import { filter, map, skip } from 'rxjs';
+import { AuthActions, selectAuthErrorCode, selectAuthorizing, selectAuthTokens } from '../../auth';
 import { AppAbstractComponent } from '../../common';
 
 @Component({
@@ -17,10 +18,23 @@ export class HomeComponent extends AppAbstractComponent {
    */
   public readonly authenticated$ = this.store.select(selectAuthTokens).pipe(map(tokens => !!tokens));
 
-  public signingUp = false;
+  /**
+   * Error message to display
+   */
+  public readonly error$ = this.store.select(selectAuthErrorCode).pipe(map(error => (error ? APIErrorCodeTranslation[error] : undefined)));
+
+  @ViewChild(LoginComponent) private readonly loginComponent?: LoginComponent;
 
   constructor(elementRef: ElementRef, private readonly store: Store) {
     super(elementRef);
+
+    this.store
+      .select(selectAuthorizing)
+      .pipe(
+        filter(authorizing => !authorizing),
+        skip(1)
+      )
+      .subscribe(() => this.loginComponent?.form.enable());
   }
 
   public login(credentials: LoginCredentials): void {

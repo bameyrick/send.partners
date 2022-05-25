@@ -11,7 +11,7 @@ const login = createAction('[AUTH] Login', props<{ credentials: LoginCredentials
 
 const loginSuccess = createAction('[AUTH] Login success', props<{ tokens: JwtTokens }>());
 
-const loginFailed = createAction('[AUTH] Login failed');
+const loginFailed = createAction('[AUTH] Login failed', props<{ errorCode: APIErrorCode }>());
 
 const logout = createAction('[AUTH] Logout');
 

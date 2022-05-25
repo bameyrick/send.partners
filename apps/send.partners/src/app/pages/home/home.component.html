@@ -1,6 +1,6 @@
 <h1>Send Partners</h1>
 
 <ng-container *ngIf="(authenticated$ | async) === false">
-  <send-partners-common-login (login)="login($event)"></send-partners-common-login>
+  <send-partners-common-login (login)="login($event)" [error$]="error$"></send-partners-common-login>
   Or <a [routerLink]="AppPath.Signup">Sign Up</a>
 </ng-container>
