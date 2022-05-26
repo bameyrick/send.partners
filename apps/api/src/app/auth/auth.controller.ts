@@ -6,6 +6,7 @@ import {
   JwtTokens,
   LoginCredentials,
   removeParentUrlParts,
+  User,
 } from '@send.partners/common';
 import { Public } from './decorators';
 import { AuthService } from './auth.service';
@@ -38,5 +39,15 @@ export class AuthController {
   @Get(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.RefreshTokens))
   public refresh(@Request() { user }: { user: JwtPayloadWithRefreshToken }): Promise<JwtTokens> {
     return this.authService.refresh(user.id, user.refresh_token);
+  }
+
+  @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.VerifyEmail))
+  public verifyEmail(@Request() { user }: { user: JwtPayloadWithRefreshToken }, @Body() { code }: { code: string }): Promise<User> {
+    return this.authService.validateEmail(user.id, code);
+  }
+
+  @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.ResendEmailVerification))
+  public resendEmailVerification(@Request() { user }: { user: JwtPayloadWithRefreshToken }): Promise<number> {
+    return this.authService.sendEmailVerification(user.id);
   }
 }

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { APIErrorCode, FullUser, JwtTokens } from '@send.partners/common';
+import { APIErrorCode, JwtTokens, User } from '@send.partners/common';
 import { AuthActions } from './auth.actions';
 
 export const AUTH_FEATURE_KEY = 'auth';
@@ -10,7 +10,8 @@ export interface AuthState {
   authorizing: boolean;
   tokens: JwtTokens | null;
   errorCode?: APIErrorCode;
-  profile?: FullUser;
+  profile?: User;
+  retryEnables?: Date;
 }
 
 const storedTokens = localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
@@ -37,7 +38,20 @@ export const authReducer = createReducer<AuthState>(
 
   on(AuthActions.loginSuccess, (state, { tokens }) => onAuthSuccess(state, tokens)),
 
-  on(AuthActions.getProfileSuccess, (state, { profile }) => ({ ...state, profile }))
+  on(AuthActions.getProfileSuccess, (state, { profile }) => ({ ...state, profile })),
+
+  on(AuthActions.verifyEmail, state => onAuth(state)),
+
+  on(AuthActions.verifyEmailSuccess, (state, { profile }) => ({ ...state, profile, authorizing: false, retryEnables: undefined })),
+
+  on(AuthActions.verifyEmailFailed, (state, { errorCode }) => onAuthFailed(state, errorCode)),
+
+  on(AuthActions.resendEmailVerificationSuccess, AuthActions.resendEmailVerificationFailed, (state, { retryEnables }) => ({
+    ...state,
+    retryEnables,
+  }))
+
+  // on(AuthActions.resendEmailVerificationFailed, (state, { retryEnables }) => ({ ...state, retryEnables }))
 );
 
 function onAuth(state: AuthState): AuthState {

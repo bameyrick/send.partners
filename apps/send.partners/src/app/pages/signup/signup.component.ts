@@ -1,10 +1,6 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { passwordRegex } from '@send.partners/common';
-import { matchesValidator } from '@send.partners/send-partners-common-ui';
-import { filter, skip } from 'rxjs';
-import { AuthActions, selectAuthErrorCode, selectAuthorizing } from '../../auth';
+import { selectProfile } from '../../auth';
 import { AppAbstractComponent } from '../../common';
 
 @Component({
@@ -13,73 +9,10 @@ import { AppAbstractComponent } from '../../common';
   styleUrls: ['./signup.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SignupComponent extends AppAbstractComponent implements OnInit {
-  /**
-   * Error message to display
-   */
-  public readonly error$ = this.store.select(selectAuthErrorCode);
-
-  /**
-   * Id for the password control
-   */
-  public readonly passwordId = 'new-password';
-
-  /**
-   * Id for the confirm password control
-   */
-  public readonly confirmPasswordId = 'confirm-password';
-
-  /**
-   * Expose the password regex to the view
-   */
-  public readonly passwordRegex = passwordRegex;
-
-  /**
-   * Email form control
-   */
-  public readonly email = new FormControl();
-
-  /**
-   * Password form control
-   */
-  public readonly password = new FormControl();
-
-  /**
-   * Confirm password form control
-   */
-  public readonly confirmPassword = new FormControl();
-
-  /**
-   * The form controls
-   */
-  public readonly form = new FormGroup({
-    email: this.email,
-    password: this.password,
-    confirmPassword: this.confirmPassword,
-  });
+export class SignupComponent extends AppAbstractComponent {
+  public readonly profile$ = this.store.select(selectProfile);
 
   constructor(elementRef: ElementRef, private readonly store: Store) {
     super(elementRef);
-
-    this.store
-      .select(selectAuthorizing)
-      .pipe(
-        filter(authorizing => !authorizing),
-        skip(1)
-      )
-      .subscribe(() => this.form.enable());
-  }
-
-  public override ngOnInit(): void {
-    super.ngOnInit();
-
-    this.password.setValidators(matchesValidator(this.confirmPassword, this.confirmPasswordId));
-    this.confirmPassword.setValidators(matchesValidator(this.password, this.passwordId));
-  }
-
-  public submit(): void {
-    if (this.form.valid) {
-      this.store.dispatch(AuthActions.signUp({ credentials: { email: this.email.value, password: this.password.value } }));
-    }
   }
 }

@@ -1,23 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { APIEndpoint, FullUser, JwtTokens } from '@send.partners/common';
-import { catchError, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
-import { AppPath } from '../../routing';
+import { APIEndpoint, JwtTokens, User } from '@send.partners/common';
+import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { AuthActions } from './auth.actions';
 import { AUTH_TOKEN_STORAGE_KEY } from './auth.reducer';
 import { selectAuthTokens } from './auth.selectors';
 
 @Injectable()
 export class AuthEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly store: Store,
-    private readonly http: HttpClient,
-    private readonly router: Router
-  ) {}
+  constructor(private readonly actions$: Actions, private readonly store: Store, private readonly http: HttpClient) {}
 
   public signup$ = createEffect(() =>
     this.actions$.pipe(
@@ -34,7 +27,6 @@ export class AuthEffects {
   public signUpSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUpSuccess),
-      tap(() => this.router.navigateByUrl(AppPath.SignupName)),
       switchMap(({ tokens }) => of(AuthActions.storeTokens({ tokens })))
     )
   );
@@ -107,9 +99,33 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.getProfile),
       switchMap(() =>
-        this.http.get<FullUser>(APIEndpoint.MyProfile).pipe(
+        this.http.get<User>(APIEndpoint.MyProfile).pipe(
           map(profile => AuthActions.getProfileSuccess({ profile })),
           catchError(() => of(AuthActions.getProfileFailed()))
+        )
+      )
+    )
+  );
+
+  public verifyEmail$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.verifyEmail),
+      switchMap(({ code }) =>
+        this.http.post<User>(APIEndpoint.VerifyEmail, { code }).pipe(
+          map(profile => AuthActions.verifyEmailSuccess({ profile })),
+          catchError(({ error }) => of(AuthActions.verifyEmailFailed({ errorCode: error.message })))
+        )
+      )
+    )
+  );
+
+  public resendEmailVerification$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.resendEmailVerification),
+      switchMap(() =>
+        this.http.post<number>(APIEndpoint.ResendEmailVerification, null).pipe(
+          map(retryEnables => AuthActions.resendEmailVerificationSuccess({ retryEnables: new Date(retryEnables) })),
+          catchError(({ error }) => of(AuthActions.resendEmailVerificationFailed({ retryEnables: new Date(parseInt(error.error)) })))
         )
       )
     )

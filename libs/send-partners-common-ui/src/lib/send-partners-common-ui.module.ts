@@ -13,6 +13,7 @@ import { LoginComponent } from './components/login/login.component';
 import { PasswordStrengthComponent } from './components/password-strength/password-strength.component';
 
 const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, IconModule];
+
 @NgModule({
   imports,
   declarations: [

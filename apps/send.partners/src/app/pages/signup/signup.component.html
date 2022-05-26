@@ -1,50 +1,7 @@
 <h2>Sign Up</h2>
 
-<form class="SignupForm__form" [formGroup]="form" (submit)="submit()">
-  <send-partners-common-panel *ngIf="error$ | async" [type]="PanelType.Error">
-    <p>{{ APIErrorCodeTranslation[(error$ | async)!] }}</p>
-    <a *ngIf="(error$ | async) === APIErrorCode.UserAlreadyExists" [routerLink]="AppPath.Login">Login instead</a>
-  </send-partners-common-panel>
+{{ profile$ | async | json }}
 
-  <text-input
-    class="SignupForm__field"
-    [label]="'Email'"
-    [type]="'email'"
-    [formControlName]="'email'"
-    [email]="true"
-    [required]="true"
-    [forceInvalidBorder]="!!(error$ | async)"
-  ></text-input>
+<send-partners-signup-form *ngIf="isNullOrUndefined(profile$ | async)"></send-partners-signup-form>
 
-  <text-input
-    [id]="passwordId"
-    class="SignupForm__field"
-    [label]="'Password'"
-    [type]="'password'"
-    [formControlName]="'password'"
-    [required]="true"
-    [forceInvalidBorder]="!!(error$ | async)"
-    [autocomplete]="'new-password'"
-    [pattern]="passwordRegex"
-  ></text-input>
-
-  <send-partners-common-password-strength
-    class="SignupForm__password-strength"
-    [password]="password.value"
-  ></send-partners-common-password-strength>
-
-  <text-input
-    [id]="confirmPasswordId"
-    class="SignupForm__field"
-    [label]="'Confirm New Password'"
-    [type]="'password'"
-    [formControlName]="'confirmPassword'"
-    [required]="true"
-    [forceInvalidBorder]="!!(error$ | async)"
-    [autocomplete]="'new-password'"
-  ></text-input>
-
-  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">Sign Up</button>
-</form>
-
-Or <a [routerLink]="AppPath.Login">Login</a>
+<send-partners-email-verification *ngIf="(profile$ | async) && !(profile$ | async)?.emailVerified"></send-partners-email-verification>

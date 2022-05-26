@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { APIErrorCode, FullUser, JwtTokens, LoginCredentials } from '@send.partners/common';
+import { APIErrorCode, JwtTokens, LoginCredentials, User } from '@send.partners/common';
 
 const signUp = createAction('[AUTH] Sign up', props<{ credentials: LoginCredentials }>());
 
@@ -29,9 +29,21 @@ const storeTokens = createAction('[AUTH] Store tokens', props<{ tokens: JwtToken
 
 const getProfile = createAction('[AUTH] Get profile');
 
-const getProfileSuccess = createAction('[AUTH] Get profile success', props<{ profile: FullUser }>());
+const getProfileSuccess = createAction('[AUTH] Get profile success', props<{ profile: User }>());
 
 const getProfileFailed = createAction('[AUTH] Get profile failed');
+
+const verifyEmail = createAction('[AUTH] Verify email', props<{ code: string }>());
+
+const verifyEmailSuccess = createAction('[AUTH] Verify email success', props<{ profile: User }>());
+
+const verifyEmailFailed = createAction('[AUTH] Verify email failed', props<{ errorCode: APIErrorCode }>());
+
+const resendEmailVerification = createAction('[AUTH] Resend verification email');
+
+const resendEmailVerificationSuccess = createAction('[AUTH] Resend verification success', props<{ retryEnables: Date }>());
+
+const resendEmailVerificationFailed = createAction('[AUTH] Resend verification failed', props<{ retryEnables: Date }>());
 
 export const AuthActions = {
   signUp,
@@ -50,4 +62,10 @@ export const AuthActions = {
   getProfile,
   getProfileSuccess,
   getProfileFailed,
+  verifyEmail,
+  verifyEmailSuccess,
+  verifyEmailFailed,
+  resendEmailVerification,
+  resendEmailVerificationSuccess,
+  resendEmailVerificationFailed,
 };

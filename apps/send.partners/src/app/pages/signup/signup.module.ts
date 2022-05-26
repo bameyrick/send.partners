@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { SignupComponent } from './signup.component';
-import { SendPartnersCommonUiModule } from '@send.partners/send-partners-common-ui';
 import { SignupRoutingModule } from './signup.routing.module';
+import { SignupFormComponent } from './signup-form/signup-form.component';
+import { AppCommonModule } from '../../common';
 
 @NgModule({
-  declarations: [SignupComponent],
-  imports: [SendPartnersCommonUiModule, SignupRoutingModule],
+  declarations: [SignupComponent, SignupFormComponent],
+  imports: [AppCommonModule, SignupRoutingModule],
 })
 export class SignupModule {}

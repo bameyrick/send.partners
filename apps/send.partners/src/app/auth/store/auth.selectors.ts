@@ -8,3 +8,7 @@ export const selectAuthTokens = createSelector(selectAuthState, state => state.t
 export const selectAuthorizing = createSelector(selectAuthState, state => state.authorizing);
 
 export const selectAuthErrorCode = createSelector(selectAuthState, state => state.errorCode);
+
+export const selectProfile = createSelector(selectAuthState, state => state.profile);
+
+export const selectResendEmailTime = createSelector(selectAuthState, state => state.retryEnables);
