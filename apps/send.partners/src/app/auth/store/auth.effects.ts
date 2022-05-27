@@ -12,6 +12,28 @@ import { selectAuthTokens } from './auth.selectors';
 export class AuthEffects {
   constructor(private readonly actions$: Actions, private readonly store: Store, private readonly http: HttpClient) {}
 
+  public refreshToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.refreshToken),
+      withLatestFrom(this.store.select(selectAuthTokens)),
+      switchMap(([_, tokens]) =>
+        this.http
+          .get<JwtTokens>(APIEndpoint.RefreshTokens, { headers: new HttpHeaders({ Authorization: `Bearer ${tokens?.refresh_token}` }) })
+          .pipe(
+            map(tokens => AuthActions.refreshTokenSuccess({ tokens })),
+            catchError(() => of(AuthActions.refreshTokenFailed()))
+          )
+      )
+    )
+  );
+
+  public refreshTokenSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.refreshTokenSuccess),
+      switchMap(({ tokens }) => of(AuthActions.storeTokens({ tokens })))
+    )
+  );
+
   public signup$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signUp),
@@ -59,28 +81,6 @@ export class AuthEffects {
           catchError(() => of(AuthActions.logoutFailed()))
         )
       )
-    )
-  );
-
-  public refreshToken$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.refreshToken),
-      withLatestFrom(this.store.select(selectAuthTokens)),
-      switchMap(([_, tokens]) =>
-        this.http
-          .get<JwtTokens>(APIEndpoint.RefreshTokens, { headers: new HttpHeaders({ Authorization: `Bearer ${tokens?.refresh_token}` }) })
-          .pipe(
-            map(tokens => AuthActions.refreshTokenSuccess({ tokens })),
-            catchError(() => of(AuthActions.refreshTokenFailed()))
-          )
-      )
-    )
-  );
-
-  public refreshTokenSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AuthActions.refreshTokenSuccess),
-      switchMap(({ tokens }) => of(AuthActions.storeTokens({ tokens })))
     )
   );
 

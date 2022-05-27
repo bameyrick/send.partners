@@ -11,7 +11,8 @@ import { AuthModule } from './auth';
 import { AppRoutingModule, ROOT_REDUCERS } from './routing';
 import { environment } from '../environments/environment';
 import { TokenInterceptor } from './interceptors';
-import { AppLoadService, SendPartnersCommonUiModule } from '@send.partners/send-partners-common-ui';
+import { SendPartnersCommonUiModule } from '@send.partners/send-partners-common-ui';
+import { AppLoadService } from './services';
 
 @NgModule({
   declarations: [AppComponent],

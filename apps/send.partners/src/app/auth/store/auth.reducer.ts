@@ -7,6 +7,7 @@ export const AUTH_FEATURE_KEY = 'auth';
 export const AUTH_TOKEN_STORAGE_KEY = 'auth-token';
 
 export interface AuthState {
+  initialRefreshCompleted: boolean;
   authorizing: boolean;
   tokens: JwtTokens | null;
   errorCode?: APIErrorCode;
@@ -18,13 +19,14 @@ const storedTokens = localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
 
 export const authReducer = createReducer<AuthState>(
   {
+    initialRefreshCompleted: false,
     authorizing: false,
     tokens: storedTokens ? JSON.parse(storedTokens) : null,
   },
 
   on(AuthActions.storeTokens, (state, { tokens }) => ({ ...state, tokens })),
 
-  on(AuthActions.refreshTokenFailed, state => ({ ...state, tokens: null })),
+  on(AuthActions.refreshTokenFailed, state => ({ ...state, tokens: null, initialRefreshCompleted: true })),
 
   on(AuthActions.signUp, state => onAuth(state)),
 
@@ -38,7 +40,7 @@ export const authReducer = createReducer<AuthState>(
 
   on(AuthActions.loginSuccess, (state, { tokens }) => onAuthSuccess(state, tokens)),
 
-  on(AuthActions.getProfileSuccess, (state, { profile }) => ({ ...state, profile })),
+  on(AuthActions.getProfileSuccess, (state, { profile }) => ({ ...state, profile, initialRefreshCompleted: true })),
 
   on(AuthActions.verifyEmail, state => onAuth(state)),
 
