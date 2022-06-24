@@ -17,6 +17,7 @@ import {
   Observable,
   of,
   pairwise,
+  share,
   Subscription,
   withLatestFrom,
 } from 'rxjs';
@@ -46,7 +47,7 @@ export class TranslateService {
   /**
    * Files that have already been attempted to be downloaded
    */
-  private readonly downloadedPaths: Dictionary<boolean> = {};
+  private readonly downloadedRequests: Dictionary<Observable<Dictionary<unknown> | undefined> | undefined> = {};
 
   constructor(
     @Inject(DEFAULT_LANGUAGE) private readonly defaultLanguage: string,
@@ -99,7 +100,7 @@ export class TranslateService {
      * If the namespace does not exist for the language and the default language is not the same as the language attempt to
      * download the file for the default language
      */
-    if (!(await this.getNamespaceForLanguage(language, namespace)) && language !== defaultLanguage) {
+    if (!(await this.getNamespaceForLanguage(language, namespace)) && this.useDefaultLanguage && language !== defaultLanguage) {
       await this.getNamespaceForLanguage(defaultLanguage, namespace);
     }
 
@@ -107,7 +108,7 @@ export class TranslateService {
     let result = this.store.getTranslationValue(key, language);
 
     // If the translation key value is not found and the language is not the same as the default language
-    if (!result && language !== defaultLanguage) {
+    if (!result && this.useDefaultLanguage && language !== defaultLanguage) {
       await this.getNamespaceForLanguage(defaultLanguage, namespace);
 
       // Attempt to get the translation key value in the default language
@@ -139,25 +140,32 @@ export class TranslateService {
   private downloadFile(language: string, namespace: string): Observable<Dictionary<unknown> | undefined> {
     const path = (AssetPath as Dictionary<string>)[`i18n/${language}.${namespace}.i18n.json`];
 
-    if (this.downloadedPaths[path]) {
-      return of(undefined);
+    let observable = this.downloadedRequests[path];
+
+    if (!isNullOrUndefined(observable)) {
+      return observable;
     }
 
-    this.downloadedPaths[path] = true;
+    observable = this.http.get<Dictionary<unknown>>(path).pipe(
+      catchError(() => of(undefined)),
+      share()
+    );
+
+    this.downloadedRequests[path] = observable;
 
     if (!path) {
       console.error(`File with namespace ${namespace} not found for language ${language}`);
     }
 
-    return this.http.get<Dictionary<unknown>>(path).pipe(catchError(() => of(undefined)));
+    return observable;
   }
 
   /**
    * Removes the markers for files that have already been attempted to be downloaded
    */
   private removeDownloadedFiles(language: string): void {
-    Object.keys(this.downloadedPaths)
+    Object.keys(this.downloadedRequests)
       .filter(key => key.replace('assets/i18n/', '').split('.')[0] === language)
-      .forEach(key => delete this.downloadedPaths[key]);
+      .forEach(key => delete this.downloadedRequests[key]);
   }
 }

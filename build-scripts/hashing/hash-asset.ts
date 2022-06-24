@@ -28,7 +28,12 @@ export class AssetHasher {
       .replace(`${ASSETS_DIR}/`, `${HASHED_ASSETS_DIR}/`)
       .replace(new RegExp(`${fileExtention}$`), `.${hash}${fileExtention}`);
 
+    if (this.copyMap[filePath]) {
+      rm(this.copyMap[filePath]);
+    }
+
     this.copyMap[filePath] = hashedFilePath;
+
     this.pathMap[this.getAssetPath(filePath)] = hashedFilePath.replace(new RegExp(`^${HASHED_ASSETS_DIR}`), 'assets');
 
     copy(filePath, hashedFilePath);

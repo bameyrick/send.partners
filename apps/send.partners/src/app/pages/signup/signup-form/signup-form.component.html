@@ -6,7 +6,7 @@
 
   <text-input
     class="SignupForm__field"
-    [label]="'Email'"
+    [label]="'common.email' | translate"
     [type]="'email'"
     [formControlName]="'email'"
     [email]="true"
@@ -17,7 +17,7 @@
   <text-input
     [id]="passwordId"
     class="SignupForm__field"
-    [label]="'Password'"
+    [label]="'common.password' | translate"
     [type]="'password'"
     [formControlName]="'password'"
     [required]="true"
@@ -34,7 +34,7 @@
   <text-input
     [id]="confirmPasswordId"
     class="SignupForm__field"
-    [label]="'Confirm New Password'"
+    [label]="'common.confirmPassword' | translate"
     [type]="'password'"
     [formControlName]="'confirmPassword'"
     [required]="true"
@@ -42,7 +42,7 @@
     [autocomplete]="'new-password'"
   ></text-input>
 
-  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">Sign Up</button>
+  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'common.signup' | translate }}</button>
 </form>
 
-Or <a [routerLink]="AppPath.Login">Login</a>
+{{ 'common.or' | translate }} <a [routerLink]="AppPath.Login">{{ 'common.login' | translate }}</a>
