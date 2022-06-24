@@ -1,5 +1,8 @@
 {
+  "send_partners": "Partneriaid Anfon",
+  "email": "Ebost",
+  "password": "Cyfrinair",
+  "confirm_password": "Cadarnhau Cyfrinair",
   "login": "Mewngofnodi",
-  "signup": "Cofrestru",
   "cancel": "Canslo"
 }
