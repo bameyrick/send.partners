@@ -34,7 +34,7 @@
   <text-input
     [id]="confirmPasswordId"
     class="SignupForm__field"
-    [label]="'common.confirmPassword' | translate"
+    [label]="'common.confirm_password' | translate"
     [type]="'password'"
     [formControlName]="'confirmPassword'"
     [required]="true"
@@ -42,7 +42,7 @@
     [autocomplete]="'new-password'"
   ></text-input>
 
-  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'common.signup' | translate }}</button>
+  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'send_partners.signup' | translate }}</button>
 </form>
 
-{{ 'common.or' | translate }} <a [routerLink]="AppPath.Login">{{ 'common.login' | translate }}</a>
+{{ 'send_partners.or' | translate }} <a [routerLink]="AppPath.Login">{{ 'common.login' | translate }}</a>

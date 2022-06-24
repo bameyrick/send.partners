@@ -5,7 +5,7 @@
 
   <text-input
     class="Login__field"
-    [label]="'Email'"
+    [label]="'common.email' | translate"
     [type]="'email'"
     [formControlName]="'email'"
     [email]="true"
@@ -15,12 +15,12 @@
 
   <text-input
     class="Login__field"
-    [label]="'Password'"
+    [label]="'common.password' | translate"
     [type]="'password'"
     [formControlName]="'password'"
     [required]="true"
     [forceInvalidBorder]="!!error"
   ></text-input>
 
-  <button [type]="'submit'" class="Login__button" [loading]="form.disabled">Login</button>
+  <button [type]="'submit'" class="Login__button" [loading]="form.disabled">{{ 'common.login' | translate }}</button>
 </form>

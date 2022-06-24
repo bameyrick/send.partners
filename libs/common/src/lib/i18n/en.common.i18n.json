@@ -1,9 +1,8 @@
 {
+  "send_partners": "Send Partners",
   "email": "Email",
   "password": "Password",
-  "confirmPassword": "Confirm Password",
+  "confirm_password": "Confirm Password",
   "login": "Login",
-  "cancel": "Cancel",
-  "signup": "Sign Up",
-  "or": "Or"
+  "cancel": "Cancel"
 }

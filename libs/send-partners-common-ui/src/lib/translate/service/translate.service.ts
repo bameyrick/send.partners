@@ -17,7 +17,7 @@ import {
   Observable,
   of,
   pairwise,
-  share,
+  shareReplay,
   Subscription,
   withLatestFrom,
 } from 'rxjs';
@@ -148,7 +148,7 @@ export class TranslateService {
 
     observable = this.http.get<Dictionary<unknown>>(path).pipe(
       catchError(() => of(undefined)),
-      share()
+      shareReplay(1)
     );
 
     this.downloadedRequests[path] = observable;
