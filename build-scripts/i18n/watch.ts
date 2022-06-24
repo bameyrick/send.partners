@@ -3,7 +3,7 @@ import * as chokidar from 'chokidar';
 import * as path from 'path';
 
 import { HASHED_ASSETS_DIR, I18N_RESULT_DIR } from '../directories';
-import { rmdir } from '../rmdir';
+import { rm } from '../rm';
 import { copyI18n } from './copy';
 
 console.log(chalk.blue('WATCHING TRANSLATIONS'));
@@ -18,7 +18,7 @@ watcher.on('change', file => copyI18n(file));
 watcher.on('unlink', file => {
   const counterpart = `${I18N_RESULT_DIR}/${path.basename(file)}`;
 
-  rmdir(counterpart);
+  rm(counterpart);
 
   console.log(chalk.red(`Removed ${counterpart}`));
 });
