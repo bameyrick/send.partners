@@ -11,8 +11,9 @@ import { FieldComponent } from './components/field/field.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { LoginComponent } from './components/login/login.component';
 import { PasswordStrengthComponent } from './components/password-strength/password-strength.component';
+import { TranslateModule } from './translate/translate.module';
 
-const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, IconModule];
+const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, IconModule, TranslateModule];
 
 @NgModule({
   imports,
