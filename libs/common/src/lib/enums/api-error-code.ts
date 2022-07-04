@@ -8,10 +8,10 @@ export enum APIErrorCode {
 }
 
 export const APIErrorCodeTranslation: Record<APIErrorCode, string> = {
-  [APIErrorCode.EmailVerificationInvalidOrExpired]: 'Email verification code invalid or expired',
-  [APIErrorCode.InvalidCredentials]: 'Email or password incorrect',
-  [APIErrorCode.InvalidCSRFToken]: 'Forbidden',
-  [APIErrorCode.PasswordDoesNotMeetRequirements]: 'Password does not meet requirements',
-  [APIErrorCode.UserAlreadyExists]: 'An account with the provided email already exists',
-  [APIErrorCode.WaitToResendVerificationEmail]: 'Wait to resend verification email',
+  [APIErrorCode.EmailVerificationInvalidOrExpired]: `common.api_error_code.${APIErrorCode.EmailVerificationInvalidOrExpired}`,
+  [APIErrorCode.InvalidCredentials]: `common.api_error_code.${APIErrorCode.InvalidCredentials}`,
+  [APIErrorCode.InvalidCSRFToken]: `common.api_error_code.${APIErrorCode.InvalidCSRFToken}`,
+  [APIErrorCode.PasswordDoesNotMeetRequirements]: `common.api_error_code.${APIErrorCode.PasswordDoesNotMeetRequirements}`,
+  [APIErrorCode.UserAlreadyExists]: `common.api_error_code.${APIErrorCode.UserAlreadyExists}`,
+  [APIErrorCode.WaitToResendVerificationEmail]: `common.api_error_code.${APIErrorCode.WaitToResendVerificationEmail}`,
 };

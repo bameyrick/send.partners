@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { passwordRegex } from '@send.partners/common';
-import { matchesValidator } from '@send.partners/send-partners-common-ui';
-import { filter, skip } from 'rxjs';
+import { matchesValidator, TranslateService } from '@send.partners/send-partners-common-ui';
+import { filter, firstValueFrom, skip } from 'rxjs';
 import { AuthActions, selectAuthErrorCode, selectAuthorizing } from '../../../auth';
 import { AppAbstractComponent } from '../../../common';
 
@@ -13,7 +13,7 @@ import { AppAbstractComponent } from '../../../common';
   styleUrls: ['./signup-form.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SignupFormComponent extends AppAbstractComponent implements OnInit {
+export class SignupFormComponent extends AppAbstractComponent implements OnInit, OnDestroy {
   /**
    * Error message to display
    */
@@ -58,7 +58,7 @@ export class SignupFormComponent extends AppAbstractComponent implements OnInit 
     confirmPassword: this.confirmPassword,
   });
 
-  constructor(elementRef: ElementRef, private readonly store: Store) {
+  constructor(elementRef: ElementRef, private readonly store: Store, private readonly translateService: TranslateService) {
     super(elementRef);
 
     this.store
@@ -77,9 +77,23 @@ export class SignupFormComponent extends AppAbstractComponent implements OnInit 
     this.confirmPassword.setValidators(matchesValidator(this.password, this.passwordId));
   }
 
-  public submit(): void {
+  public override ngOnDestroy(): void {
+    super.ngOnDestroy();
+
+    this.store.dispatch(AuthActions.resetAuthError());
+  }
+
+  public async submit(): Promise<void> {
     if (this.form.valid) {
-      this.store.dispatch(AuthActions.signUp({ credentials: { email: this.email.value, password: this.password.value } }));
+      this.store.dispatch(
+        AuthActions.signUp({
+          credentials: {
+            email: this.email.value,
+            password: this.password.value,
+            language: await firstValueFrom(this.translateService.language$),
+          },
+        })
+      );
     }
   }
 }

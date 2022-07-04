@@ -37,6 +37,11 @@ export abstract class AbstractControlComponent<ValueType>
   @Input() public forceInvalidBorder?: boolean;
 
   /**
+   * Keys for validation messages
+   */
+  @Input() public validationTranslations?: Dictionary<string>;
+
+  /**
    * The field icon to use
    */
   public icon?: Icon | null;
@@ -121,7 +126,7 @@ export abstract class AbstractControlComponent<ValueType>
   /**
    * Snapshot of validation errors for this control
    */
-  public errorsSnapshot?: ValidationErrors | null;
+  public errorsSnapshot?: Array<{ translationKey: string; translationArgs: Dictionary<unknown> }> | null;
 
   /**
    *  The controls input classes
@@ -247,7 +252,10 @@ export abstract class AbstractControlComponent<ValueType>
           this.submitted = true;
 
           if (this.invalid) {
-            this.errorsSnapshot = this.errors;
+            this.errorsSnapshot = Object.entries(this.errors as Dictionary<unknown>).map(([key, value]) => ({
+              translationKey: this.validationTranslations ? this.validationTranslations[key] : `common.validation.${key}`,
+              translationArgs: { [key]: value },
+            }));
           } else {
             this.errorsSnapshot = null;
           }

@@ -1,0 +1,9 @@
+{
+  "signup": "Sign Up",
+  "or": "Or",
+  "verification_code": "Verification Code",
+  "verify_email": "Verify Email",
+  "resend": "Resend",
+  "retry_wait": "Please wait {seconds}s before retrying",
+  "login_instead": "Login instead"
+}

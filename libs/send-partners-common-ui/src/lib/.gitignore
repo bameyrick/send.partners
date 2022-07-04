@@ -4,4 +4,5 @@ enums/colour.ts
 enums/icons.ts
 raw-assets/svg
 raw-assets/symbols.svg
+raw-assets/i18n
 styles/settings/_asset-paths.scss

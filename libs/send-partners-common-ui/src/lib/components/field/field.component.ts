@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractComponent, AbstractControlComponent } from '../abstracts';
 
 @Component({
-  selector: 'send-partners-common-field',
+  selector: 'p[field]',
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.scss'],
   encapsulation: ViewEncapsulation.None,

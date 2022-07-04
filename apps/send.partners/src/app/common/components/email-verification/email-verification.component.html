@@ -1,13 +1,20 @@
 <form class="EmailVerification__form" [formGroup]="form" (submit)="submit()">
   <send-partners-common-panel *ngIf="error$ | async" [type]="PanelType.Error">
-    <p>{{ APIErrorCodeTranslation[(error$ | async)!] }}</p>
+    <p>{{ error$ | async | translate }}</p>
   </send-partners-common-panel>
 
-  <text-input class="EmailVerification__field" [label]="'Verification Code'" [formControlName]="'code'" [required]="true"></text-input>
+  <text-input
+    class="EmailVerification__field"
+    [label]="'send_partners.verification_code' | translate"
+    [formControlName]="'code'"
+    [required]="true"
+  ></text-input>
 
-  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">Verify email</button>
+  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'send_partners.verify_email' | translate }}</button>
 
-  <p *ngIf="(canResend$ | async) === false">Please wait {{ resendSeconds$ | async }} seconds before retrying</p>
+  <p *ngIf="(canResend$ | async) === false">{{ 'send_partners.retry_wait' | translate: { seconds: resendSeconds$ | async } }}</p>
 
-  <button [disabled]="form.disabled" (click)="resend()" [disabled]="(canResend$ | async) === false">Resend</button>
+  <button [disabled]="form.disabled" (click)="resend()" [disabled]="(canResend$ | async) === false">
+    {{ 'send_partners.resend' | translate }}
+  </button>
 </form>

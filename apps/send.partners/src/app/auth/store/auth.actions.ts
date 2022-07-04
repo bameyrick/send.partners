@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { APIErrorCode, JwtTokens, LoginCredentials, User } from '@send.partners/common';
+import { APIErrorCode, JwtTokens, LoginCredentials, SignUpCredentials, User } from '@send.partners/common';
 
-const signUp = createAction('[AUTH] Sign up', props<{ credentials: LoginCredentials }>());
+const signUp = createAction('[AUTH] Sign up', props<{ credentials: SignUpCredentials }>());
 
 const signUpSuccess = createAction('[AUTH] Sign up success', props<{ tokens: JwtTokens }>());
 
@@ -45,6 +45,8 @@ const resendEmailVerificationSuccess = createAction('[AUTH] Resend verification 
 
 const resendEmailVerificationFailed = createAction('[AUTH] Resend verification failed', props<{ retryEnables: Date }>());
 
+const resetAuthError = createAction('[AUTH] Reset auth error');
+
 export const AuthActions = {
   signUp,
   signUpSuccess,
@@ -68,4 +70,5 @@ export const AuthActions = {
   resendEmailVerification,
   resendEmailVerificationSuccess,
   resendEmailVerificationFailed,
+  resetAuthError,
 };

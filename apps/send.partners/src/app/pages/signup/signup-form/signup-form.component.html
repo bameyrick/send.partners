@@ -1,29 +1,40 @@
 <form class="SignupForm__form" [formGroup]="form" (submit)="submit()">
   <send-partners-common-panel *ngIf="error$ | async" [type]="PanelType.Error">
-    <p>{{ APIErrorCodeTranslation[(error$ | async)!] }}</p>
-    <a *ngIf="(error$ | async) === APIErrorCode.UserAlreadyExists" [routerLink]="AppPath.Login">Login instead</a>
+    <p>{{ error$ | async | translate }}</p>
+    <a *ngIf="(error$ | async) === APIErrorCode.UserAlreadyExists" [routerLink]="AppPath.Login">{{
+      'send_partners.login_instead' | translate
+    }}</a>
   </send-partners-common-panel>
 
   <text-input
     class="SignupForm__field"
-    [label]="'Email'"
+    [label]="'common.email' | translate"
     [type]="'email'"
     [formControlName]="'email'"
     [email]="true"
     [required]="true"
     [forceInvalidBorder]="!!(error$ | async)"
+    [validationTranslations]="{
+      required: 'common.validation.email_required',
+      email: 'common.validation.email_invalid'
+    }"
   ></text-input>
 
   <text-input
     [id]="passwordId"
     class="SignupForm__field"
-    [label]="'Password'"
+    [label]="'common.password' | translate"
     [type]="'password'"
     [formControlName]="'password'"
     [required]="true"
     [forceInvalidBorder]="!!(error$ | async)"
     [autocomplete]="'new-password'"
     [pattern]="passwordRegex"
+    [validationTranslations]="{
+      required: 'common.validation.password_required',
+      pattern: 'common.validation.password_invalid',
+      doesNotMatch: 'common.validation.password_match'
+    }"
   ></text-input>
 
   <send-partners-common-password-strength
@@ -34,15 +45,19 @@
   <text-input
     [id]="confirmPasswordId"
     class="SignupForm__field"
-    [label]="'Confirm New Password'"
+    [label]="'common.confirm_password' | translate"
     [type]="'password'"
     [formControlName]="'confirmPassword'"
     [required]="true"
     [forceInvalidBorder]="!!(error$ | async)"
     [autocomplete]="'new-password'"
+    [validationTranslations]="{
+      required: 'common.validation.password_required',
+      doesNotMatch: 'common.validation.password_match'
+    }"
   ></text-input>
 
-  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">Sign Up</button>
+  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'send_partners.signup' | translate }}</button>
 </form>
 
-Or <a [routerLink]="AppPath.Login">Login</a>
+{{ 'send_partners.or' | translate }} <a [routerLink]="AppPath.Login">{{ 'common.login' | translate }}</a>

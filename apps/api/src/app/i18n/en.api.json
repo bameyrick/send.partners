@@ -1,0 +1,9 @@
+{
+  "emails": {
+    "verify_email": {
+      "title": "Verify your email",
+      "code": "Code: {code}",
+      "expires": "Code will expire in {hours,plural,one {1 hour} other {{hours} hours}}"
+    }
+  }
+}

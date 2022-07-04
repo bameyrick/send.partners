@@ -1,0 +1,6 @@
+<li class="Languages__item Languages__item--current" [title]="(currentLanguage$ | async)?.title">
+  {{ (currentLanguage$ | async)?.displayValue }}
+</li>
+<li class="Languages__item" *ngFor="let language of languages$ | async">
+  <a [title]="language.title" (click)="translateService.setLanguage(language.code)">{{ language.displayValue }}</a>
+</li>

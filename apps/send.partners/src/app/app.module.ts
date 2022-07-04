@@ -11,7 +11,7 @@ import { AuthModule } from './auth';
 import { AppRoutingModule, ROOT_REDUCERS } from './routing';
 import { environment } from '../environments/environment';
 import { TokenInterceptor } from './interceptors';
-import { SendPartnersCommonUiModule } from '@send.partners/send-partners-common-ui';
+import { SendPartnersCommonUiModule, TranslateModule } from '@send.partners/send-partners-common-ui';
 import { AppLoadService } from './services';
 
 @NgModule({
@@ -21,6 +21,13 @@ import { AppLoadService } from './services';
     BrowserModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions(),
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      languages: [
+        { code: 'en', displayValue: 'English' },
+        { code: 'cy', displayValue: 'Cymraeg' },
+      ],
+    }),
     StoreRouterConnectingModule.forRoot(),
     StoreModule.forRoot(ROOT_REDUCERS, {
       runtimeChecks: {

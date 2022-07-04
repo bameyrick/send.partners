@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { isNullOrUndefined } from '@qntm-code/utils';
+import { isEmpty, isNullOrUndefined } from '@qntm-code/utils';
 import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Icon } from '../../enums';
@@ -47,6 +47,11 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
    * Expose isNullOrUndefined helper to the view
    */
   public readonly isNullOrUndefined = isNullOrUndefined;
+
+  /**
+   * Expose isEmpty helper to the view
+   */
+  public readonly isEmpty = isEmpty;
 
   /**
    * Reference to the native element

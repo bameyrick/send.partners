@@ -5,10 +5,10 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import * as cookieParser from 'cookie-parser';
-import * as csurf from 'csurf';
+import cookieParser from 'cookie-parser';
+import csurf from 'csurf';
 import helmet from 'helmet';
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 
 import { AppModule } from './app/app.module';
 

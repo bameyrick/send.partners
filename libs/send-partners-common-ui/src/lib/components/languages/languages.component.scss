@@ -1,0 +1,19 @@
+@use 'sass:math';
+@import '../../styles/base';
+
+$languages-spacing: 0.25em;
+
+.Languages {
+  @include list-reset;
+
+  display: flex;
+  margin: -$languages-spacing;
+
+  &__item {
+    margin: $languages-spacing;
+
+    &:not(&--current) {
+      color: $colour-text-secondary;
+    }
+  }
+}

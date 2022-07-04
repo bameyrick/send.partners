@@ -4,8 +4,8 @@ import {
   JwtPayload,
   JwtPayloadWithRefreshToken,
   JwtTokens,
-  LoginCredentials,
   removeParentUrlParts,
+  SignUpCredentials,
   User,
 } from '@send.partners/common';
 import { Public } from './decorators';
@@ -18,8 +18,8 @@ export class AuthController {
 
   @Public()
   @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.SignUp))
-  public signUp(@Body() { email, password }: LoginCredentials): Promise<JwtTokens> {
-    return this.authService.signUp(email, password);
+  public signUp(@Body() { email, password, language }: SignUpCredentials): Promise<JwtTokens> {
+    return this.authService.signUp(email, password, language);
   }
 
   @Public()
