@@ -19,6 +19,7 @@ export class UsersService {
         name: 'sysadmin',
         password: await hash('password'),
         emailVerified: true,
+        language: 'en',
       },
     ];
   }
@@ -85,13 +86,14 @@ export class UsersService {
     }
   }
 
-  public async createUser(email, password): Promise<FullUser> {
+  public async createUser(email: string, password: string, language: string): Promise<FullUser> {
     if (passwordRegex.test(password)) {
       const user = {
         id: email,
         email,
         password: await hash(password),
         emailVerified: false,
+        language,
       };
 
       this.users.push(user);

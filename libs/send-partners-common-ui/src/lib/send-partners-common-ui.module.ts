@@ -1,3 +1,4 @@
+import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -12,8 +13,11 @@ import { PanelComponent } from './components/panel/panel.component';
 import { LoginComponent } from './components/login/login.component';
 import { PasswordStrengthComponent } from './components/password-strength/password-strength.component';
 import { TranslateModule } from './translate/translate.module';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { OptionComponent } from './components/option/option.component';
+import { LanguagesComponent } from './components/languages/languages.component';
 
-const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, IconModule, TranslateModule];
+const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, IconModule, TranslateModule, OverlayModule];
 
 @NgModule({
   imports,
@@ -25,6 +29,9 @@ const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModul
     PanelComponent,
     LoginComponent,
     PasswordStrengthComponent,
+    DropdownComponent,
+    OptionComponent,
+    LanguagesComponent,
   ],
   exports: [
     ...imports,
@@ -35,6 +42,9 @@ const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModul
     PanelComponent,
     LoginComponent,
     PasswordStrengthComponent,
+    DropdownComponent,
+    OptionComponent,
+    LanguagesComponent,
   ],
 })
 export class SendPartnersCommonUiModule {}

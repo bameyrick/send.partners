@@ -27,14 +27,14 @@ export class AuthService {
     private readonly mailService: MailService
   ) {}
 
-  public async signUp(email: string, password: string): Promise<JwtTokens> {
+  public async signUp(email: string, password: string, language: string): Promise<JwtTokens> {
     let user = await this.usersService.findByEmail(email);
 
     if (user) {
       throw new BadRequestException(APIErrorCode.UserAlreadyExists);
     }
 
-    user = await this.usersService.createUser(email, password);
+    user = await this.usersService.createUser(email, password, language);
 
     this.sendEmailVerification(user.id);
 

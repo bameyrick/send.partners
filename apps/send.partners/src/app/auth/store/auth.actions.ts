@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { APIErrorCode, JwtTokens, LoginCredentials, User } from '@send.partners/common';
+import { APIErrorCode, JwtTokens, LoginCredentials, SignUpCredentials, User } from '@send.partners/common';
 
-const signUp = createAction('[AUTH] Sign up', props<{ credentials: LoginCredentials }>());
+const signUp = createAction('[AUTH] Sign up', props<{ credentials: SignUpCredentials }>());
 
 const signUpSuccess = createAction('[AUTH] Sign up success', props<{ tokens: JwtTokens }>());
 

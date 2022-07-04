@@ -21,7 +21,13 @@ import { AppLoadService } from './services';
     BrowserModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions(),
-    TranslateModule.forRoot({ defaultLanguage: 'en' }),
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      languages: [
+        { code: 'en', displayValue: 'English' },
+        { code: 'cy', displayValue: 'Cymraeg' },
+      ],
+    }),
     StoreRouterConnectingModule.forRoot(),
     StoreModule.forRoot(ROOT_REDUCERS, {
       runtimeChecks: {

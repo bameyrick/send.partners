@@ -1,0 +1,19 @@
+<p field [parent]="this">
+  <select
+    #input
+    class="Field__input Input Input--select"
+    [ngClass]="inputClasses"
+    [id]="id"
+    [attr.name]="name"
+    [required]="required"
+    [disabled]="disabled"
+    [attr.tabIndex]="readonly || disabled ? -1 : 0"
+    [attr.autocomplete]="autocomplete"
+    [ngModel]="value"
+    (ngModelChange)="setValue($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+  >
+    <option *ngFor="let option of options" [value]="option.value" [innerHTML]="option.html"></option>
+  </select>
+</p>

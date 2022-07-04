@@ -22,6 +22,9 @@ import {
   withLatestFrom,
 } from 'rxjs';
 import { AssetPath } from '../../enums';
+import { Language } from '../interfaces';
+
+export const LANGUAGES = new InjectionToken<string>('LANGUAGES');
 
 export const USE_DEFAULT_LANGUAGE = new InjectionToken<boolean>('USE_DEFAULT_LANGUAGE');
 
@@ -32,12 +35,12 @@ export class TranslateService {
   /**
    * The current language
    */
-  public readonly language$ = new BehaviorSubject<string>('en');
+  public readonly language$ = new BehaviorSubject<string>(this.getValidLanguageCode(navigator.language));
 
   /**
    * The default language to fall back to if no translation is found
    */
-  public readonly defaultLanguage$ = new BehaviorSubject<string>(this.defaultLanguage);
+  private readonly defaultLanguage$ = new BehaviorSubject<string>(this.defaultLanguage);
 
   /**
    * The dictionary for the current language
@@ -50,12 +53,19 @@ export class TranslateService {
   private readonly downloadedRequests: Dictionary<Observable<Dictionary<unknown> | undefined> | undefined> = {};
 
   constructor(
+    @Inject(LANGUAGES) public readonly languages: Language[],
     @Inject(DEFAULT_LANGUAGE) private readonly defaultLanguage: string,
     @Inject(USE_DEFAULT_LANGUAGE) private readonly useDefaultLanguage: boolean = true,
     private readonly http: HttpClient
   ) {
     this.subscribeToLanguageChange(this.language$, this.defaultLanguage$);
     this.subscribeToLanguageChange(this.defaultLanguage$, this.language$);
+
+    this.language$.subscribe(language => console.log(`Current language: ${language}`));
+  }
+
+  public setLanguage(language: string): void {
+    this.language$.next(this.getValidLanguageCode(language));
   }
 
   public translate(key?: string, params?: Dictionary<unknown>): Observable<string> {
@@ -167,5 +177,17 @@ export class TranslateService {
     Object.keys(this.downloadedRequests)
       .filter(key => key.replace('assets/i18n/', '').split('.')[0] === language)
       .forEach(key => delete this.downloadedRequests[key]);
+  }
+
+  private getValidLanguageCode(language: string): string {
+    if (this.languages.map(({ code }) => code).includes(language)) {
+      return language;
+    }
+
+    if (language.includes('-')) {
+      return this.getValidLanguageCode(language.split('-')[0]);
+    }
+
+    return this.defaultLanguage;
   }
 }

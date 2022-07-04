@@ -66,7 +66,7 @@ export class AssetHasher {
     let scssFileContents = AUTO_GENERATED_MESSAGE;
 
     Object.entries(this.pathMap).forEach(([key, value]) => {
-      scssFileContents += `$${key.replace(/\//g, '-').replace(/\./g, '-').toLowerCase()}: '${value}';\n`;
+      scssFileContents += `$${key.replace(/\//g, '-').replace(/\./g, '-').toLowerCase()}: '/${value}';\n`;
       tsFileContents += `\n  '${key}' = '${value}',`;
     });
 

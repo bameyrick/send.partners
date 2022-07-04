@@ -1,4 +1,5 @@
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { mapComponentPropsForTemplate } from '../../../../.storybook/map-props';
 import { Icon } from '../../enums';
 import { SendPartnersCommonUiModule } from '../../send-partners-common-ui.module';
 import { ButtonStyle } from './button-style';
@@ -32,11 +33,9 @@ export default {
   },
 } as Meta<ButtonWithContent>;
 
-const Template: Story<ButtonWithContent> = (args: ButtonWithContent) => ({
-  props: args,
-  template: `<button ${Object.keys(args)
-    .filter(key => key !== 'content')
-    .reduce((result, key) => `${result} [${key}]="${key}"`, '')}>{{ content }}</button>`,
+const Template: Story<ButtonWithContent> = (props: ButtonWithContent) => ({
+  props,
+  template: `<button ${mapComponentPropsForTemplate(props)}>{{ content }}</button>`,
 });
 
 export const Primary = Template.bind({});
