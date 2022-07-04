@@ -1,4 +1,7 @@
 {
   "signup": "Cofrestru",
-  "or": "Neu"
+  "or": "Neu",
+  "verification_code": "Cod Dilysu",
+  "resend": "Ailanfon",
+  "login_instead": "Mewngofnodwch yn lle hynny"
 }
