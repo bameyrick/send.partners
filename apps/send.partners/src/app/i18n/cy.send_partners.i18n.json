@@ -2,6 +2,8 @@
   "signup": "Cofrestru",
   "or": "Neu",
   "verification_code": "Cod Dilysu",
+  "verify_email": "Dilysu Ebost",
   "resend": "Ailanfon",
+  "retry_wait": "Arhoswch {seconds}e cyn rhoi cynnig arall arni",
   "login_instead": "Mewngofnodwch yn lle hynny"
 }
