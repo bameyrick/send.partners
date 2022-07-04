@@ -4,5 +4,15 @@
   "password": "Cyfrinair",
   "confirm_password": "Cadarnhau Cyfrinair",
   "login": "Mewngofnodi",
-  "cancel": "Canslo"
+  "cancel": "Canslo",
+  "validation": {
+    "required": "Angenrheidiol",
+    "password_required": "Mae angen cyfrinair",
+    "password_invalid": "Rhaid i gyfrineiriau fod o leiaf 8 nod o hyd, cynnwys o leiaf un prif lythyren, o leiaf un llythyren fach, ac o leiaf un rhif",
+    "password_match": "Nid yw cyfrineiriau yn cyfateb"
+  },
+  "api_error_code": {
+    "invalid-csrf-token": "Gwaherddir",
+    "password-does-not-meet-requirements": "Nid yw cyfrinair yn bodloni'r gofynion"
+  }
 }
