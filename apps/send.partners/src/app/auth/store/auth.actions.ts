@@ -45,6 +45,8 @@ const resendEmailVerificationSuccess = createAction('[AUTH] Resend verification 
 
 const resendEmailVerificationFailed = createAction('[AUTH] Resend verification failed', props<{ retryEnables: Date }>());
 
+const resetAuthError = createAction('[AUTH] Reset auth error');
+
 export const AuthActions = {
   signUp,
   signUpSuccess,
@@ -68,4 +70,5 @@ export const AuthActions = {
   resendEmailVerification,
   resendEmailVerificationSuccess,
   resendEmailVerificationFailed,
+  resetAuthError,
 };

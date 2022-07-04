@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { passwordRegex } from '@send.partners/common';
@@ -13,7 +13,7 @@ import { AppAbstractComponent } from '../../../common';
   styleUrls: ['./signup-form.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SignupFormComponent extends AppAbstractComponent implements OnInit {
+export class SignupFormComponent extends AppAbstractComponent implements OnInit, OnDestroy {
   /**
    * Error message to display
    */
@@ -75,6 +75,12 @@ export class SignupFormComponent extends AppAbstractComponent implements OnInit 
 
     this.password.setValidators(matchesValidator(this.confirmPassword, this.confirmPasswordId));
     this.confirmPassword.setValidators(matchesValidator(this.password, this.passwordId));
+  }
+
+  public override ngOnDestroy(): void {
+    super.ngOnDestroy();
+
+    this.store.dispatch(AuthActions.resetAuthError());
   }
 
   public async submit(): Promise<void> {

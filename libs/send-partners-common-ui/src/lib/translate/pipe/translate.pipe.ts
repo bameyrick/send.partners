@@ -18,7 +18,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   /**
    * An observable of the params provided from the transform
    */
-  private readonly params$ = new Subject<{ key?: string; interpolateParams?: Dictionary<unknown> }>();
+  private readonly params$ = new Subject<{ key?: string | null; interpolateParams?: Dictionary<unknown> }>();
 
   /**
    * Handle the params being updated
@@ -42,7 +42,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
     this.paramsSubscription.unsubscribe();
   }
 
-  public transform(key?: string, ...args: Array<Dictionary<unknown> | string>): string | undefined {
+  public transform(key?: string | null, ...args: Array<Dictionary<unknown> | string>): string | undefined {
     let interpolateParams: Dictionary<unknown> | undefined;
 
     if (!isNullOrUndefined(args[0])) {

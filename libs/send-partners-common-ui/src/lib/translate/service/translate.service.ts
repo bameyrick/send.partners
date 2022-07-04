@@ -68,7 +68,7 @@ export class TranslateService {
     this.language$.next(this.getValidLanguageCode(language));
   }
 
-  public translate(key?: string, params?: Dictionary<unknown>): Observable<string> {
+  public translate(key?: string | null, params?: Dictionary<unknown>): Observable<string> {
     return combineLatest([this.language$, this.defaultLanguage$]).pipe(
       distinctUntilChanged((previous, next) => isEqual(previous, next)),
       concatMap(() => (isString(key) ? of(key) : NEVER)),

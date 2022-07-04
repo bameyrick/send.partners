@@ -1,6 +1,6 @@
 <form class="Login__form" [formGroup]="form" (submit)="submit()">
   <send-partners-common-panel *ngIf="error" [type]="PanelType.Error">
-    <p>{{ error }}</p>
+    <p>{{ error | translate }}</p>
   </send-partners-common-panel>
 
   <text-input
@@ -11,6 +11,10 @@
     [email]="true"
     [required]="true"
     [forceInvalidBorder]="!!error"
+    [validationTranslations]="{
+      required: 'common.validation.email_required',
+      email: 'common.validation.email_invalid'
+    }"
   ></text-input>
 
   <text-input
@@ -20,6 +24,9 @@
     [formControlName]="'password'"
     [required]="true"
     [forceInvalidBorder]="!!error"
+    [validationTranslations]="{
+      required: 'common.validation.password_required'
+    }"
   ></text-input>
 
   <button [type]="'submit'" class="Login__button" [loading]="form.disabled">{{ 'common.login' | translate }}</button>
