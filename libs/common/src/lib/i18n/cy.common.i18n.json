@@ -14,7 +14,7 @@
     "password_match": "Nid yw cyfrineiriau yn cyfateb"
   },
   "api_error_code": {
-    "email-verification-code-invalid-or-expired": "Cod dilysu ebost yn annilys neu wedi dod i ben",
+    "email-verification-code-invalid-or-expired": "Côd dilysu ebost yn annilys neu wedi dod i ben",
     "invalid-credentials": "Ebost neu gyfrinair yn anghywir",
     "invalid-csrf-token": "Gwaherddir",
     "password-does-not-meet-requirements": "Nid yw cyfrinair yn bodloni'r gofynion",

@@ -4,6 +4,7 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { join } from 'path';
 
 import { MailService } from './mail.service';
+import { I18nModule } from '../i18n/translate.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { MailService } from './mail.service';
         },
       },
     }),
+    I18nModule,
   ],
   providers: [MailService],
   exports: [MailService],

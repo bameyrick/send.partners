@@ -92,7 +92,7 @@ export class AuthService {
       generated,
     });
 
-    this.mailService.sendEmailVerification(user.email, code);
+    this.mailService.sendEmailVerification(user.email, code, user.language);
 
     return this.generatedToRetryMs(generated);
   }

@@ -1,0 +1,8 @@
+{
+  "emails": {
+    "verify_email": {
+      "title": "Dilyswch eich ebost",
+      "code": "Côd: {code}"
+    }
+  }
+}
