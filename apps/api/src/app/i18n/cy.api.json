@@ -2,7 +2,8 @@
   "emails": {
     "verify_email": {
       "title": "Dilyswch eich ebost",
-      "code": "Côd: {code}"
+      "code": "Cod: {code}",
+      "expires": "Bydd y cod yn dod i ben mewn {hours} awr"
     }
   }
 }
