@@ -5,13 +5,17 @@
   "confirm_password": "Cadarnhau Cyfrinair",
   "login": "Mewngofnodi",
   "cancel": "Canslo",
+  "name": "Enw",
+  "next": "Nesaf",
   "validation": {
     "required": "Angenrheidiol",
     "email_required": "Mae angen ebost",
     "email_invalid": "Rhowch ebost dilys",
     "password_required": "Mae angen cyfrinair",
     "password_invalid": "Rhaid i gyfrineiriau fod o leiaf 8 nod o hyd, cynnwys o leiaf un prif lythyren, o leiaf un llythyren fach, ac o leiaf un rhif",
-    "password_match": "Nid yw cyfrineiriau yn cyfateb"
+    "password_match": "Nid yw cyfrineiriau yn cyfateb",
+    "name_required": "Mae angen enw",
+    "name_invalid": "Please enter a valid name"
   },
   "api_error_code": {
     "email-verification-code-invalid-or-expired": "Côd dilysu ebost yn annilys neu wedi dod i ben",
