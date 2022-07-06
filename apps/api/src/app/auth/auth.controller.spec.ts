@@ -1,5 +1,6 @@
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
+import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -12,7 +13,7 @@ describe('AuthController', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [JwtModule.register({})],
       controllers: [AuthController],
-      providers: [AuthService, UsersService],
+      providers: [AuthService, UsersService, { provide: MailService, useValue: jest.fn() }],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
@@ -50,6 +51,36 @@ describe('AuthController', () => {
       controller.refresh({ user: { id: '', refresh_token: '' } });
 
       expect(authService.refresh).toHaveBeenCalled();
+    });
+  });
+
+  describe('signUp', () => {
+    it('should call authService.signUp', () => {
+      jest.spyOn(authService, 'signUp').mockImplementation(() => undefined);
+
+      controller.signUp({ email: 'email', password: 'password', language: 'en' });
+
+      expect(authService.signUp).toHaveBeenCalled();
+    });
+  });
+
+  describe('verifyEmail', () => {
+    it('should call authService.verifyEmail', () => {
+      jest.spyOn(authService, 'validateEmail').mockImplementation(() => undefined);
+
+      controller.verifyEmail({ user: { id: '', refresh_token: '' } }, { code: '' });
+
+      expect(authService.validateEmail).toHaveBeenCalled();
+    });
+  });
+
+  describe('resendEmailVerification', () => {
+    it('should call authService.resendEmailVerification', () => {
+      jest.spyOn(authService, 'sendEmailVerification').mockImplementation(() => undefined);
+
+      controller.resendEmailVerification({ user: { id: '', refresh_token: '' } });
+
+      expect(authService.sendEmailVerification).toHaveBeenCalled();
     });
   });
 });

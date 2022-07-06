@@ -4,7 +4,7 @@ import { hash } from '../helpers';
 
 import { UsersService } from './users.service';
 
-const testUser = describe('UsersService', () => {
+describe('UsersService', () => {
   let service: UsersService;
   let testUser: FullUser;
 
@@ -20,6 +20,8 @@ const testUser = describe('UsersService', () => {
       email: 'test',
       name: 'test',
       password: await hash('password'),
+      emailVerified: true,
+      language: 'en',
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,7 +34,17 @@ const testUser = describe('UsersService', () => {
     });
 
     it(`should return the user`, async () => {
-      expect(await service.findByEmail('test')).toEqual(testUser);
+      expect(await service.findByEmail('test')).toEqual(service.sanitizeUser(testUser));
+    });
+  });
+
+  describe('findFullByEmail', () => {
+    it(`should return undefined for a not found user`, async () => {
+      expect(await service.findFullByEmail('email')).toBeUndefined();
+    });
+
+    it(`should return the user`, async () => {
+      expect(await service.findFullByEmail('test')).toEqual(testUser);
     });
   });
 
@@ -42,13 +54,23 @@ const testUser = describe('UsersService', () => {
     });
 
     it(`should return the user`, async () => {
-      expect(await service.findById('test')).toEqual(testUser);
+      expect(await service.findById('test')).toEqual(service.sanitizeUser(testUser));
+    });
+  });
+
+  describe('findFullById', () => {
+    it(`should return undefined for a not found user`, async () => {
+      expect(await service.findFullById('id')).toBeUndefined();
+    });
+
+    it(`should return the user`, async () => {
+      expect(await service.findFullById('test')).toEqual(testUser);
     });
   });
 
   describe('removeRefreshHash', () => {
     it(`shouldn't set the refresh has to undefined if user not found`, async () => {
-      const user = await service.findById('test');
+      const user = await service.findFullById('test');
       user.refresh_hash = 'test';
 
       await service.removeRefreshHash('id');
@@ -56,7 +78,7 @@ const testUser = describe('UsersService', () => {
     });
 
     it(`should return the user`, async () => {
-      const user = await service.findById('test');
+      const user = await service.findFullById('test');
       user.refresh_hash = 'test';
 
       await service.removeRefreshHash('test');

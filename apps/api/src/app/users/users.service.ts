@@ -122,7 +122,7 @@ export class UsersService {
     }
   }
 
-  private sanitizeUser(fullUser: FullUser): User {
+  public sanitizeUser(fullUser: FullUser): User {
     const user = clone(fullUser);
 
     delete user.password;

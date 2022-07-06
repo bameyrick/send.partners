@@ -1,8 +1,9 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TimeUnit, unitToMS } from '@qntm-code/utils';
-import { APIErrorCode, JwtPayload, JwtTokens, User } from '@send.partners/common';
+import * as crypto from 'crypto';
 import { compare } from 'bcrypt';
+import { APIErrorCode, JwtPayload, JwtTokens, User } from '@send.partners/common';
 import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { JwtConstants } from './constants';
@@ -70,6 +71,7 @@ export class AuthService {
   }
 
   public async sendEmailVerification(userId: string): Promise<number> {
+    console.log('SEND EMAIL vERFICIATION');
     const activeCode = this.verificationCodes.find(
       code => code.userId === userId && this.generatedToRetryMs(code.generated) > new Date().getTime()
     );
@@ -137,7 +139,7 @@ export class AuthService {
   private generateCode(): string {
     return new Array(6)
       .fill(null)
-      .map(() => Math.floor(Math.random() * 10))
+      .map(() => crypto.randomInt(0, 9))
       .join('');
   }
 
