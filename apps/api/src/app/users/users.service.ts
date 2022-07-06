@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { clone } from '@qntm-code/utils';
 import { APIErrorCode, FullUser, passwordRegex, User } from '@send.partners/common';
 import { hash } from '../helpers';
@@ -56,6 +56,24 @@ export class UsersService {
     }
 
     return;
+  }
+
+  public async updateById(id: string, user: User): Promise<User | undefined> {
+    if (id !== user.id) {
+      throw new ForbiddenException();
+    }
+
+    const foundUser = await this.findFullById(id);
+
+    if (foundUser) {
+      const updatedUser = { ...foundUser, ...user };
+
+      this.users[this.users.indexOf(foundUser)] = updatedUser;
+
+      return this.sanitizeUser(updatedUser);
+    }
+
+    return undefined;
   }
 
   public async markUserEmailAsValidated(id: string): Promise<User> {

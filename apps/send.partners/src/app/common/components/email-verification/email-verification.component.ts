@@ -1,10 +1,9 @@
-import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { convertTimeUnit, TimeUnit } from '@qntm-code/utils';
-import { combineLatest, filter, interval, map, shareReplay, skip } from 'rxjs';
-import { AuthActions, selectAuthErrorCode, selectAuthorizing, selectResendEmailTime } from '../../../auth';
-import { AppAbstractComponent } from '../abstracts';
+import { combineLatest, interval, map, shareReplay } from 'rxjs';
+import { AuthActions, selectResendEmailTime } from '../../../auth';
+import { AbstractAuthFormComponent } from '../abstracts/abstract-auth-form-component/abstract-auth-form.component';
 
 @Component({
   selector: 'send-partners-email-verification',
@@ -12,12 +11,7 @@ import { AppAbstractComponent } from '../abstracts';
   styleUrls: ['./email-verification.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class EmailVerificationComponent extends AppAbstractComponent {
-  /**
-   * Error message to display
-   */
-  public readonly error$ = this.store.select(selectAuthErrorCode);
-
+export class EmailVerificationComponent extends AbstractAuthFormComponent {
   public readonly resendSeconds$ = combineLatest([this.store.select(selectResendEmailTime), interval(1000)]).pipe(
     map(([time]) =>
       time
@@ -44,25 +38,11 @@ export class EmailVerificationComponent extends AppAbstractComponent {
     code: this.code,
   });
 
-  constructor(elementRef: ElementRef, private readonly store: Store) {
-    super(elementRef);
-
-    this.store
-      .select(selectAuthorizing)
-      .pipe(
-        filter(authorizing => !authorizing),
-        skip(1)
-      )
-      .subscribe(() => this.form.enable());
-  }
-
-  public submit(): void {
-    if (this.form.valid) {
-      this.store.dispatch(AuthActions.verifyEmail({ code: this.code.value }));
-    }
-  }
-
   public resend(): void {
     this.store.dispatch(AuthActions.resendEmailVerification());
+  }
+
+  protected dispatch(): void {
+    this.store.dispatch(AuthActions.verifyEmail({ code: this.code.value }));
   }
 }

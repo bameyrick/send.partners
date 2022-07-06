@@ -47,6 +47,12 @@ const resendEmailVerificationFailed = createAction('[AUTH] Resend verification f
 
 const resetAuthError = createAction('[AUTH] Reset auth error');
 
+const updateProfile = createAction('[AUTH] Update profile', props<{ profile: User }>());
+
+const updateProfileSuccess = createAction('[AUTH] Update profile success', props<{ profile: User }>());
+
+const updateProfileFailed = createAction('[AUTH] Update profile failed', props<{ errorCode: APIErrorCode }>());
+
 export const AuthActions = {
   signUp,
   signUpSuccess,
@@ -71,4 +77,7 @@ export const AuthActions = {
   resendEmailVerificationSuccess,
   resendEmailVerificationFailed,
   resetAuthError,
+  updateProfile,
+  updateProfileSuccess,
+  updateProfileFailed,
 };

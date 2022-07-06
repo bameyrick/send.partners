@@ -5,5 +5,9 @@
   "verify_email": "Verify Email",
   "resend": "Resend",
   "retry_wait": "Please wait {seconds}s before retrying",
-  "login_instead": "Login instead"
+  "login_instead": "Login instead",
+  "get_my_location": "Get my location",
+  "location_error": {
+    "code_1": "Please allow location permissions in your browser"
+  }
 }

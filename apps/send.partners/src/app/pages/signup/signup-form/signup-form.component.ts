@@ -1,11 +1,11 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
 import { passwordRegex } from '@send.partners/common';
-import { matchesValidator, TranslateService } from '@send.partners/send-partners-common-ui';
-import { filter, firstValueFrom, skip } from 'rxjs';
-import { AuthActions, selectAuthErrorCode, selectAuthorizing } from '../../../auth';
-import { AppAbstractComponent } from '../../../common';
+import { matchesValidator } from '@send.partners/send-partners-common-ui';
+import { firstValueFrom } from 'rxjs';
+import { AuthActions } from '../../../auth';
+import { AbstractAuthFormComponent } from '../../../common';
+import { AppPath } from '../../../routing';
 
 @Component({
   selector: 'send-partners-signup-form',
@@ -13,12 +13,7 @@ import { AppAbstractComponent } from '../../../common';
   styleUrls: ['./signup-form.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SignupFormComponent extends AppAbstractComponent implements OnInit, OnDestroy {
-  /**
-   * Error message to display
-   */
-  public readonly error$ = this.store.select(selectAuthErrorCode);
-
+export class SignupFormComponent extends AbstractAuthFormComponent implements OnInit, OnDestroy {
   /**
    * Id for the password control
    */
@@ -58,42 +53,24 @@ export class SignupFormComponent extends AppAbstractComponent implements OnInit,
     confirmPassword: this.confirmPassword,
   });
 
-  constructor(elementRef: ElementRef, private readonly store: Store, private readonly translateService: TranslateService) {
-    super(elementRef);
+  protected readonly path = AppPath.Signup;
 
-    this.store
-      .select(selectAuthorizing)
-      .pipe(
-        filter(authorizing => !authorizing),
-        skip(1)
-      )
-      .subscribe(() => this.form.enable());
-  }
-
-  public override ngOnInit(): void {
+  public override async ngOnInit(): Promise<void> {
     super.ngOnInit();
 
     this.password.setValidators(matchesValidator(this.confirmPassword, this.confirmPasswordId));
     this.confirmPassword.setValidators(matchesValidator(this.password, this.passwordId));
   }
 
-  public override ngOnDestroy(): void {
-    super.ngOnDestroy();
-
-    this.store.dispatch(AuthActions.resetAuthError());
-  }
-
-  public async submit(): Promise<void> {
-    if (this.form.valid) {
-      this.store.dispatch(
-        AuthActions.signUp({
-          credentials: {
-            email: this.email.value,
-            password: this.password.value,
-            language: await firstValueFrom(this.translateService.language$),
-          },
-        })
-      );
-    }
+  protected async dispatch(): Promise<void> {
+    this.store.dispatch(
+      AuthActions.signUp({
+        credentials: {
+          email: this.email.value,
+          password: this.password.value,
+          language: await firstValueFrom(this.translateService.language$),
+        },
+      })
+    );
   }
 }

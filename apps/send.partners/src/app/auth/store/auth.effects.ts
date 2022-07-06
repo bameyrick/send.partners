@@ -130,4 +130,16 @@ export class AuthEffects {
       )
     )
   );
+
+  public updateProfile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.updateProfile),
+      switchMap(({ profile }) =>
+        this.http.post<User>(APIEndpoint.MyProfile, profile).pipe(
+          map(profile => AuthActions.updateProfileSuccess({ profile })),
+          catchError(({ error }) => of(AuthActions.updateProfileFailed({ errorCode: error.message })))
+        )
+      )
+    )
+  );
 }

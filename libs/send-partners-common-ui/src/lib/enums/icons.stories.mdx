@@ -11,9 +11,14 @@ import { toEnumKey } from '@send.partners/common';
   {Object.entries(Icon).map(([key, value]) => {
     return (
       <IconItem name={key}>
-        <img src={Object.entries(AssetPath).find(([assetKey]) => /^svg\//.test(assetKey) && toEnumKey(assetKey.replace('svg/', '').replace('.svg', '')) === key )[1]} />
+        <img
+          src={
+            Object.entries(AssetPath).find(
+              ([assetKey]) => /^svg\//.test(assetKey) && toEnumKey(assetKey.replace('svg/', '').replace('.svg', '')) === key
+            )[1]
+          }
+        />
       </IconItem>
     );
-})}
-
+  })}
 </IconGallery>

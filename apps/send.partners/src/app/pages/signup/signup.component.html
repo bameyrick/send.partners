@@ -1,7 +1,3 @@
 <h2>{{ 'send_partners.signup' | translate }}</h2>
 
-{{ profile$ | async | json }}
-
-<send-partners-signup-form *ngIf="isNullOrUndefined(profile$ | async)"></send-partners-signup-form>
-
-<send-partners-email-verification *ngIf="(profile$ | async) && !(profile$ | async)?.emailVerified"></send-partners-email-verification>
+<send-partners-signup-form></send-partners-signup-form>

@@ -1,7 +1,6 @@
-import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { selectProfile } from '../../auth';
-import { AppAbstractComponent } from '../../common';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { AppPath } from '../../routing';
+import { AbstractSignupStepComponent } from './signup.abstract.component';
 
 @Component({
   selector: 'send-partners-signup',
@@ -9,10 +8,6 @@ import { AppAbstractComponent } from '../../common';
   styleUrls: ['./signup.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SignupComponent extends AppAbstractComponent {
-  public readonly profile$ = this.store.select(selectProfile);
-
-  constructor(elementRef: ElementRef, private readonly store: Store) {
-    super(elementRef);
-  }
+export class SignupComponent extends AbstractSignupStepComponent {
+  protected readonly path = AppPath.Signup;
 }

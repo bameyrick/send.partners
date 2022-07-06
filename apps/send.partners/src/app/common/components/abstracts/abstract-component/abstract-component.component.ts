@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Directive } from '@angular/core';
 import { APIErrorCode, APIErrorCodeTranslation } from '@send.partners/common';
 import { AbstractComponent } from '@send.partners/send-partners-common-ui';
 import { AppPath } from '../../../../routing/app-path';
 
-@Component({
-  template: '',
-})
+@Directive()
 export abstract class AppAbstractComponent extends AbstractComponent {
   public readonly AppPath = AppPath;
 

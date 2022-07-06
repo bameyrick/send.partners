@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { isEmpty, isNullOrUndefined } from '@qntm-code/utils';
 import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
@@ -6,7 +6,7 @@ import { Icon } from '../../enums';
 import { IconPlacement } from '../../icon';
 import { PanelType } from '../panel';
 
-@Component({ template: '' })
+@Directive()
 export abstract class AbstractComponent implements OnInit, OnDestroy {
   /**
    * Classes for the host element

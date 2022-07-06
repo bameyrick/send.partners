@@ -55,7 +55,13 @@ export const authReducer = createReducer<AuthState>(
 
   on(AuthActions.resendEmailVerificationFailed, (state, { retryEnables }) => ({ ...state, retryEnables })),
 
-  on(AuthActions.resetAuthError, state => ({ ...state, errorCode: undefined }))
+  on(AuthActions.resetAuthError, state => ({ ...state, errorCode: undefined })),
+
+  on(AuthActions.updateProfile, state => onAuth(state)),
+
+  on(AuthActions.updateProfileSuccess, (state, { profile }) => ({ ...state, profile, authorizing: false })),
+
+  on(AuthActions.updateProfileFailed, (state, { errorCode }) => onAuthFailed(state, errorCode))
 );
 
 function onAuth(state: AuthState): AuthState {

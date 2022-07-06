@@ -5,13 +5,17 @@
   "confirm_password": "Confirm Password",
   "login": "Login",
   "cancel": "Cancel",
+  "name": "Name",
+  "next": "Next",
   "validation": {
     "required": "Required",
     "email_required": "Email is required",
     "email_invalid": "Please enter a valid email",
     "password_required": "Password is required",
     "password_invalid": "Passwords must be at least 8 charaters in length, contain at least one capital letter, at least one lowercase letter, and at least one number",
-    "password_match": "Passwords do not match"
+    "password_match": "Passwords do not match",
+    "name_required": "Name is required",
+    "name_invalid": "Please enter a valid name"
   },
   "api_error_code": {
     "email-verification-code-invalid-or-expired": "Email verification code invalid or expired",
