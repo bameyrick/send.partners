@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppTestingModule } from '../../../app-testing.module';
+import { SendPartnersTestingModule } from '../../../app-testing.module';
 import { EmailVerificationComponent } from '../../../common';
 
 import { SignupEmailVerificationComponent } from './signup-email-verification.component';
@@ -10,7 +10,7 @@ describe('SignupEmailVerificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [SendPartnersTestingModule],
       declarations: [SignupEmailVerificationComponent, EmailVerificationComponent],
     }).compileComponents();
   });

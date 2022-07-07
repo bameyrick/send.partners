@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppTestingModule } from '../../../app-testing.module';
+import { SendPartnersTestingModule } from '../../../app-testing.module';
 import { SignupNameFormComponent } from './signup-name-form/signup-name-form.component';
 
 import { SignupNameComponent } from './signup-name.component';
@@ -10,7 +10,7 @@ describe('SignupNameComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [SendPartnersTestingModule],
       declarations: [SignupNameComponent, SignupNameFormComponent],
     }).compileComponents();
   });

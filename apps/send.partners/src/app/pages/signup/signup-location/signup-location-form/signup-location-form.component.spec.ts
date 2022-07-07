@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppTestingModule } from '../../../../app-testing.module';
+import { SendPartnersTestingModule } from '../../../../app-testing.module';
 
 import { SignupLocationFormComponent } from './signup-location-form.component';
 
@@ -9,7 +9,7 @@ describe('SignupLocationFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [SendPartnersTestingModule],
       declarations: [SignupLocationFormComponent],
     }).compileComponents();
   });
