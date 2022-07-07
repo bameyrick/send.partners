@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SendPartnersCommonUiTestingModule } from '../../send-partners-common-ui-testing.module';
 
 import { FormComponent } from './form.component';
 
@@ -8,6 +9,7 @@ describe('FormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [SendPartnersCommonUiTestingModule],
       declarations: [FormComponent],
     }).compileComponents();
   });

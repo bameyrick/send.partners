@@ -11,6 +11,7 @@ export default {
     },
   },
   coverageDirectory: '../../coverage/libs/send-partners-common-ui',
+  coverageReporters: ['text'],
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

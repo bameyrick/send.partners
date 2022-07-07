@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SendPartnersCommonUiTestingModule } from '../../send-partners-common-ui-testing.module';
 
 import { OptionComponent } from './option.component';
 
@@ -8,6 +9,7 @@ describe('OptionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [SendPartnersCommonUiTestingModule],
       declarations: [OptionComponent],
     }).compileComponents();
   });
