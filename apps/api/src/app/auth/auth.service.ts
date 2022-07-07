@@ -29,13 +29,7 @@ export class AuthService {
   ) {}
 
   public async signUp(email: string, password: string, language: string): Promise<JwtTokens> {
-    let user = await this.usersService.findByEmail(email);
-
-    if (user) {
-      throw new BadRequestException(APIErrorCode.UserAlreadyExists);
-    }
-
-    user = await this.usersService.createUser(email, password, language);
+    const user = await this.usersService.createUser(email, password, language);
 
     this.sendEmailVerification(user.id);
 

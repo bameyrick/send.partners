@@ -1,5 +1,7 @@
+import { createMock } from '@golevelup/ts-jest';
+import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { FullUser } from '@send.partners/common';
+import { APIErrorCode, FullUser, User } from '@send.partners/common';
 import { hash } from '../helpers';
 
 import { UsersService } from './users.service';
@@ -8,7 +10,7 @@ describe('UsersService', () => {
   let service: UsersService;
   let testUser: FullUser;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const app = await Test.createTestingModule({
       providers: [UsersService],
     }).compile();
@@ -58,6 +60,25 @@ describe('UsersService', () => {
     });
   });
 
+  describe('updateById', () => {
+    it(`should throw a forbidden exception if the ids don't match`, async () => {
+      await expect(service.updateById('id', createMock<User>({ id: 'badId' }))).rejects.toThrow(new ForbiddenException());
+    });
+
+    it(`should return undefined if the user does not exist`, async () => {
+      expect(await service.updateById('id', createMock<User>({ id: 'id' }))).toBeUndefined();
+    });
+
+    it(`should return the updated user if user exists and ids match`, async () => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const user = (await service.findById('test'))!;
+
+      user.name = 'Doop';
+
+      expect(await service.updateById(user.id, user)).toEqual(user);
+    });
+  });
+
   describe('findFullById', () => {
     it(`should return undefined for a not found user`, async () => {
       expect(await service.findFullById('id')).toBeUndefined();
@@ -83,6 +104,30 @@ describe('UsersService', () => {
 
       await service.removeRefreshHash('test');
       expect(user.refresh_hash).toBeUndefined();
+    });
+  });
+
+  describe(`markUserEmailAsValidated`, () => {
+    it(`should throw a not found exception if user not found`, async () => {
+      await expect(service.markUserEmailAsValidated('id')).rejects.toThrow(new NotFoundException());
+    });
+
+    it(`should return a user marked with email verified if user found`, async () => {
+      expect((await service.markUserEmailAsValidated('test'))?.emailVerified).toEqual(true);
+    });
+  });
+
+  describe(`createUser`, () => {
+    it('should throw an exception if the user already exists', async () => {
+      await expect(service.createUser('test', '', '')).rejects.toThrow(new BadRequestException(APIErrorCode.UserAlreadyExists));
+    });
+
+    it(`should throw an error if password does not meet requirements`, async () => {
+      await expect(service.createUser('', '', '')).rejects.toThrow(new Error(APIErrorCode.PasswordDoesNotMeetRequirements));
+    });
+
+    it('should create the user if it meets requirements', async () => {
+      expect(await service.createUser('new', 'Password01', 'en')).toBeTruthy();
     });
   });
 });

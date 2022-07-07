@@ -28,16 +28,6 @@ describe('AuthService', () => {
   });
 
   describe('signUp', () => {
-    it('should throw an exception if the user already exists', async () => {
-      jest
-        .spyOn(userService, 'findByEmail')
-        .mockImplementation(
-          () => new Promise(resolve => resolve({ id: 'test', email: 'test', name: 'test', emailVerified: true, language: 'en' }))
-        );
-
-      await expect(service.signUp('', '', '')).rejects.toThrow(new BadRequestException(APIErrorCode.UserAlreadyExists));
-    });
-
     it('should create a user if the user does not exist', async () => {
       jest.spyOn(userService, 'findByEmail').mockImplementation(() => new Promise(resolve => resolve(undefined)));
 
@@ -200,6 +190,7 @@ describe('AuthService', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const generateCodeSpy = jest.spyOn(service as any, 'generateCode');
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).verificationCodes.push({ userId: 'id', generated: new Date(0) });
 
       await expect(service.sendEmailVerification('id')).resolves.not.toThrow();
@@ -212,6 +203,7 @@ describe('AuthService', () => {
 
   describe('validateEmail', () => {
     it(`should throw an error if the code is invalid`, async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).verificationCodes.push({ userId: 'id', generated: new Date(), code: '000000' });
 
       await expect(service.validateEmail('id', '111111')).rejects.toThrow(

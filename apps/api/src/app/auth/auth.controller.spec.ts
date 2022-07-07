@@ -1,5 +1,7 @@
+import { createMock } from '@golevelup/ts-jest';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
+import { JwtPayloadWithRefreshToken } from '@send.partners/common';
 import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { AuthController } from './auth.controller';
@@ -48,7 +50,7 @@ describe('AuthController', () => {
     it('should call authService.refresh', () => {
       jest.spyOn(authService, 'refresh').mockImplementation(() => undefined);
 
-      controller.refresh({ user: { id: '', refresh_token: '' } });
+      controller.refresh({ user: createMock<JwtPayloadWithRefreshToken>() });
 
       expect(authService.refresh).toHaveBeenCalled();
     });
@@ -68,7 +70,7 @@ describe('AuthController', () => {
     it('should call authService.verifyEmail', () => {
       jest.spyOn(authService, 'validateEmail').mockImplementation(() => undefined);
 
-      controller.verifyEmail({ user: { id: '', refresh_token: '' } }, { code: '' });
+      controller.verifyEmail({ user: createMock<JwtPayloadWithRefreshToken>() }, { code: '' });
 
       expect(authService.validateEmail).toHaveBeenCalled();
     });
@@ -78,7 +80,7 @@ describe('AuthController', () => {
     it('should call authService.resendEmailVerification', () => {
       jest.spyOn(authService, 'sendEmailVerification').mockImplementation(() => undefined);
 
-      controller.resendEmailVerification({ user: { id: '', refresh_token: '' } });
+      controller.resendEmailVerification({ user: createMock<JwtPayloadWithRefreshToken>() });
 
       expect(authService.sendEmailVerification).toHaveBeenCalled();
     });

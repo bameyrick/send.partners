@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { clone } from '@qntm-code/utils';
 import { APIErrorCode, FullUser, passwordRegex, User } from '@send.partners/common';
 import { hash } from '../helpers';
@@ -105,6 +105,10 @@ export class UsersService {
   }
 
   public async createUser(email: string, password: string, language: string): Promise<FullUser> {
+    if (await this.findByEmail(email)) {
+      throw new BadRequestException(APIErrorCode.UserAlreadyExists);
+    }
+
     if (passwordRegex.test(password)) {
       const user = {
         id: email,

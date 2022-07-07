@@ -20,6 +20,11 @@ export class TranslationKeyStore {
    */
   private readonly messageformat = new MessageFormat([]);
 
+  constructor(
+    private readonly missingTranslationHandler: (language: string, key: string) => void = (language: string, key: string) =>
+      console.error(`Translation not found for ${language}.${key}`)
+  ) {}
+
   /**
    * Adds a namespace for a given language to the store
    */
@@ -76,7 +81,7 @@ export class TranslationKeyStore {
       }
 
       if (!result) {
-        console.error(`Translation not found for ${language}.${key}`);
+        this.missingTranslationHandler(language, key);
       }
 
       return result as TranslationValue | undefined;
