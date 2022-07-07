@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/send-partners-common-ui"],
       "options": {
-        "jestConfig": "libs/send-partners-common-ui/jest.config.js",
+        "jestConfig": "libs/send-partners-common-ui/jest.config.ts",
         "passWithNoTests": true
       }
     },

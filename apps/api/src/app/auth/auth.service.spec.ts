@@ -1,7 +1,7 @@
 import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import { APIErrorCode, FullUser } from '@send.partners/common';
+import { APIErrorCode, FullUser, User } from '@send.partners/common';
 import { hash } from '../helpers';
 import { MailService } from '../mail';
 import { UsersService } from '../users';
@@ -11,15 +11,20 @@ import { AuthService } from './auth.service';
 describe('AuthService', () => {
   let service: AuthService;
   let userService: UsersService;
+  let mailService: MailService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
+    process.env.MAIL_VERIFICATION_RETRY_MINUTES = '60';
+    process.env.MAIL_VERIFICATION_EXPIRY_HOURS = '24';
+
     const app = await Test.createTestingModule({
       imports: [JwtModule.register({})],
-      providers: [AuthService, UsersService, { provide: MailService, useValue: jest.fn() }],
+      providers: [AuthService, UsersService, { provide: MailService, useValue: { sendEmailVerification: jest.fn() } }],
     }).compile();
 
     service = app.get<AuthService>(AuthService);
     userService = app.get<UsersService>(UsersService);
+    mailService = app.get<MailService>(MailService);
   });
 
   describe('signUp', () => {
@@ -156,6 +161,96 @@ describe('AuthService', () => {
       await service.refresh('', token);
 
       expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe('sendEmailVerification', () => {
+    beforeEach(async () => {
+      jest.spyOn(userService, 'findById').mockImplementation(async () => ({
+        id: '',
+        email: '',
+        name: '',
+        emailVerified: false,
+        language: 'en',
+      }));
+    });
+
+    it(`should throw a forbidden exception if a code exists and it has not expired`, async () => {
+      await service.sendEmailVerification('id');
+
+      await expect(service.sendEmailVerification('id')).rejects.toThrow(new ForbiddenException(APIErrorCode.WaitToResendVerificationEmail));
+    });
+
+    it(`should send a verification email if no code exists`, async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const resetVerificationCodesForUserSpy = jest.spyOn(service as any, 'resetVerificationCodesForUser');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const generateCodeSpy = jest.spyOn(service as any, 'generateCode');
+
+      await expect(service.sendEmailVerification('id')).resolves.not.toThrow();
+
+      expect(resetVerificationCodesForUserSpy).toHaveBeenCalled();
+      expect(generateCodeSpy).toBeCalled();
+      expect(mailService.sendEmailVerification).toBeCalled();
+    });
+
+    it(`should send a verification email if no code but has expired`, async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const resetVerificationCodesForUserSpy = jest.spyOn(service as any, 'resetVerificationCodesForUser');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const generateCodeSpy = jest.spyOn(service as any, 'generateCode');
+
+      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(0) });
+
+      await expect(service.sendEmailVerification('id')).resolves.not.toThrow();
+
+      expect(resetVerificationCodesForUserSpy).toHaveBeenCalled();
+      expect(generateCodeSpy).toBeCalled();
+      expect(mailService.sendEmailVerification).toBeCalled();
+    });
+  });
+
+  describe('validateEmail', () => {
+    it(`should throw an error if the code is invalid`, async () => {
+      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(), code: '000000' });
+
+      await expect(service.validateEmail('id', '111111')).rejects.toThrow(
+        new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired)
+      );
+    });
+
+    it(`should throw an error if user has no code`, async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(), code: '000000' });
+
+      await expect(service.validateEmail('badId', '000000')).rejects.toThrow(
+        new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired)
+      );
+    });
+
+    it(`should throw an error if code has expired`, async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(0), code: '000000' });
+
+      await expect(service.validateEmail('id', '000000')).rejects.toThrow(
+        new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired)
+      );
+    });
+
+    it(`should validate a valid code`, async () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(), code: '000000' });
+
+      const user: User = { id: 'id ', email: 'email', emailVerified: true, language: 'en' };
+
+      jest.spyOn(userService, 'markUserEmailAsValidated').mockImplementation(async () => user);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const resetVerificationCodesForUserSpy = jest.spyOn(service as any, 'resetVerificationCodesForUser');
+
+      await expect(service.validateEmail('id', '000000')).resolves.toEqual(user);
+
+      expect(resetVerificationCodesForUserSpy).toBeCalled();
     });
   });
 });

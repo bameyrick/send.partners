@@ -1,5 +1,7 @@
-module.exports = {
-  displayName: 'send.partners',
+import type { Config } from '@jest/types';
+
+export default {
+  displayName: 'send-partners-common-ui',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +10,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/apps/send.partners',
+  coverageDirectory: '../../coverage/libs/send-partners-common-ui',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
@@ -18,4 +20,4 @@ module.exports = {
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
-};
+} as Config.InitialOptions;

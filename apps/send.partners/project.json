@@ -91,7 +91,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/send.partners"],
       "options": {
-        "jestConfig": "apps/send.partners/jest.config.js",
+        "jestConfig": "apps/send.partners/jest.config.ts",
         "passWithNoTests": true
       }
     }

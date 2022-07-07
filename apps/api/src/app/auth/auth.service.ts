@@ -71,7 +71,6 @@ export class AuthService {
   }
 
   public async sendEmailVerification(userId: string): Promise<number> {
-    console.log('SEND EMAIL vERFICIATION');
     const activeCode = this.verificationCodes.find(
       code => code.userId === userId && this.generatedToRetryMs(code.generated) > new Date().getTime()
     );

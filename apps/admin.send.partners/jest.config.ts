@@ -1,4 +1,6 @@
-module.exports = {
+import type { Config } from '@jest/types';
+
+export default {
   displayName: 'admin.send.partners',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
@@ -18,4 +20,4 @@ module.exports = {
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
-};
+} as Config.InitialOptions;
