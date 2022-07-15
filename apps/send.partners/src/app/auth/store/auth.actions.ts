@@ -3,13 +3,13 @@ import { APIErrorCode, JwtTokens, LoginCredentials, SignUpCredentials, User } fr
 
 const signUp = createAction('[AUTH] Sign up', props<{ credentials: SignUpCredentials }>());
 
-const signUpSuccess = createAction('[AUTH] Sign up success', props<{ tokens: JwtTokens }>());
+const signUpSuccess = createAction('[AUTH] Sign up success', props<{ user: User }>());
 
 const signUpFailed = createAction('[AUTH] Sign up failed', props<{ errorCode: APIErrorCode }>());
 
 const login = createAction('[AUTH] Login', props<{ credentials: LoginCredentials }>());
 
-const loginSuccess = createAction('[AUTH] Login success', props<{ tokens: JwtTokens }>());
+const loginSuccess = createAction('[AUTH] Login success', props<{ user: User }>());
 
 const loginFailed = createAction('[AUTH] Login failed', props<{ errorCode: APIErrorCode }>());
 
@@ -21,21 +21,13 @@ const logoutFailed = createAction('[AUTH] Logout failed');
 
 const refreshToken = createAction('[AUTH] Refresh Token');
 
-const refreshTokenSuccess = createAction('[AUTH] Refresh Token success', props<{ tokens: JwtTokens }>());
+const refreshTokenSuccess = createAction('[AUTH] Refresh Token success', props<{ user: User }>());
 
 const refreshTokenFailed = createAction('[AUTH] Refresh Token failed');
 
-const storeTokens = createAction('[AUTH] Store tokens', props<{ tokens: JwtTokens }>());
-
-const getProfile = createAction('[AUTH] Get profile');
-
-const getProfileSuccess = createAction('[AUTH] Get profile success', props<{ profile: User }>());
-
-const getProfileFailed = createAction('[AUTH] Get profile failed');
-
 const verifyEmail = createAction('[AUTH] Verify email', props<{ code: string }>());
 
-const verifyEmailSuccess = createAction('[AUTH] Verify email success', props<{ profile: User }>());
+const verifyEmailSuccess = createAction('[AUTH] Verify email success', props<{ user: User }>());
 
 const verifyEmailFailed = createAction('[AUTH] Verify email failed', props<{ errorCode: APIErrorCode }>());
 
@@ -47,9 +39,9 @@ const resendEmailVerificationFailed = createAction('[AUTH] Resend verification f
 
 const resetAuthError = createAction('[AUTH] Reset auth error');
 
-const updateProfile = createAction('[AUTH] Update profile', props<{ profile: User }>());
+const updateProfile = createAction('[AUTH] Update profile', props<{ user: User }>());
 
-const updateProfileSuccess = createAction('[AUTH] Update profile success', props<{ profile: User }>());
+const updateProfileSuccess = createAction('[AUTH] Update profile success', props<{ user: User }>());
 
 const updateProfileFailed = createAction('[AUTH] Update profile failed', props<{ errorCode: APIErrorCode }>());
 
@@ -66,10 +58,6 @@ export const AuthActions = {
   refreshToken,
   refreshTokenSuccess,
   refreshTokenFailed,
-  storeTokens,
-  getProfile,
-  getProfileSuccess,
-  getProfileFailed,
   verifyEmail,
   verifyEmailSuccess,
   verifyEmailFailed,

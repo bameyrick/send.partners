@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TimeUnit, unitToMS } from '@qntm-code/utils';
 import * as crypto from 'crypto';
@@ -7,6 +7,7 @@ import { APIErrorCode, JwtPayload, JwtTokens, User } from '@send.partners/common
 import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { JwtConstants } from './constants';
+import { AuthResult } from './interfaces';
 
 interface VerificationCode {
   userId: string;
@@ -28,12 +29,12 @@ export class AuthService {
     private readonly mailService: MailService
   ) {}
 
-  public async signUp(email: string, password: string, language: string): Promise<JwtTokens> {
-    const user = await this.usersService.createUser(email, password, language);
+  public async signUp(email: string, password: string, language: string): Promise<AuthResult> {
+    const user = this.usersService.sanitizeUser(await this.usersService.createUser(email, password, language));
 
     this.sendEmailVerification(user.id);
 
-    return this.generateTokens({ id: user.id });
+    return { user, tokens: await this.generateTokens({ id: user.id }) };
   }
 
   public async validateUser(email: string, password: string): Promise<string | null> {
@@ -46,22 +47,24 @@ export class AuthService {
     return null;
   }
 
-  public async login(id: string): Promise<JwtTokens> {
-    return this.generateTokens({ id });
+  public async login(id: string): Promise<AuthResult> {
+    const user = await this.usersService.findById(id);
+
+    return { user, tokens: await this.generateTokens({ id }) };
   }
 
   public async logout(id: string): Promise<void> {
     return this.usersService.removeRefreshHash(id);
   }
 
-  public async refresh(id: string, refreshToken: string): Promise<JwtTokens> {
+  public async refresh(id: string, refreshToken: string): Promise<AuthResult> {
     const user = await this.usersService.findFullById(id);
 
     if (!user || !user.refresh_hash || !(await compare(refreshToken, user.refresh_hash))) {
       throw new ForbiddenException();
     }
 
-    return this.generateTokens({ id: user.id });
+    return { user: this.usersService.sanitizeUser(user), tokens: await this.generateTokens({ id }) };
   }
 
   public async sendEmailVerification(userId: string): Promise<number> {
@@ -114,7 +117,7 @@ export class AuthService {
    */
   private async generateTokens(payload: JwtPayload): Promise<JwtTokens> {
     const refresh_token = this.jwtService.sign(payload, {
-      expiresIn: '15m',
+      expiresIn: '1d',
       secret: JwtConstants.refresh_token_secret,
     });
 
@@ -122,7 +125,7 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload, {
-        expiresIn: '7d',
+        expiresIn: '1h',
         secret: JwtConstants.access_token_secret,
       }),
       refresh_token,

@@ -15,7 +15,7 @@ export class SignupEffects {
       ofType(SignupActions.setName),
       withLatestFrom(this.store.select(selectProfile).pipe(filter(profile => !!profile))),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      switchMap(([{ name }, profile]) => of(AuthActions.updateProfile({ profile: { ...profile!, name } })))
+      switchMap(([{ name }, profile]) => of(AuthActions.updateProfile({ user: { ...profile!, name } })))
     )
   );
 
@@ -24,7 +24,7 @@ export class SignupEffects {
       ofType(SignupActions.setLocation),
       withLatestFrom(this.store.select(selectProfile).pipe(filter(profile => !!profile))),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      switchMap(([{ location }, profile]) => of(AuthActions.updateProfile({ profile: { ...profile!, locations: [location] } })))
+      switchMap(([{ location }, profile]) => of(AuthActions.updateProfile({ user: { ...profile!, locations: [location] } })))
     )
   );
 }

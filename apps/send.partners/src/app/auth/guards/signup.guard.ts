@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { asyncEvery, getRouterLinkForAppPath } from '@send.partners/common';
-import { firstValueFrom, map, skipWhile } from 'rxjs';
+import { firstValueFrom, skipWhile } from 'rxjs';
 import { signupOrder } from '../../pages/signup/signup-order';
 import { signupRules } from '../../pages/signup/signup-rules';
 import { AppPath } from '../../routing';
-import { selectAuthTokens, selectInitialRefreshCompleted } from '../store';
+import { selectAuthenticated, selectInitialRefreshCompleted } from '../store';
 
 @Injectable({ providedIn: 'root' })
 export class SignUpGuard implements CanActivate, CanActivateChild {
@@ -23,15 +23,15 @@ export class SignUpGuard implements CanActivate, CanActivateChild {
   private async signUpCompleted(url: string): Promise<boolean | UrlTree> {
     await firstValueFrom(this.store.select(selectInitialRefreshCompleted).pipe(skipWhile(completed => !completed)));
 
-    const hasTokens = await firstValueFrom(this.store.select(selectAuthTokens).pipe(map(tokens => !!tokens)));
+    const authenticated = await firstValueFrom(this.store.select(selectAuthenticated));
 
     const signupPath = getRouterLinkForAppPath(AppPath.Signup);
 
-    if (url.includes(signupPath) && url !== signupPath && !hasTokens) {
+    if (url.includes(signupPath) && url !== signupPath && !authenticated) {
       return this.router.parseUrl(AppPath.Signup);
     }
 
-    if (hasTokens) {
+    if (authenticated) {
       for (let pathIndex = 1, l = signupOrder.length; pathIndex < l; pathIndex++) {
         const path = signupOrder[pathIndex];
 

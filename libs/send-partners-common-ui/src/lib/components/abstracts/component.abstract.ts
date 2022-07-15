@@ -1,5 +1,6 @@
 import { Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { isEmpty, isNullOrUndefined } from '@qntm-code/utils';
+import { getRouterLinkForAppPath } from '@send.partners/common';
 import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Icon } from '../../enums';
@@ -52,6 +53,11 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
    * Expose isEmpty helper to the view
    */
   public readonly isEmpty = isEmpty;
+
+  /**
+   * Expose getRouterLinkForAppPath helper to the view
+   */
+  public readonly getRouterLinkForAppPath = getRouterLinkForAppPath;
 
   /**
    * Reference to the native element

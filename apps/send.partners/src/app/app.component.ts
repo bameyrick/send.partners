@@ -1,4 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AuthActions } from './auth';
 import { AppAbstractComponent } from './common';
 
 @Component({
@@ -7,4 +9,12 @@ import { AppAbstractComponent } from './common';
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent extends AppAbstractComponent {}
+export class AppComponent extends AppAbstractComponent {
+  constructor(elementRef: ElementRef, private readonly store: Store) {
+    super(elementRef);
+  }
+
+  public logout(): void {
+    this.store.dispatch(AuthActions.logout());
+  }
+}
