@@ -3,7 +3,7 @@ import { Response } from 'express';
 import { APIEndpoint, JwtPayload, JwtPayloadWithRefreshToken, JwtTokens, removeParentUrlParts, SignUpCredentials, User } from '@app/common';
 import { Public } from './decorators';
 import { AuthService } from './auth.service';
-import { JwtRefreshAuthGuard, LocalAuthGuard } from './guards';
+import { LocalAuthGuard } from './guards';
 import { JWT_COOKIE_KEY } from './constants';
 
 @Controller(APIEndpoint.Auth)

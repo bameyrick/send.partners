@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostBinding, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { isEmpty } from '@qntm-code/utils';
 import { AbstractComponent } from '../abstracts';
