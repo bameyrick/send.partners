@@ -97,7 +97,7 @@ export class AuthEffects {
       ofType(AuthActions.updateProfile),
       switchMap(({ user }) =>
         this.authService.updateProfile(user).pipe(
-          map(user => AuthActions.updateProfileSuccess({ user })),
+          map(updatedUser => AuthActions.updateProfileSuccess({ user: updatedUser })),
           catchError(({ error }) => of(AuthActions.updateProfileFailed({ errorCode: error.message })))
         )
       )

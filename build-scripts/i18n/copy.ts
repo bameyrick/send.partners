@@ -14,5 +14,5 @@ export async function copyI18n(file: string): Promise<void> {
 
   fs.copyFileSync(file, destination);
 
-  console.log(`${chalk.blue(`Copied`)} ${chalk.cyanBright(file)} ${chalk.blue(`to`)} ${chalk.cyanBright(destination)}`);
+  console.log(`${chalk.blue('Copied')} ${chalk.cyanBright(file)} ${chalk.blue('to')} ${chalk.cyanBright(destination)}`);
 }

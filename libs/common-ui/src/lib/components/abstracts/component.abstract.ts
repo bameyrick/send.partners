@@ -72,7 +72,7 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
   constructor(protected readonly elementRef: ElementRef) {}
 
   public ngOnInit(): void {
-    this.initialClasses = (this.nativeElement as HTMLElement).getAttribute('class');
+    this.initialClasses = this.nativeElement.getAttribute('class');
 
     this.setHostClass();
   }

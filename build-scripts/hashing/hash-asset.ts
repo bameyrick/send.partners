@@ -52,10 +52,10 @@ export class AssetHasher {
       console.log(chalk.red(`Removed hashed file for ${filePath}`));
     }
 
-    const path = this.getAssetPath(filePath);
+    const assetPath = this.getAssetPath(filePath);
 
-    if (this.pathMap[path]) {
-      delete this.pathMap[path];
+    if (this.pathMap[assetPath]) {
+      delete this.pathMap[assetPath];
 
       this.regenerateFileSubject$.next();
     }

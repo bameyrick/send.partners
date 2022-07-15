@@ -13,11 +13,11 @@ export class SignUpGuard implements CanActivate, CanActivateChild {
   constructor(private readonly store: Store, private readonly router: Router) {}
 
   public async canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    return await this.signUpCompleted(state.url);
+    return this.signUpCompleted(state.url);
   }
 
   public async canActivateChild(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    return await this.signUpCompleted(state.url);
+    return this.signUpCompleted(state.url);
   }
 
   private async signUpCompleted(url: string): Promise<boolean | UrlTree> {
@@ -35,7 +35,7 @@ export class SignUpGuard implements CanActivate, CanActivateChild {
       for (let pathIndex = 1, l = signupOrder.length; pathIndex < l; pathIndex++) {
         const path = signupOrder[pathIndex];
 
-        const rules = signupOrder.filter((_, ruleIndex) => ruleIndex > 0 && ruleIndex <= pathIndex).map(path => signupRules[path]);
+        const rules = signupOrder.filter((_, ruleIndex) => ruleIndex > 0 && ruleIndex <= pathIndex).map(p => signupRules[p]);
 
         const lastRuleIndex = rules.length - 1;
 
