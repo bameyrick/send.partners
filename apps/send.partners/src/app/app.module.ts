@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth';
 import { AppRoutingModule, ROOT_REDUCERS } from './routing';
 import { environment } from '../environments/environment';
-import { TokenInterceptor } from './interceptors';
 import { SendPartnersCommonUiModule, TranslateModule } from '@send.partners/send-partners-common-ui';
 import { AppLoadService } from './services';
 
@@ -51,11 +50,6 @@ import { AppLoadService } from './services';
       provide: APP_INITIALIZER,
       useFactory: (appLoadService: AppLoadService) => () => appLoadService.initializeApp(),
       deps: [AppLoadService],
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
       multi: true,
     },
   ],

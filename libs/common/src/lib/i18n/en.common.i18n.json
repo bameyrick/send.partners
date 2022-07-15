@@ -4,6 +4,7 @@
   "password": "Password",
   "confirm_password": "Confirm Password",
   "login": "Login",
+  "logout": "Logout",
   "cancel": "Cancel",
   "name": "Name",
   "next": "Next",

@@ -1,11 +1,11 @@
 import { Store } from '@ngrx/store';
 import { Dictionary, isEmpty } from '@qntm-code/utils';
 import { map, Observable } from 'rxjs';
-import { selectAuthTokens, selectProfile } from '../../auth';
+import { selectProfile } from '../../auth';
 import { AppPath } from '../../routing';
 
 export const signupRules: Dictionary<(store: Store) => Observable<boolean>> = {
-  [AppPath.Signup]: store => store.select(selectAuthTokens).pipe(map(tokens => !!tokens)),
+  [AppPath.Signup]: store => store.select(selectProfile).pipe(map(profile => !!profile)),
   [AppPath.SignupVerify]: store => store.select(selectProfile).pipe(map(profile => !!profile?.emailVerified)),
   [AppPath.SignupName]: store => store.select(selectProfile).pipe(map(profile => !isEmpty(profile?.name))),
   [AppPath.SignupLocation]: store => store.select(selectProfile).pipe(map(profile => !isEmpty(profile?.locations))),

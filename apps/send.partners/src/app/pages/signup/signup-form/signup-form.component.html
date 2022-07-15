@@ -60,4 +60,4 @@
   <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'send_partners.signup' | translate }}</button>
 </form>
 
-{{ 'send_partners.or' | translate }} <a [routerLink]="AppPath.Login">{{ 'common.login' | translate }}</a>
+{{ 'send_partners.or' | translate }} <a [routerLink]="getRouterLinkForAppPath(AppPath.Login)">{{ 'common.login' | translate }}</a>

@@ -8,3 +8,4 @@ export const JwtConstants = {
 export const JWT_STRATEGY_KEY = 'jwt';
 export const REFRESH_STRATEGY_KEY = 'jwt-refresh';
 export const LOCAL_STRATEGY_KEY = 'local';
+export const JWT_COOKIE_KEY = 'tokens';

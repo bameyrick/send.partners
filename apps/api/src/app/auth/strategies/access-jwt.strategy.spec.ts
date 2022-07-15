@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AccessJwtStrategy } from '../strategies/access-jwt.strategy';
+import { AccessJwtStrategy } from './access-jwt.strategy';
 
 describe(`JwtAuthGuard`, () => {
   let strategy: AccessJwtStrategy;
