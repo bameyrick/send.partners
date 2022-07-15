@@ -1,5 +1,5 @@
 {
-  "npmScope": "send.partners",
+  "npmScope": "app",
   "affected": {
     "defaultBase": "main"
   },
@@ -45,5 +45,5 @@
       "style": "scss"
     }
   },
-  "defaultProject": "send.partners"
+  "defaultProject": "app"
 }

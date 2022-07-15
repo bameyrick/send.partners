@@ -1,6 +1,0 @@
-<h1>{{ 'common.send_partners' | translate }}</h1>
-
-<ng-container *ngIf="(authenticated$ | async) === false">
-  <send-partners-common-login (login)="login($event)" [error]="error$ | async"></send-partners-common-login>
-  {{ 'send_partners.or' | translate }} <a [routerLink]="AppPath.Signup">{{ 'send_partners.signup' | translate }}</a>
-</ng-container>

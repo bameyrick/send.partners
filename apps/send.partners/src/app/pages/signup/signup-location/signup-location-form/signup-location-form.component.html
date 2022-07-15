@@ -1,5 +1,0 @@
-<send-partners-common-panel *ngIf="errorKey" [type]="PanelType.Error">
-  <p>{{ errorKey | translate }}</p>
-</send-partners-common-panel>
-
-<button (click)="getLocation()" [loading]="gettingLocation">{{ 'send_partners.get_my_location' | translate }}</button>

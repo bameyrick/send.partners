@@ -1,0 +1,60 @@
+<form class="SignupForm__form" [formGroup]="form" (submit)="submit()">
+  <common-panel *ngIf="error$ | async" [type]="PanelType.Error">
+    <p>{{ error$ | async | translate }}</p>
+    <a *ngIf="(error$ | async) === APIErrorCode.UserAlreadyExists" [routerLink]="AppPath.Login">{{
+      'send_partners.login_instead' | translate
+    }}</a>
+  </common-panel>
+
+  <text-input
+    class="SignupForm__field"
+    [label]="'common.email' | translate"
+    [type]="'email'"
+    [formControlName]="'email'"
+    [email]="true"
+    [required]="true"
+    [forceInvalidBorder]="!!(error$ | async)"
+    [validationTranslations]="{
+      required: 'common.validation.email_required',
+      email: 'common.validation.email_invalid'
+    }"
+  ></text-input>
+
+  <text-input
+    [id]="passwordId"
+    class="SignupForm__field"
+    [label]="'common.password' | translate"
+    [type]="'password'"
+    [formControlName]="'password'"
+    [required]="true"
+    [forceInvalidBorder]="!!(error$ | async)"
+    [autocomplete]="'new-password'"
+    [pattern]="passwordRegex"
+    [validationTranslations]="{
+      required: 'common.validation.password_required',
+      pattern: 'common.validation.password_invalid',
+      doesNotMatch: 'common.validation.password_match'
+    }"
+  ></text-input>
+
+  <common-password-strength class="SignupForm__password-strength" [password]="password.value"></common-password-strength>
+
+  <text-input
+    [id]="confirmPasswordId"
+    class="SignupForm__field"
+    [label]="'common.confirm_password' | translate"
+    [type]="'password'"
+    [formControlName]="'confirmPassword'"
+    [required]="true"
+    [forceInvalidBorder]="!!(error$ | async)"
+    [autocomplete]="'new-password'"
+    [validationTranslations]="{
+      required: 'common.validation.password_required',
+      doesNotMatch: 'common.validation.password_match'
+    }"
+  ></text-input>
+
+  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'send_partners.signup' | translate }}</button>
+</form>
+
+{{ 'send_partners.or' | translate }} <a [routerLink]="getRouterLinkForAppPath(AppPath.Login)">{{ 'common.login' | translate }}</a>

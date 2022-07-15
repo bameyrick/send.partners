@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Message } from '@send.partners/common';
+import { Message } from '@app/common';
 import { AppService } from './app.service';
 
 @Controller()

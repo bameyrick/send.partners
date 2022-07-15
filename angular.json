@@ -1,13 +1,13 @@
 {
   "version": 2,
   "projects": {
-    "admin.send.partners": "apps/admin.send.partners",
-    "admin.send.partners-e2e": "apps/admin.send.partners-e2e",
+    "admin": "apps/admin",
+    "admin-e2e": "apps/admin-e2e",
     "api": "apps/api",
     "common": "libs/common",
-    "send-partners-common-ui": "libs/send-partners-common-ui",
-    "send-partners-common-ui-e2e": "libs/send-partners-common-ui-e2e",
-    "send.partners": "apps/send.partners",
-    "send.partners-e2e": "apps/send.partners-e2e"
+    "common-ui": "libs/common-ui",
+    "common-ui-e2e": "libs/common-ui-e2e",
+    "app": "apps/app",
+    "app-e2e": "apps/app-e2e"
   }
 }

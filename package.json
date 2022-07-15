@@ -1,20 +1,20 @@
 {
-  "name": "send.partners",
+  "name": "app",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
-    "start": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,api,app,admin,storybook  \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx serve api\" \"nx serve\" \"nx serve admin.send.partners --port 4600\" \"npm run storybook\"",
-    "storybook": "nx storybook send-partners-common-ui",
+    "start": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,api,app,admin,storybook  \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx serve api\" \"nx serve\" \"nx serve admin --port 4600\" \"npm run storybook\"",
+    "storybook": "nx storybook common-ui",
     "build": "nx build",
     "test": "nx test --coverage",
     "lint": "nx lint && nx lint api && remark .",
     "tidy-clean": "ts-node build-scripts/clean.ts",
     "icons": "ts-node build-scripts/icons.ts",
-    "icons:watch": "chokidar libs/send-partners-common-ui/src/lib/svg/**/* -t 500 -c \"npm run icons\"",
+    "icons:watch": "chokidar libs/common-ui/src/lib/svg/**/* -t 500 -c \"npm run icons\"",
     "colours": "ts-node build-scripts/colours.ts",
-    "colours:watch": "chokidar libs/send-partners-common-ui/src/lib/styles/settings/_colours.scss -t 500 -c \"npm run colours\"",
+    "colours:watch": "chokidar libs/common-ui/src/lib/styles/settings/_colours.scss -t 500 -c \"npm run colours\"",
     "i18n": "ts-node build-scripts/i18n/initial.ts",
     "i18n:watch": "ts-node build-scripts/i18n/watch.ts",
     "hash-assets": "ts-node build-scripts/hashing/initial.ts",
@@ -23,7 +23,7 @@
     "pre-commit": "lint-staged",
     "prepare-husky": "husky install",
     "upgrade-interactive": "npm-check --update",
-    "generate-stories": "nx g @nrwl/angular:stories send-partners-common-ui"
+    "generate-stories": "nx g @nrwl/angular:stories common-ui"
   },
   "lint-staged": {
     "*.ts": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser typescript --write", "eslint --fix"],
