@@ -1,0 +1,58 @@
+{
+  "projectType": "library",
+  "root": "libs/common-ui",
+  "sourceRoot": "libs/common-ui/src",
+  "prefix": "app",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/common-ui"],
+      "options": {
+        "jestConfig": "libs/common-ui/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/common-ui/src/**/*.ts", "libs/common-ui/src/**/*.html"]
+      }
+    },
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "port": 4400,
+        "config": {
+          "configFolder": "libs/common-ui/.storybook"
+        },
+        "projectBuildConfig": "common-ui:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "outputPath": "dist/storybook/common-ui",
+        "config": {
+          "configFolder": "libs/common-ui/.storybook"
+        },
+        "projectBuildConfig": "common-ui:build-storybook",
+        "styles": ["libs/common-ui/src/lib/styles/index.scss"],
+        "assets": [{ "input": "libs/common-ui/src/lib/assets", "glob": "**/*", "output": "assets" }]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

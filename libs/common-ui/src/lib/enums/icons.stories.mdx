@@ -1,0 +1,24 @@
+import { Meta, IconGallery, IconItem } from '@storybook/addon-docs/blocks';
+import { Icon } from './icons';
+import { AssetPath } from './asset-paths';
+import { toEnumKey } from '@app/common';
+
+<Meta title="Foundations/Style/Icons" />
+
+# Icons
+
+<IconGallery>
+  {Object.entries(Icon).map(([key, value]) => {
+    return (
+      <IconItem name={key}>
+        <img
+          src={
+            Object.entries(AssetPath).find(
+              ([assetKey]) => /^svg\//.test(assetKey) && toEnumKey(assetKey.replace('svg/', '').replace('.svg', '')) === key
+            )[1]
+          }
+        />
+      </IconItem>
+    );
+  })}
+</IconGallery>

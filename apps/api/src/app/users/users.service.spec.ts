@@ -1,7 +1,7 @@
 import { createMock } from '@golevelup/ts-jest';
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { APIErrorCode, FullUser, User } from '@send.partners/common';
+import { APIErrorCode, FullUser, User } from '@app/common';
 import { hash } from '../helpers';
 
 import { UsersService } from './users.service';

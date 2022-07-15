@@ -1,9 +1,9 @@
 export const DIST_DIR: string = `dist`;
-export const ASSETS_DIR: string = `libs/send-partners-common-ui/src/lib/raw-assets`;
-export const HASHED_ASSETS_DIR: string = `libs/send-partners-common-ui/src/lib/assets`;
-export const SVG_SOURCE_DIR: string = `libs/send-partners-common-ui/src/lib/svg`;
-export const ENUMS_DIR: string = `libs/send-partners-common-ui/src/lib/enums`;
-export const STYLES_SETTINGS_DIR: string = `libs/send-partners-common-ui/src/lib/styles/settings`;
+export const ASSETS_DIR: string = `libs/common-ui/src/lib/raw-assets`;
+export const HASHED_ASSETS_DIR: string = `libs/common-ui/src/lib/assets`;
+export const SVG_SOURCE_DIR: string = `libs/common-ui/src/lib/svg`;
+export const ENUMS_DIR: string = `libs/common-ui/src/lib/enums`;
+export const STYLES_SETTINGS_DIR: string = `libs/common-ui/src/lib/styles/settings`;
 export const COLOURS_SCSS_DIR: string = `${STYLES_SETTINGS_DIR}/_colours.scss`;
 export const I18N_RESULT_DIR: string = `${ASSETS_DIR}/i18n`;
 export const SVG_RESULT_DIR: string = `${ASSETS_DIR}/svg`;

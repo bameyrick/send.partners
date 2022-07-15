@@ -15,8 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@send.partners/common": ["libs/common/src/index.ts"],
-      "@send.partners/send-partners-common-ui": ["libs/send-partners-common-ui/src/index.ts"]
+      "@app/common": ["libs/common/src/index.ts"],
+      "@app/common-ui": ["libs/common-ui/src/index.ts"],
+      "@mocks": ["mocks"]
     }
   },
   "exclude": ["node_modules", "tmp"]

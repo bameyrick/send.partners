@@ -1,6 +1,6 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { clone } from '@qntm-code/utils';
-import { APIErrorCode, FullUser, passwordRegex, User } from '@send.partners/common';
+import { APIErrorCode, FullUser, passwordRegex, User } from '@app/common';
 import { hash } from '../helpers';
 
 @Injectable()

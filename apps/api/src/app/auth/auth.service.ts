@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { TimeUnit, unitToMS } from '@qntm-code/utils';
 import * as crypto from 'crypto';
 import { compare } from 'bcrypt';
-import { APIErrorCode, JwtPayload, JwtTokens, User } from '@send.partners/common';
+import { APIErrorCode, JwtPayload, JwtTokens, User } from '@app/common';
 import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { JwtConstants } from './constants';
