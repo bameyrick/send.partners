@@ -22,8 +22,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Lint the code
+        run: yarn nx run-many --target=affected:lint --all --silent=false --coverage
+
       - name: Run the tests
-        run: yarn nx run-many --target=test --all --silent=false --coverage
+        run: yarn nx run-many --target=affected:test --all --silent=false --coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
