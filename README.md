@@ -1,7 +1,7 @@
 # SendPartners
 
-[![Tests](https://github.com/bameyrick/boilerplate/actions/workflows/tests.yml/badge.svg)](https://github.com/bameyrick/boilerplate/actions/workflows/tests.yml)
-[![codecov](https://codecov.io/gh/bameyrick/boilerplate/branch/main/graph/badge.svg)](https://codecov.io/gh/bameyrick/boilerplate)
+[![Tests](https://github.com/bameyrick/send.partners/actions/workflows/tests.yml/badge.svg)](https://github.com/bameyrick/send.partners/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/bameyrick/send.partners/branch/main/graph/badge.svg)](https://codecov.io/gh/bameyrick/send.partners)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_send.partners&metric=bugs)](https://sonarcloud.io/summary/new_code?id=bameyrick_send.partners)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_send.partners&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=bameyrick_send.partners)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_send.partners&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=bameyrick_send.partners)
