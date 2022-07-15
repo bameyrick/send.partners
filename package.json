@@ -9,7 +9,7 @@
     "storybook": "nx storybook common-ui",
     "build": "nx build",
     "test": "nx test --coverage",
-    "lint": "nx lint && nx lint api && remark .",
+    "lint": "nx run-many --target=lint --all && remark .",
     "tidy-clean": "ts-node build-scripts/clean.ts",
     "icons": "ts-node build-scripts/icons.ts",
     "icons:watch": "chokidar libs/common-ui/src/lib/svg/**/* -t 500 -c \"npm run icons\"",
