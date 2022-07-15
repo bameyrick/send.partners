@@ -72,7 +72,7 @@ export class TranslateService {
     return combineLatest([this.language$, this.defaultLanguage$]).pipe(
       distinctUntilChanged((previous, next) => isEqual(previous, next)),
       concatMap(() => (isString(key) ? of(key) : NEVER)),
-      mergeMap(key => from(this.getKey(key))),
+      mergeMap(k => from(this.getKey(k))),
       map(result => (isNullOrUndefined(result) ? key || '' : result(params)))
     );
   }

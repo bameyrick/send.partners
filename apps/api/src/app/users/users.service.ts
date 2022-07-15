@@ -37,8 +37,6 @@ export class UsersService {
     if (user) {
       return this.sanitizeUser(user);
     }
-
-    return;
   }
 
   /**
@@ -54,8 +52,6 @@ export class UsersService {
     if (user) {
       return this.sanitizeUser(user);
     }
-
-    return;
   }
 
   public async updateById(id: string, user: User): Promise<User | undefined> {

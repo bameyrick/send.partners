@@ -1,6 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
-/* eslint-disable */
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'admin-nx-welcome',
@@ -688,8 +686,4 @@ nx affected:e2e</pre>
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class NxWelcomeComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class NxWelcomeComponent {}

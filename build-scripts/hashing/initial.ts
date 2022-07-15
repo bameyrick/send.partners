@@ -15,7 +15,7 @@ async function hashAssets(): Promise<void> {
 
   const assetHasher = new AssetHasher();
 
-  await Promise.all(filePaths.map(async file => await assetHasher.hashAsset(file)));
+  await Promise.all(filePaths.map(async file => assetHasher.hashAsset(file)));
 
   console.log(chalk.green('ASSETS HASHED'));
 }

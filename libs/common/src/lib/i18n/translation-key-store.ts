@@ -53,7 +53,7 @@ export class TranslationKeyStore {
       return languageStore[namespace];
     }
 
-    return;
+    return undefined;
   }
 
   /**
@@ -87,7 +87,7 @@ export class TranslationKeyStore {
       return result as TranslationValue | undefined;
     }
 
-    return;
+    return undefined;
   }
 
   /**

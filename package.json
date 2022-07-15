@@ -8,7 +8,7 @@
     "start": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,api,app,admin,storybook  \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx serve api\" \"nx serve\" \"nx serve admin --port 4600\" \"npm run storybook\"",
     "storybook": "nx storybook common-ui",
     "build": "nx build",
-    "test": "nx test --coverage",
+    "test": "yarn nx run-many --target=test --all",
     "lint": "nx run-many --target=lint --all && remark .",
     "tidy-clean": "ts-node build-scripts/clean.ts",
     "icons": "ts-node build-scripts/icons.ts",
