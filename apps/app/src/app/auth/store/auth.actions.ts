@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { APIErrorCode, JwtTokens, LoginCredentials, SignUpCredentials, User } from '@app/common';
+import { APIErrorCode, LoginCredentials, SignUpCredentials, User } from '@app/common';
 
 const signUp = createAction('[AUTH] Sign up', props<{ credentials: SignUpCredentials }>());
 
