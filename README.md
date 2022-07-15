@@ -40,3 +40,7 @@ Run `nx graph` to see a diagram of the dependencies of your projects.
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
+
+## Testing Emails
+
+Test emails will be captured by [Mailtrap](https://mailtrap.io/inboxes/1755476/messages)
