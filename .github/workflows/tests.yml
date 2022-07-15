@@ -20,10 +20,10 @@ jobs:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
 
       - name: Install dependencies
-        run: npm i -g @nrwl/cli && npm install
+        run: npm install
 
       - name: Run the tests
-        run: nx run-many --target=test --all --silent=false --coverage
+        run: yarn nx run-many --target=test --all --silent=false --coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
