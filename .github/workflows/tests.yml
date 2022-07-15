@@ -26,9 +26,9 @@ jobs:
         run: yarn pre-build
 
       - name: Lint the code
-        run: yarn nx run-many --target=lint --all --parallel
+        run: yarn nx run-many --target=lint --all
       - name: Run the tests
-        run: yarn nx run-many --target=test --all --silent=false --parallel --coverage
+        run: yarn nx run-many --target=test --all --coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
