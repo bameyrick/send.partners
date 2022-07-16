@@ -191,7 +191,7 @@ describe('AuthService', () => {
       const generateCodeSpy = jest.spyOn(service as any, 'generateCode');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(0) });
+      (service as any).verificationCodes['id'] = { generated: new Date(0) };
 
       await expect(service.sendEmailVerification('id')).resolves.not.toThrow();
 
@@ -204,7 +204,7 @@ describe('AuthService', () => {
   describe('validateEmail', () => {
     it(`should throw an error if the code is invalid`, async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(), code: '000000' });
+      (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
 
       await expect(service.validateEmail('id', '111111')).rejects.toThrow(
         new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired)
@@ -213,7 +213,7 @@ describe('AuthService', () => {
 
     it(`should throw an error if user has no code`, async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(), code: '000000' });
+      (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
 
       await expect(service.validateEmail('badId', '000000')).rejects.toThrow(
         new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired)
@@ -222,7 +222,7 @@ describe('AuthService', () => {
 
     it(`should throw an error if code has expired`, async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(0), code: '000000' });
+      (service as any).verificationCodes['id'] = { generated: new Date(0), code: '000000' };
 
       await expect(service.validateEmail('id', '000000')).rejects.toThrow(
         new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired)
@@ -231,7 +231,7 @@ describe('AuthService', () => {
 
     it(`should validate a valid code`, async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (service as any).verificationCodes.push({ userId: 'id', generated: new Date(), code: '000000' });
+      (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
 
       const user: User = { id: 'id ', email: 'email', emailVerified: true, language: 'en' };
 
