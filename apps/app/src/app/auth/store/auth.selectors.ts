@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { APIErrorCodeTranslation } from '@app/common';
+import { APIErrorCodeTranslation } from '@common';
 import { AuthState, AUTH_FEATURE_KEY } from './auth.reducer';
 
 const selectAuthState = createFeatureSelector<AuthState>(AUTH_FEATURE_KEY);

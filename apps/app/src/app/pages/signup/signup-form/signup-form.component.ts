@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { passwordRegex } from '@app/common';
-import { matchesValidator } from '@app/common-ui';
+import { AppPath, passwordRegex } from '@common';
+import { matchesValidator } from '@common-ui';
 import { firstValueFrom } from 'rxjs';
 import { AuthActions } from '../../../auth';
 import { AbstractAuthFormComponent } from '../../../common';
-import { AppPath } from '../../../routing';
 
 @Component({
   selector: 'app-signup-form',

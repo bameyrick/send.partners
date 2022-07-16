@@ -6,6 +6,8 @@ export enum APIEndpoint {
   RefreshTokens = '/api/auth/refresh',
   VerifyEmail = '/api/auth/verify-email',
   ResendEmailVerification = '/api/auth/resend-remail-verification',
+  RequestPasswordReset = '/api/auth/request-password-reset',
+  ResetPassword = '/api/auth/reset-password',
   Users = '/api/users',
   MyProfile = '/api/users/my-profile',
 }

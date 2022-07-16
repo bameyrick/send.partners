@@ -1,9 +1,9 @@
+import { APIEndpoint, JwtPayload, JwtPayloadWithRefreshToken, JwtTokens, removeParentUrlParts, SignUpCredentials, User } from '@common';
 import { Body, Controller, Get, Post, Res, Request, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import { APIEndpoint, JwtPayload, JwtPayloadWithRefreshToken, JwtTokens, removeParentUrlParts, SignUpCredentials, User } from '@app/common';
 import { Public } from './decorators';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './guards';
+import { JwtRefreshAuthGuard, LocalAuthGuard } from './guards';
 import { JWT_COOKIE_KEY } from './constants';
 
 @Controller(APIEndpoint.Auth)
@@ -40,7 +40,7 @@ export class AuthController {
   }
 
   @Public()
-  // @UseGuards(JwtRefreshAuthGuard)
+  @UseGuards(JwtRefreshAuthGuard)
   @Get(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.RefreshTokens))
   public async refresh(
     @Request() { user }: { user: JwtPayloadWithRefreshToken },
@@ -61,6 +61,11 @@ export class AuthController {
   @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.ResendEmailVerification))
   public resendEmailVerification(@Request() { user }: { user: JwtPayloadWithRefreshToken }): Promise<number> {
     return this.authService.sendEmailVerification(user.id);
+  }
+
+  @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.RequestPasswordReset))
+  public async resetPassword(@Body() { email }: { email: string }): Promise<void> {
+    await this.authService.requestPasswordReset(email);
   }
 
   private setAuthCookie(response: Response, tokens: JwtTokens): void {

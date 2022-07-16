@@ -4,6 +4,11 @@
       "title": "Verify your email",
       "code": "Code: {code}",
       "expires": "Code will expire in {hours,plural,one {1 hour} other {{hours} hours}}"
+    },
+    "reset_password": {
+      "title": "Send Partners Password Reset",
+      "linkText": "Click here to reset your password",
+      "expires": "Link will expire in {hours,plural,one {1 hour} other {{hours} hours}}"
     }
   }
 }

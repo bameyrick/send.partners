@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { LoginCredentials } from '@app/common';
-import { LoginComponent } from '@app/common-ui';
+import { LoginCredentials } from '@common';
+import { LoginComponent } from '@common-ui';
 import { filter, skip } from 'rxjs';
 import { AuthActions, selectAuthenticated, selectAuthErrorCode, selectAuthorizing } from '../../auth';
 import { AppAbstractComponent } from '../../common';

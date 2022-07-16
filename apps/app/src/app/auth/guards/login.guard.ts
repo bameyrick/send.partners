@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateChild, Router, UrlTree } from '@angular/router';
+import { AppPath } from '@common';
 import { Store } from '@ngrx/store';
 import { firstValueFrom } from 'rxjs';
-import { AppPath } from '../../routing';
 import { selectAuthenticated } from '../store';
 
 @Injectable({ providedIn: 'root' })

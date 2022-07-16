@@ -1,5 +1,5 @@
+import { TranslationKeyStore } from '@common';
 import { Injectable } from '@nestjs/common';
-import { TranslationKeyStore } from '@app/common';
 import { Dictionary } from '@qntm-code/utils';
 
 import enCommon from '../../../../../libs/common/src/lib/i18n/en.common.i18n.json';

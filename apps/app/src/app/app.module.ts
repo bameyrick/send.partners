@@ -6,11 +6,11 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { CommonUiModule, TranslateModule } from '@common-ui';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth';
 import { AppRoutingModule, ROOT_REDUCERS } from './routing';
 import { environment } from '../environments/environment';
-import { CommonUiModule, TranslateModule } from '@app/common-ui';
 import { AppLoadService } from './services';
 
 @NgModule({

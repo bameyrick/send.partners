@@ -2,7 +2,7 @@ import { Directive, ElementRef, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@app/common-ui';
+import { TranslateService } from '@common-ui';
 import { AuthActions, selectAuthErrorCode, selectAuthorizing } from '../../../../auth';
 import { filter, skip } from 'rxjs';
 import { AppAbstractComponent } from '../abstract-component';

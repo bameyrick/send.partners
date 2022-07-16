@@ -1,6 +1,6 @@
+import { JwtPayload, User } from '@common';
 import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { JwtPayload, User } from '@app/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 

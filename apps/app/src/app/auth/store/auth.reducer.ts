@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { APIErrorCode, User } from '@app/common';
+import { APIErrorCode, User } from '@common';
 import { AuthActions } from './auth.actions';
 
 export const AUTH_FEATURE_KEY = 'auth';

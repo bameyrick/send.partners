@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { APIEndpoint, LoginCredentials, User } from '@app/common';
+import { APIEndpoint, LoginCredentials, User } from '@common';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

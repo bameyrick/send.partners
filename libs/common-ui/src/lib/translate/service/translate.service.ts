@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Dictionary, isEqual, isNullOrUndefined, isString } from '@qntm-code/utils';
-import { TranslationKeyStore, TranslationValue } from '@app/common';
+import { TranslationKeyStore, TranslationValue } from '@common';
 import {
   BehaviorSubject,
   catchError,

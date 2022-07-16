@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { isEmpty, isNullOrUndefined } from '@qntm-code/utils';
-import { getRouterLinkForAppPath } from '@app/common';
+import { getRouterLinkForAppPath } from '@common';
 import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Icon } from '../../enums';

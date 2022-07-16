@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AppPath } from '@common';
 import { SignUpGuard } from '../auth/guards/signup.guard';
-import { AppPath } from './app-path';
 
 const routes: Routes = [
   {

@@ -1,5 +1,5 @@
+import { APIEndpoint, JwtPayload, removeParentUrlParts, User } from '@common';
 import { Body, Controller, Get, Put, Request } from '@nestjs/common';
-import { APIEndpoint, JwtPayload, removeParentUrlParts, User } from '@app/common';
 import { UsersService } from './users.service';
 
 @Controller(APIEndpoint.Users)

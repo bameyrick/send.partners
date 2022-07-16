@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { LoginCredentials } from '@app/common';
+import { LoginCredentials } from '@common';
 import { didChange } from '../../helpers';
 import { AbstractComponent } from '../abstracts';
 

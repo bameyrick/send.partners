@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { getRouterLinkForAppPath } from '@app/common';
+import { AppPath, getRouterLinkForAppPath } from '@common';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
-import { AppPath } from '../../routing';
 import { AuthService } from '../auth.service';
 import { AuthActions } from './auth.actions';
 

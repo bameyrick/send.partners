@@ -1,7 +1,6 @@
 import { Directive } from '@angular/core';
-import { APIErrorCode, APIErrorCodeTranslation } from '@app/common';
-import { AbstractComponent } from '@app/common-ui';
-import { AppPath } from '../../../../routing/app-path';
+import { APIErrorCode, APIErrorCodeTranslation, AppPath } from '@common';
+import { AbstractComponent } from '@common-ui';
 
 @Directive()
 export abstract class AppAbstractComponent extends AbstractComponent {

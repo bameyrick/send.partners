@@ -1,7 +1,7 @@
+import { JwtPayload, JwtPayloadWithRefreshToken } from '@common';
 import { createMock } from '@golevelup/ts-jest';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { JwtPayload, JwtPayloadWithRefreshToken } from '@app/common';
 import { mockResponseObject } from '@mocks';
 import { MailService } from '../mail';
 import { UsersService } from '../users';

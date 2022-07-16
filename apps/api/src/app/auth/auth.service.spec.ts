@@ -1,7 +1,7 @@
+import { APIErrorCode, FullUser, User } from '@common';
 import { ForbiddenException } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import { APIErrorCode, FullUser, User } from '@app/common';
 import { hash } from '../helpers';
 import { MailService } from '../mail';
 import { UsersService } from '../users';

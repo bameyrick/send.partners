@@ -1,23 +1,24 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { APIErrorCode, JwtPayload, JwtTokens, User } from '@common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TimeUnit, unitToMS } from '@qntm-code/utils';
 import * as crypto from 'crypto';
 import { compare } from 'bcrypt';
-import { APIErrorCode, JwtPayload, JwtTokens, User } from '@app/common';
 import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { JwtConstants } from './constants';
 import { AuthResult } from './interfaces';
 
 interface VerificationCode {
-  userId: string;
   generated: Date;
   code: string;
 }
 
 @Injectable()
 export class AuthService {
-  private verificationCodes: VerificationCode[] = [];
+  private readonly verificationCodes: Record<string, VerificationCode> = {};
+
+  private readonly resetEmailHash: Record<string, VerificationCode> = {};
 
   private readonly verificationCodeRetryMs = unitToMS(parseInt(process.env.MAIL_VERIFICATION_RETRY_MINUTES), TimeUnit.Minutes);
 
@@ -68,15 +69,14 @@ export class AuthService {
   }
 
   public async sendEmailVerification(userId: string): Promise<number> {
-    const activeCode = this.verificationCodes.find(
-      verificationCode => verificationCode.userId === userId && this.generatedToRetryMs(verificationCode.generated) > new Date().getTime()
-    );
+    const verificationCode = this.verificationCodes[userId];
 
-    if (activeCode) {
-      throw new ForbiddenException(APIErrorCode.WaitToResendVerificationEmail, this.generatedToRetryMs(activeCode.generated).toString());
+    if (verificationCode && this.generatedToRetryMs(verificationCode.generated) > new Date().getTime()) {
+      throw new ForbiddenException(
+        APIErrorCode.WaitToResendVerificationEmail,
+        this.generatedToRetryMs(verificationCode.generated).toString()
+      );
     }
-
-    this.resetVerificationCodesForUser(userId);
 
     const user = await this.usersService.findById(userId);
 
@@ -84,11 +84,10 @@ export class AuthService {
 
     const generated = new Date();
 
-    this.verificationCodes.push({
-      userId,
+    this.verificationCodes[userId] = {
       code,
       generated,
-    });
+    };
 
     this.mailService.sendEmailVerification(user.email, code, user.language);
 
@@ -96,20 +95,38 @@ export class AuthService {
   }
 
   public async validateEmail(userId: string, code: string): Promise<User> {
-    const activeCode = this.verificationCodes.find(
-      item =>
-        item.userId === userId && item.code === code && item.generated.getTime() + this.verificationCodeExpiryMs > new Date().getTime()
-    );
+    const activeCode = this.verificationCodes[userId];
 
-    if (!activeCode) {
+    if (
+      !activeCode ||
+      (activeCode.code === code && activeCode.generated.getTime() + this.verificationCodeExpiryMs <= new Date().getTime())
+    ) {
       throw new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired);
     }
 
     const user = await this.usersService.markUserEmailAsValidated(userId);
 
-    this.resetVerificationCodesForUser(userId);
+    delete this.verificationCodes[userId];
 
     return user;
+  }
+
+  public async requestPasswordReset(email: string): Promise<void> {
+    const user = await this.usersService.findByEmail(email);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    const code = this.genererateResetCode();
+    const generated = new Date();
+
+    this.resetEmailHash[user.id] = {
+      code,
+      generated,
+    };
+
+    this.mailService.sendPasswordReset(user.email, code, user.language);
   }
 
   /**
@@ -139,8 +156,8 @@ export class AuthService {
       .join('');
   }
 
-  private resetVerificationCodesForUser(userId: string): void {
-    this.verificationCodes = this.verificationCodes.filter(item => item.userId !== userId);
+  private genererateResetCode(): string {
+    return crypto.randomBytes(16).toString('hex');
   }
 
   private generatedToRetryMs(generated: Date): number {

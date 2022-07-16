@@ -1,8 +1,8 @@
+import { AppPath } from '@common';
 import { Store } from '@ngrx/store';
 import { Dictionary, isEmpty } from '@qntm-code/utils';
 import { map, Observable } from 'rxjs';
 import { selectProfile } from '../../auth';
-import { AppPath } from '../../routing';
 
 export const signupRules: Dictionary<(store: Store) => Observable<boolean>> = {
   [AppPath.Signup]: store => store.select(selectProfile).pipe(map(profile => !!profile)),

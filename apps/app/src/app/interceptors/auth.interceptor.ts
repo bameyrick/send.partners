@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
-import { APIEndpoint } from '@app/common';
+import { APIEndpoint } from '@common';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()

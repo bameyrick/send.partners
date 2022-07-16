@@ -1,7 +1,7 @@
 import { AfterContentInit, AfterViewInit, Component, Input, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { isEmpty, isNullOrUndefined } from '@qntm-code/utils';
-import { sanitizeSearchValue } from '@app/common';
+import { sanitizeSearchValue } from '@common';
 import { OptionValue } from './option-value';
 
 @Component({
