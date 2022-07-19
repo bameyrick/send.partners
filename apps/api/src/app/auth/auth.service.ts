@@ -1,5 +1,5 @@
 import { APIErrorCode, JwtPayload, JwtTokens, User } from '@common';
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TimeUnit, unitToMS } from '@qntm-code/utils';
 import * as crypto from 'crypto';
@@ -99,7 +99,7 @@ export class AuthService {
 
     if (
       !activeCode ||
-      (activeCode.code === code && activeCode.generated.getTime() + this.verificationCodeExpiryMs <= new Date().getTime())
+      !(activeCode.code === code && activeCode.generated.getTime() + this.verificationCodeExpiryMs >= new Date().getTime())
     ) {
       throw new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired);
     }
@@ -114,19 +114,17 @@ export class AuthService {
   public async requestPasswordReset(email: string): Promise<void> {
     const user = await this.usersService.findByEmail(email);
 
-    if (!user) {
-      throw new NotFoundException();
+    if (user) {
+      const code = this.genererateResetCode();
+      const generated = new Date();
+
+      this.resetEmailHash[user.id] = {
+        code,
+        generated,
+      };
+
+      this.mailService.sendPasswordReset(user.email, code, user.language);
     }
-
-    const code = this.genererateResetCode();
-    const generated = new Date();
-
-    this.resetEmailHash[user.id] = {
-      code,
-      generated,
-    };
-
-    this.mailService.sendPasswordReset(user.email, code, user.language);
   }
 
   /**
