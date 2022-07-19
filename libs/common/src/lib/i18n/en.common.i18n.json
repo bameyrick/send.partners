@@ -8,6 +8,9 @@
   "cancel": "Cancel",
   "name": "Name",
   "next": "Next",
+  "forgot_your_password": "Forgot your password?",
+  "reset_password": "Reset Password",
+  "request_password_reset": "Request Password Reset",
   "validation": {
     "required": "Required",
     "email_required": "Email is required",
@@ -24,6 +27,7 @@
     "invalid-csrf-token": "Forbidden",
     "password-does-not-meet-requirements": "Password does not meet requirements",
     "user-already-exists": "An account with the provided email already exists",
-    "wait-to-resend-verification-email": "Wait to resend verification email"
+    "wait-to-resend-verification-email": "Wait to resend verification email",
+    "password-reset-invalid-or-expired": "Password reset code invalid or expired"
   }
 }

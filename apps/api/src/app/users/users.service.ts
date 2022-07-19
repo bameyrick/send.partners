@@ -122,6 +122,20 @@ export class UsersService {
     }
   }
 
+  public async updatePassword(id: string, password: string): Promise<void> {
+    const user = await this.findFullById(id);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    if (passwordRegex.test(password)) {
+      user.password = await hash(password);
+    } else {
+      throw new Error(APIErrorCode.PasswordDoesNotMeetRequirements);
+    }
+  }
+
   public sanitizeUser(fullUser: FullUser): User {
     const user = clone(fullUser);
 

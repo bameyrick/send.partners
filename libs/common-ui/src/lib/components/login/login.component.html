@@ -31,3 +31,9 @@
 
   <button [type]="'submit'" class="Login__button" [loading]="form.disabled">{{ 'common.login' | translate }}</button>
 </form>
+
+<p class="Login__forgot-password">
+  <a [routerLink]="forgotPasswordLink" [queryParams]="{ email: form.controls['email'].value }">{{
+    'common.forgot_your_password' | translate
+  }}</a>
+</p>

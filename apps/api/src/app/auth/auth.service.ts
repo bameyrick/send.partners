@@ -1,4 +1,4 @@
-import { APIErrorCode, JwtPayload, JwtTokens, User } from '@common';
+import { APIErrorCode, JwtPayload, JwtTokens, ResetPasswordCredentials, User } from '@common';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TimeUnit, unitToMS } from '@qntm-code/utils';
@@ -14,15 +14,22 @@ interface VerificationCode {
   code: string;
 }
 
+interface ResetPasswordCode {
+  generated: Date;
+  userId: string;
+}
+
 @Injectable()
 export class AuthService {
   private readonly verificationCodes: Record<string, VerificationCode> = {};
 
-  private readonly resetEmailHash: Record<string, VerificationCode> = {};
+  private readonly resetEmailHash: Record<string, ResetPasswordCode> = {};
 
   private readonly verificationCodeRetryMs = unitToMS(parseInt(process.env.MAIL_VERIFICATION_RETRY_MINUTES), TimeUnit.Minutes);
 
   private readonly verificationCodeExpiryMs = unitToMS(parseInt(process.env.MAIL_VERIFICATION_EXPIRY_HOURS), TimeUnit.Hours);
+
+  private readonly passwordResetExpiryMs = unitToMS(parseInt(process.env.PASSWORD_RESET_EXPIRY_HOURS), TimeUnit.Hours);
 
   constructor(
     private readonly usersService: UsersService,
@@ -118,13 +125,23 @@ export class AuthService {
       const code = this.genererateResetCode();
       const generated = new Date();
 
-      this.resetEmailHash[user.id] = {
-        code,
+      this.resetEmailHash[code] = {
+        userId: user.id,
         generated,
       };
 
       this.mailService.sendPasswordReset(user.email, code, user.language);
     }
+  }
+
+  public async resetPassword(credentials: ResetPasswordCredentials): Promise<void> {
+    const hash = this.resetEmailHash[credentials.code];
+
+    if (!hash || hash.generated.getTime() + this.passwordResetExpiryMs <= new Date().getTime()) {
+      throw new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired);
+    }
+
+    await this.usersService.updatePassword(hash.userId, credentials.password);
   }
 
   /**

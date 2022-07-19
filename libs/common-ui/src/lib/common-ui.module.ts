@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { ButtonComponent } from './components';
 import { IconModule } from './icon/icon.module';
@@ -16,8 +17,19 @@ import { TranslateModule } from './translate/translate.module';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { OptionComponent } from './components/option/option.component';
 import { LanguagesComponent } from './components/languages/languages.component';
+import { RequestPasswordResetComponent } from './components/request-password-reset/request-password-reset.component';
+import { PasswordResetComponent } from './components/password-reset/password-reset.component';
 
-const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, IconModule, TranslateModule, OverlayModule];
+const imports = [
+  CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
+  HttpClientModule,
+  IconModule,
+  TranslateModule,
+  OverlayModule,
+  RouterModule,
+];
 
 @NgModule({
   imports,
@@ -32,6 +44,8 @@ const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModul
     DropdownComponent,
     OptionComponent,
     LanguagesComponent,
+    RequestPasswordResetComponent,
+    PasswordResetComponent,
   ],
   exports: [
     ...imports,
@@ -45,6 +59,8 @@ const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModul
     DropdownComponent,
     OptionComponent,
     LanguagesComponent,
+    RequestPasswordResetComponent,
+    PasswordResetComponent,
   ],
 })
 export class CommonUiModule {}

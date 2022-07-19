@@ -22,6 +22,11 @@ export class LoginComponent extends AbstractComponent implements OnChanges {
   @Input() public error?: string | null;
 
   /**
+   * Link for the forgotten password page
+   */
+  @Input() public forgotPasswordLink?: string;
+
+  /**
    * The form controls
    */
   public readonly form = new FormGroup({

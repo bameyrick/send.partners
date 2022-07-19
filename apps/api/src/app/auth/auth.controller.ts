@@ -1,4 +1,13 @@
-import { APIEndpoint, JwtPayload, JwtPayloadWithRefreshToken, JwtTokens, removeParentUrlParts, SignUpCredentials, User } from '@common';
+import {
+  APIEndpoint,
+  JwtPayload,
+  JwtPayloadWithRefreshToken,
+  JwtTokens,
+  removeParentUrlParts,
+  ResetPasswordCredentials,
+  SignUpCredentials,
+  User,
+} from '@common';
 import { Body, Controller, Get, Post, Res, Request, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { Public } from './decorators';
@@ -63,9 +72,16 @@ export class AuthController {
     return this.authService.sendEmailVerification(user.id);
   }
 
+  @Public()
   @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.RequestPasswordReset))
-  public async resetPassword(@Body() { email }: { email: string }): Promise<void> {
+  public async requestPasswordReset(@Body() { email }: { email: string }): Promise<void> {
     await this.authService.requestPasswordReset(email);
+  }
+
+  @Public()
+  @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.ResetPassword))
+  public async resetPassword(@Body() credentials: ResetPasswordCredentials): Promise<void> {
+    await this.authService.resetPassword(credentials);
   }
 
   private setAuthCookie(response: Response, tokens: JwtTokens): void {

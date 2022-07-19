@@ -26,11 +26,11 @@ export class MailService {
     await this.mailerService.sendMail({
       to,
       subject: this.translateService.translate(language, 'api.emails.reset_password.title'),
-      template: 'password-reset',
+      template: 'reset-password',
       context: {
         title: this.translateService.translate(language, 'api.emails.reset_password.title'),
         linkText: this.translateService.translate(language, 'api.emails.reset_password.link_text'),
-        link: `${process.env.FRONTEND_URL}/${AppPath.ResetPassword}/${code}`,
+        link: `${process.env.FRONTEND_URL}/${AppPath.ResetPasswordCode}`.replace(/:code/, code),
         expires: this.translateService.translate(language, 'api.emails.reset_password.expires', {
           hours: process.env.PASSWORD_RESET_EXPIRY_HOURS,
         }),

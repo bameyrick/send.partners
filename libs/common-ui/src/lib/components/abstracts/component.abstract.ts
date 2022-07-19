@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { isEmpty, isNullOrUndefined } from '@qntm-code/utils';
-import { getRouterLinkForAppPath } from '@common';
+import { APIErrorCode, APIErrorCodeTranslation, getRouterLinkForAppPath } from '@common';
 import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Icon } from '../../enums';
@@ -43,6 +43,16 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
    * Expose the PanelType enum to the view
    */
   public readonly PanelType = PanelType;
+
+  /**
+   * Expose the APIErrorCode enum to the view
+   */
+  public readonly APIErrorCode = APIErrorCode;
+
+  /**
+   * Expose the APIErrorCodeTranslation dictionary to the view
+   */
+  public readonly APIErrorCodeTranslation = APIErrorCodeTranslation;
 
   /**
    * Expose isNullOrUndefined helper to the view

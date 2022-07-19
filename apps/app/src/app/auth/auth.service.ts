@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { APIEndpoint, LoginCredentials, User } from '@common';
+import { APIEndpoint, LoginCredentials, RequestPasswordResetCredentials, ResetPasswordCredentials, User } from '@common';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -33,5 +33,13 @@ export class AuthService {
 
   public updateProfile(user: User): Observable<User> {
     return this.http.put<User>(APIEndpoint.MyProfile, user);
+  }
+
+  public requestPasswordReset(credentials: RequestPasswordResetCredentials): Observable<void> {
+    return this.http.post<void>(APIEndpoint.RequestPasswordReset, credentials);
+  }
+
+  public resetPassword(credentials: ResetPasswordCredentials): Observable<void> {
+    return this.http.post<void>(APIEndpoint.ResetPassword, credentials);
   }
 }

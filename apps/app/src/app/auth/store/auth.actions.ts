@@ -1,5 +1,12 @@
 import { createAction, props } from '@ngrx/store';
-import { APIErrorCode, LoginCredentials, SignUpCredentials, User } from '@common';
+import {
+  APIErrorCode,
+  LoginCredentials,
+  RequestPasswordResetCredentials,
+  ResetPasswordCredentials,
+  SignUpCredentials,
+  User,
+} from '@common';
 
 const signUp = createAction('[AUTH] Sign up', props<{ credentials: SignUpCredentials }>());
 
@@ -45,6 +52,18 @@ const updateProfileSuccess = createAction('[AUTH] Update profile success', props
 
 const updateProfileFailed = createAction('[AUTH] Update profile failed', props<{ errorCode: APIErrorCode }>());
 
+const requestPasswordReset = createAction('[AUTH] Request password reset', props<RequestPasswordResetCredentials>());
+
+const requestPasswordResetSuccess = createAction('[AUTH] Request password reset success', props<RequestPasswordResetCredentials>());
+
+const requestPasswordResetFailed = createAction('[AUTH] Request password reset failed', props<{ errorCode: APIErrorCode }>());
+
+const resetPassword = createAction('[AUTH] Reset password', props<{ credentials: ResetPasswordCredentials }>());
+
+const resetPasswordSuccess = createAction('[AUTH] Reset password success');
+
+const resetPasswordFailed = createAction('[AUTH] Reset password failed', props<{ errorCode: APIErrorCode }>());
+
 export const AuthActions = {
   signUp,
   signUpSuccess,
@@ -68,4 +87,10 @@ export const AuthActions = {
   updateProfile,
   updateProfileSuccess,
   updateProfileFailed,
+  requestPasswordReset,
+  requestPasswordResetSuccess,
+  requestPasswordResetFailed,
+  resetPassword,
+  resetPasswordSuccess,
+  resetPasswordFailed,
 };

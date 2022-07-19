@@ -6,5 +6,7 @@ export enum AppPath {
   SignupName = 'signup/name',
   SignupLocation = 'signup/location',
   RequestPasswordReset = 'request-password-reset',
-  ResetPassword = 'reset-password/{code}',
+  RequestPasswordResetSuccess = 'request-password-reset/success',
+  ResetPassword = 'reset-password',
+  ResetPasswordCode = 'reset-password/:code',
 }

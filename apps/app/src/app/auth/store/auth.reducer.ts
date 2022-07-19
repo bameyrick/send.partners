@@ -60,7 +60,11 @@ export const authReducer = createReducer<AuthState>(
 
   on(AuthActions.updateProfileSuccess, (state, { user }) => ({ ...state, user, authorizing: false })),
 
-  on(AuthActions.updateProfileFailed, (state, { errorCode }) => onAuthFailed(state, errorCode))
+  on(AuthActions.updateProfileFailed, (state, { errorCode }) => onAuthFailed(state, errorCode)),
+
+  on(AuthActions.requestPasswordResetFailed, (state, { errorCode }) => onAuthFailed(state, errorCode)),
+
+  on(AuthActions.resetPasswordFailed, (state, { errorCode }) => onAuthFailed(state, errorCode))
 );
 
 function onAuth(state: AuthState): AuthState {

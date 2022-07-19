@@ -102,4 +102,46 @@ export class AuthEffects {
       )
     )
   );
+
+  public requestPasswordReset$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.requestPasswordReset),
+      switchMap(credentials =>
+        this.authService.requestPasswordReset(credentials).pipe(
+          map(() => AuthActions.requestPasswordResetSuccess(credentials)),
+          catchError(({ error }) => of(AuthActions.requestPasswordResetFailed({ errorCode: error.message })))
+        )
+      )
+    )
+  );
+
+  public requestPasswordResetSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.requestPasswordResetSuccess),
+        tap(({ email }) => this.router.navigateByUrl(`${getRouterLinkForAppPath(AppPath.RequestPasswordResetSuccess)}?email=${email}`))
+      ),
+    { dispatch: false }
+  );
+
+  public resetPassword$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.resetPassword),
+      switchMap(({ credentials }) =>
+        this.authService.resetPassword(credentials).pipe(
+          map(() => AuthActions.resetPasswordSuccess()),
+          catchError(({ error }) => of(AuthActions.resetPasswordFailed({ errorCode: error.message })))
+        )
+      )
+    )
+  );
+
+  public resetPasswordSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.resetPasswordSuccess),
+        tap(() => this.router.navigateByUrl(getRouterLinkForAppPath(AppPath.Login)))
+      ),
+    { dispatch: false }
+  );
 }
