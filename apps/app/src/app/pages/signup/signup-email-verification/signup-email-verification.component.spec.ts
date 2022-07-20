@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EmailVerificationComponent } from '@common-ui';
 import { AppTestingModule } from '../../../app-testing.module';
-import { EmailVerificationComponent } from '../../../common';
 
 import { SignupEmailVerificationComponent } from './signup-email-verification.component';
 
