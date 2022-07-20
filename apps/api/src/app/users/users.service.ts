@@ -1,6 +1,6 @@
+import { APIErrorCode, FullUser, passwordRegex, User } from '@common';
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { clone } from '@qntm-code/utils';
-import { APIErrorCode, FullUser, passwordRegex, User } from '@app/common';
 import { hash } from '../helpers';
 
 @Injectable()
@@ -117,6 +117,20 @@ export class UsersService {
       this.users.push(user);
 
       return user;
+    } else {
+      throw new Error(APIErrorCode.PasswordDoesNotMeetRequirements);
+    }
+  }
+
+  public async updatePassword(id: string, password: string): Promise<void> {
+    const user = await this.findFullById(id);
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    if (passwordRegex.test(password)) {
+      user.password = await hash(password);
     } else {
       throw new Error(APIErrorCode.PasswordDoesNotMeetRequirements);
     }

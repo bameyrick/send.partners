@@ -1,15 +1,15 @@
 import chalk from 'chalk';
 import * as glob from 'glob';
+import * as fs from 'fs';
 import { ASSETS_DIR, HASHED_ASSETS_DIR } from '../directories';
 import { rm } from '../rm';
-import { mkdir } from '../mkdir';
 import { AssetHasher } from './hash-asset';
 
 async function hashAssets(): Promise<void> {
   console.log(chalk.blue('HASHING ASSETS'));
 
   rm(HASHED_ASSETS_DIR);
-  mkdir(HASHED_ASSETS_DIR);
+  fs.mkdirSync(HASHED_ASSETS_DIR, { recursive: true });
 
   const filePaths = glob.sync(`${ASSETS_DIR}/**/*.*`);
 

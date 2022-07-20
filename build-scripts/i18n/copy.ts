@@ -3,14 +3,16 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { I18N_RESULT_DIR } from '../directories';
-import { mkdir } from '../mkdir';
 
 export async function copyI18n(file: string): Promise<void> {
   if (!fs.existsSync(I18N_RESULT_DIR)) {
-    mkdir(I18N_RESULT_DIR);
+    fs.mkdirSync(I18N_RESULT_DIR, { recursive: true });
   }
 
-  const destination = `${I18N_RESULT_DIR}/${path.basename(file)}`;
+  const filename = path.basename(file);
+  const language = path.basename(file.replace(filename, ''));
+
+  const destination = `${I18N_RESULT_DIR}/${language}.${filename}`;
 
   fs.copyFileSync(file, destination);
 

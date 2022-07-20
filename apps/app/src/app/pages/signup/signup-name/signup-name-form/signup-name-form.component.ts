@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AbstractAuthFormComponent } from '../../../../common';
+import { AbstractAuthFormComponent } from '@common-ui';
 import { SignupActions } from '../../store';
 
 @Component({

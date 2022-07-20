@@ -1,15 +1,14 @@
 import { Directive, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { getRouterLinkForAppPath } from '@app/common';
+import { AppPath, getRouterLinkForAppPath } from '@common';
+import { AbstractComponent } from '@common-ui';
 import { filter, firstValueFrom } from 'rxjs';
-import { AppAbstractComponent } from '../../common';
-import { AppPath } from '../../routing';
 import { signupOrder } from './signup-order';
 import { signupRules } from './signup-rules';
 
 @Directive()
-export abstract class AbstractSignupStepComponent extends AppAbstractComponent implements OnInit {
+export abstract class AbstractSignupStepComponent extends AbstractComponent implements OnInit {
   protected abstract readonly path: AppPath;
 
   constructor(elementRef: ElementRef, private readonly store: Store, private readonly router: Router) {

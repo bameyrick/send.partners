@@ -1,12 +1,12 @@
-import { AfterContentInit, Component, ElementRef, EventEmitter, Injector, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, EventEmitter, Injector, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
 import { delay, Dictionary } from '@qntm-code/utils';
 import { debounceTime, Subject } from 'rxjs';
 import { Icon } from '../../enums';
-import { FormComponent } from '../form/form.component';
+import { FormComponent } from '../form';
 import { AbstractComponent } from './component.abstract';
 
-@Component({ template: '' })
+@Directive()
 export abstract class AbstractControlComponent<ValueType>
   extends AbstractComponent
   implements ControlValueAccessor, AfterContentInit, OnChanges

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { removeParentUrlParts } from '@app/common';
-import { AppPath } from '../../routing';
+import { AppPath, removeParentUrlParts } from '@common';
 import { SignupComponent } from './signup.component';
 import { SignupEmailVerificationComponent } from './signup-email-verification/signup-email-verification.component';
 import { SignupNameComponent } from './signup-name/signup-name.component';

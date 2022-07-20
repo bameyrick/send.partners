@@ -1,4 +1,4 @@
-import { AppPath } from '../../routing';
+import { AppPath } from '@common';
 
 export const signupOrder: AppPath[] = [
   // AppPath.Signup MUST be first

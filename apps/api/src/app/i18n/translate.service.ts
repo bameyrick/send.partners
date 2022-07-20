@@ -1,11 +1,11 @@
+import { TranslationKeyStore } from '@common';
 import { Injectable } from '@nestjs/common';
-import { TranslationKeyStore } from '@app/common';
 import { Dictionary } from '@qntm-code/utils';
 
-import enCommon from '../../../../../libs/common/src/lib/i18n/en.common.i18n.json';
-import cyCommon from '../../../../../libs/common/src/lib/i18n/cy.common.i18n.json';
-import enAPI from './en.api.json';
-import cyAPI from './cy.api.json';
+import enCommon from '../../../../../i18n/en/common.i18n.json';
+import cyCommon from '../../../../../i18n/cy/common.i18n.json';
+import enAPI from '../../../../../i18n/en/api.json';
+import cyAPI from '../../../../../i18n/cy/api.json';
 
 @Injectable()
 export class TranslateService {

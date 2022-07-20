@@ -8,7 +8,7 @@ import { copyI18n } from './copy';
 
 console.log(chalk.blue('WATCHING TRANSLATIONS'));
 
-const watcher = chokidar.watch('+(apps|libs)**/*.i18n.json', {
+const watcher = chokidar.watch('+(i18n)**/*.i18n.json', {
   ignored: [I18N_RESULT_DIR, `${HASHED_ASSETS_DIR}/i18n`],
   ignoreInitial: true,
 });

@@ -1,5 +1,5 @@
 <router-outlet></router-outlet>
 <footer>
   <ul app-languages></ul>
-  <button (click)="logout()">{{ 'common.logout' | translate }}</button>
+  <button *ngIf="authenticated$ | async" (click)="logout()">{{ 'common.logout' | translate }}</button>
 </footer>

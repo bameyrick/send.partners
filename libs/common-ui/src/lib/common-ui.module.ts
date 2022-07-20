@@ -3,21 +3,35 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { AuthModule } from './auth';
 
-import { ButtonComponent } from './components';
-import { IconModule } from './icon/icon.module';
-import { TextInputComponent } from './components/text-input/text-input.component';
-import { FormComponent } from './components/form/form.component';
-import { FieldComponent } from './components/field/field.component';
-import { PanelComponent } from './components/panel/panel.component';
-import { LoginComponent } from './components/login/login.component';
-import { PasswordStrengthComponent } from './components/password-strength/password-strength.component';
-import { TranslateModule } from './translate/translate.module';
-import { DropdownComponent } from './components/dropdown/dropdown.component';
-import { OptionComponent } from './components/option/option.component';
-import { LanguagesComponent } from './components/languages/languages.component';
+import {
+  ButtonComponent,
+  DropdownComponent,
+  FieldComponent,
+  FormComponent,
+  LanguagesComponent,
+  OptionComponent,
+  PanelComponent,
+  PasswordStrengthComponent,
+  TextInputComponent,
+} from './components';
+import { EmailVerificationComponent, LoginComponent } from './forms';
+import { IconModule } from './icon';
+import { TranslateModule } from './translate';
 
-const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, IconModule, TranslateModule, OverlayModule];
+const imports = [
+  CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
+  HttpClientModule,
+  IconModule,
+  TranslateModule,
+  OverlayModule,
+  RouterModule,
+  AuthModule,
+];
 
 @NgModule({
   imports,
@@ -32,6 +46,7 @@ const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModul
     DropdownComponent,
     OptionComponent,
     LanguagesComponent,
+    EmailVerificationComponent,
   ],
   exports: [
     ...imports,
@@ -45,6 +60,7 @@ const imports = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModul
     DropdownComponent,
     OptionComponent,
     LanguagesComponent,
+    EmailVerificationComponent,
   ],
 })
 export class CommonUiModule {}

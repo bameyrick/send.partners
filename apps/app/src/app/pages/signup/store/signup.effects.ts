@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { AuthActions, selectProfile } from '@common-ui';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { filter, of, switchMap, withLatestFrom } from 'rxjs';
 
-import { AuthActions, selectProfile } from '../../../auth';
 import { SignupActions } from './signup.actions';
 
 @Injectable()

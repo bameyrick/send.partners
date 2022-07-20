@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControlComponent } from './control-component.abstract';
 
-@Component({ template: '' })
+@Directive()
 export abstract class AbstractTextInputComponent extends AbstractControlComponent<string> {
   /**
    * The maximum length of the input's value

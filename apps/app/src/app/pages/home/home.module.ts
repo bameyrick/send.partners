@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home.routing.module';
-import { CommonUiModule } from '@app/common-ui';
+import { CommonUiModule } from '@common-ui';
 
 @NgModule({
   declarations: [HomeComponent],

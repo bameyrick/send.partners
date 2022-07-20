@@ -1,4 +1,4 @@
-import { JwtTokens, User } from '@app/common';
+import { JwtTokens, User } from '@common';
 
 export interface AuthResult {
   user: User;

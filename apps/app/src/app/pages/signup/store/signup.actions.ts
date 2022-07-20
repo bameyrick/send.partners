@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { LatLon } from '@app/common';
+import { LatLon } from '@common';
 
 const setName = createAction('[SIGNUP] Set name', props<{ name: string }>());
 

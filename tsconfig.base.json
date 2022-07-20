@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@app/common": ["libs/common/src/index.ts"],
-      "@app/common-ui": ["libs/common-ui/src/index.ts"],
+      "@common": ["libs/common/src/index.ts"],
+      "@common-ui": ["libs/common-ui/src/index.ts"],
       "@mocks": ["mocks"]
     }
   },

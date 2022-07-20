@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { AppPath } from '../../../routing';
+import { AppPath } from '@common';
 import { AbstractSignupStepComponent } from '../signup.abstract.component';
 
 @Component({

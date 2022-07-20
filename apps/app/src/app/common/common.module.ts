@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonUiModule } from '@app/common-ui';
-import { EmailVerificationComponent } from './components';
+import { CommonUiModule } from '@common-ui';
 
 const imports = [RouterModule, CommonUiModule];
 
 @NgModule({
   imports,
-  declarations: [EmailVerificationComponent],
-  exports: [...imports, EmailVerificationComponent],
+  declarations: [],
+  exports: [...imports],
 })
 export class AppCommonModule {}
