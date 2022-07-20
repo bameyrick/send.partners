@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonUiTestingModule } from '../../common-ui-testing.module';
 
 import { RequestPasswordResetComponent } from './request-password-reset.component';
 
@@ -8,6 +9,7 @@ describe('RequestPasswordResetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [CommonUiTestingModule],
       declarations: [RequestPasswordResetComponent],
     }).compileComponents();
   });

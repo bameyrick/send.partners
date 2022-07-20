@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppTestingModule } from '../../../app-testing.module';
 
 import { RequestPasswordResetSuccessComponent } from './request-password-reset-success.component';
 
@@ -8,6 +9,7 @@ describe('RequestPasswordResetSuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [AppTestingModule],
       declarations: [RequestPasswordResetSuccessComponent],
     }).compileComponents();
   });
