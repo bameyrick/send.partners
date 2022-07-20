@@ -1,9 +1,15 @@
 {
   "emails": {
     "verify_email": {
-      "title": "Dilyswch eich ebost",
+      "subject": "Dilyswch eich e-bost - { site_name }",
       "code": "Cod: {code}",
-      "expires": "Bydd y cod yn dod i ben mewn {hours} awr"
+      "expires": "Bydd y cod yn dod i ben mewn {hours} awr",
+      "title": "Dilyswch eich ebost"
+    },
+    "reset_password": {
+      "subject": "Ailosod Cyfrinair - { site_name }",
+      "link_text": "Cliciwch yma i ailosod eich cyfrinair",
+      "expires": "Bydd y ddolen yn dod i ben mewn {hours,plural,one {1 awr} other {{hours} awr}}"
     }
   }
 }
