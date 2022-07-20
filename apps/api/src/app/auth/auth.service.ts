@@ -87,6 +87,10 @@ export class AuthService {
 
     const user = await this.usersService.findById(userId);
 
+    if (!user) {
+      throw new ForbiddenException();
+    }
+
     const code = this.generateCode();
 
     const generated = new Date();
@@ -103,6 +107,8 @@ export class AuthService {
 
   public async validateEmail(userId: string, code: string): Promise<User> {
     const activeCode = this.verificationCodes[userId];
+
+    console.log(userId, code, activeCode);
 
     if (
       !activeCode ||

@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthActions } from '../../auth';
 import { AbstractAuthFormComponent } from '../abstracts';
@@ -10,11 +10,6 @@ import { AbstractAuthFormComponent } from '../abstracts';
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent extends AbstractAuthFormComponent {
-  /**
-   * Link for the forgotten password page
-   */
-  @Input() public forgotPasswordLink?: string;
-
   /**
    * The form controls
    */

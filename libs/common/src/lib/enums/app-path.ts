@@ -8,5 +8,6 @@ export enum AppPath {
   RequestPasswordReset = 'request-password-reset',
   RequestPasswordResetSuccess = 'request-password-reset/success',
   ResetPassword = 'reset-password',
+  ResetPasswordSuccess = 'reset-password/success',
   ResetPasswordCode = 'reset-password/:code',
 }

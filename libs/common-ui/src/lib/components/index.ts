@@ -1,7 +1,6 @@
 export * from './abstracts';
 export * from './button';
 export * from './dropdown';
-export * from '../forms/email-verification';
 export * from './field';
 export * from './form';
 export * from './languages';

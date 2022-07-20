@@ -10,10 +10,11 @@ export class MailService {
   public async sendEmailVerification(to: string, code: string, language: string): Promise<void> {
     await this.mailerService.sendMail({
       to,
-      subject: this.translateService.translate(language, 'api.emails.verify_email.title'),
+      subject: this.translateService.translate(language, 'api.emails.verify_email.subject', {
+        site_name: this.translateService.translate(language, 'common.send_partners'),
+      }),
       template: 'email-verify',
       context: {
-        title: this.translateService.translate(language, 'api.emails.verify_email.title'),
         code: this.translateService.translate(language, 'api.emails.verify_email.code', { code }),
         expires: this.translateService.translate(language, 'api.emails.verify_email.expires', {
           hours: process.env.MAIL_VERIFICATION_EXPIRY_HOURS,
@@ -25,10 +26,11 @@ export class MailService {
   public async sendPasswordReset(to: string, code: string, language: string): Promise<void> {
     await this.mailerService.sendMail({
       to,
-      subject: this.translateService.translate(language, 'api.emails.reset_password.title'),
+      subject: this.translateService.translate(language, 'api.emails.reset_password.subject', {
+        site_name: this.translateService.translate(language, 'common.send_partners'),
+      }),
       template: 'reset-password',
       context: {
-        title: this.translateService.translate(language, 'api.emails.reset_password.title'),
         linkText: this.translateService.translate(language, 'api.emails.reset_password.link_text'),
         link: `${process.env.FRONTEND_URL}/${AppPath.ResetPasswordCode}`.replace(/:code/, code),
         expires: this.translateService.translate(language, 'api.emails.reset_password.expires', {

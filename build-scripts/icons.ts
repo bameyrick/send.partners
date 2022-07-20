@@ -6,14 +6,13 @@ import SVGSpriter from 'svg-sprite';
 import { Dictionary } from '@qntm-code/utils';
 import { ASSETS_DIR, ENUMS_DIR, ICONS_ENUM_PATH, SVG_RESULT_DIR, SVG_SOURCE_DIR, SVG_SYMBOLS_PATH } from './directories';
 import { AUTO_GENERATED_MESSAGE } from './auto-generated-message';
-import { mkdir } from './mkdir';
 import { removeParentUrlParts } from '../libs/common/src';
 import { toEnumKey } from '../libs/common/src/lib/helpers/to-enum-key';
 
 async function icons(): Promise<void> {
   console.log(chalk.blue('PROCESSING ICONS'));
 
-  [ENUMS_DIR, SVG_RESULT_DIR].forEach(dir => mkdir(dir));
+  [ENUMS_DIR, SVG_RESULT_DIR].forEach(dir => fs.mkdirSync(dir, { recursive: true }));
 
   const paths = glob.sync(`${SVG_SOURCE_DIR}/*.svg`);
 

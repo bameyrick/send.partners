@@ -5,6 +5,7 @@ export * from './lib/components';
 export * from './lib/enums';
 export * from './lib/forms';
 export * from './lib/helpers';
+export * from './lib/modules';
 export * from './lib/services';
 export * from './lib/translate';
 export * from './lib/validators';

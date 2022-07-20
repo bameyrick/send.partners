@@ -1,0 +1,14 @@
+{
+  "emails": {
+    "verify_email": {
+      "subject": "Verify your email - { site_name }",
+      "code": "Code: {code}",
+      "expires": "Code will expire in {hours,plural,one {1 hour} other {{hours} hours}}"
+    },
+    "reset_password": {
+      "subject": "Password Reset - { site_name }",
+      "link_text": "Click here to reset your password",
+      "expires": "Link will expire in {hours,plural,one {1 hour} other {{hours} hours}}"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { isEmpty, isNullOrUndefined } from '@qntm-code/utils';
-import { APIErrorCode, APIErrorCodeTranslation, getRouterLinkForAppPath } from '@common';
+import { APIErrorCode, APIErrorCodeTranslation, AppPath, getRouterLinkForAppPath } from '@common';
 import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Icon } from '../../enums';
@@ -28,6 +28,11 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
    * Cache the initial host element classes
    */
   private initialClasses?: string | null;
+
+  /**
+   * Expose AppPath enum to the view
+   */
+  public readonly AppPath = AppPath;
 
   /**
    * Expose Icon enum to the view

@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectAuthenticated } from '@common-ui';
-import { AppAbstractComponent } from '../../common';
+import { AbstractComponent, selectAuthenticated } from '@common-ui';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +8,7 @@ import { AppAbstractComponent } from '../../common';
   styleUrls: ['./home.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class HomeComponent extends AppAbstractComponent implements OnDestroy {
+export class HomeComponent extends AbstractComponent implements OnDestroy {
   /**
    * Whether to show login or signup
    */

@@ -140,7 +140,7 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.resetPasswordSuccess),
-        tap(() => this.router.navigateByUrl(getRouterLinkForAppPath(AppPath.Login)))
+        tap(() => this.router.navigateByUrl(getRouterLinkForAppPath(AppPath.ResetPasswordSuccess)))
       ),
     { dispatch: false }
   );

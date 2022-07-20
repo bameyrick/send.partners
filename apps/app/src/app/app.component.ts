@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthActions, selectAuthenticated } from '@common-ui';
-import { AppAbstractComponent } from './common';
+import { AbstractComponent, AuthActions, selectAuthenticated } from '@common-ui';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +8,7 @@ import { AppAbstractComponent } from './common';
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppComponent extends AppAbstractComponent {
+export class AppComponent extends AbstractComponent {
   /**
    * Whether to show login or signup
    */

@@ -33,7 +33,7 @@
 </form>
 
 <p class="Login__forgot-password">
-  <a [routerLink]="forgotPasswordLink" [queryParams]="{ email: form.controls['email'].value }">{{
+  <a [routerLink]="getRouterLinkForAppPath(AppPath.RequestPasswordReset)" [queryParams]="{ email: form.controls['email'].value }">{{
     'common.forgot_your_password' | translate
   }}</a>
 </p>

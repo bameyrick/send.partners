@@ -9,7 +9,6 @@ import { AuthModule } from './auth';
 import {
   ButtonComponent,
   DropdownComponent,
-  EmailVerificationComponent,
   FieldComponent,
   FormComponent,
   LanguagesComponent,
@@ -18,7 +17,7 @@ import {
   PasswordStrengthComponent,
   TextInputComponent,
 } from './components';
-import { LoginComponent, ResetPasswordComponent, RequestPasswordResetComponent, RequestPasswordResetSuccessComponent } from './forms';
+import { EmailVerificationComponent, LoginComponent } from './forms';
 import { IconModule } from './icon';
 import { TranslateModule } from './translate';
 
@@ -48,9 +47,6 @@ const imports = [
     OptionComponent,
     LanguagesComponent,
     EmailVerificationComponent,
-    RequestPasswordResetComponent,
-    RequestPasswordResetSuccessComponent,
-    ResetPasswordComponent,
   ],
   exports: [
     ...imports,
@@ -65,9 +61,6 @@ const imports = [
     OptionComponent,
     LanguagesComponent,
     EmailVerificationComponent,
-    RequestPasswordResetComponent,
-    RequestPasswordResetSuccessComponent,
-    ResetPasswordComponent,
   ],
 })
 export class CommonUiModule {}

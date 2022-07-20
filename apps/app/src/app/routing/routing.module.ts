@@ -13,11 +13,17 @@ const routes: Routes = [
       { path: AppPath.Signup, loadChildren: () => import('../pages/signup/signup.module').then(m => m.SignupModule) },
       {
         path: AppPath.RequestPasswordReset,
-        loadChildren: () => import('../pages/request-password-reset/request-password-reset.module').then(m => m.RequestPasswordResetModule),
+        loadChildren: () =>
+          // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+          import('../../../../../libs/common-ui/src/lib/modules/request-password-reset/request-password-reset.module').then(
+            m => m.RequestPasswordResetModule
+          ),
       },
       {
         path: AppPath.ResetPassword,
-        loadChildren: () => import('../pages/reset-password/reset-password.module').then(m => m.ResetPasswordModule),
+        loadChildren: () =>
+          // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+          import('../../../../../libs/common-ui/src/lib/modules/reset-password/reset-password.module').then(m => m.ResetPasswordModule),
       },
       { path: '**', redirectTo: AppPath.Root },
     ],
