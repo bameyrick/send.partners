@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Icon } from '../../enums';
 import { IconPlacement } from '../../icon';
-import { PanelType } from '../panel';
+import { PanelType } from '../panel/panel-type';
 
 @Directive()
 export abstract class AbstractComponent implements OnInit, OnDestroy {

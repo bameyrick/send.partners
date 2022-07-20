@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AppPath, passwordRegex } from '@common';
-import { matchesValidator } from '@common-ui';
+import { AppPath, getRouterLinkForAppPath, passwordRegex } from '@common';
+import { AbstractAuthFormComponent, AuthActions, matchesValidator } from '@common-ui';
 import { firstValueFrom } from 'rxjs';
-import { AuthActions } from '../../../auth';
-import { AbstractAuthFormComponent } from '../../../common';
 
 @Component({
   selector: 'app-signup-form',
@@ -51,6 +49,8 @@ export class SignupFormComponent extends AbstractAuthFormComponent implements On
     password: this.password,
     confirmPassword: this.confirmPassword,
   });
+
+  public readonly loginLink = getRouterLinkForAppPath(AppPath.Login);
 
   protected readonly path = AppPath.Signup;
 

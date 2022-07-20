@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthActions } from './auth';
+import { AuthActions, selectAuthenticated } from '@common-ui';
 import { AppAbstractComponent } from './common';
 
 @Component({
@@ -10,6 +10,11 @@ import { AppAbstractComponent } from './common';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent extends AppAbstractComponent {
+  /**
+   * Whether to show login or signup
+   */
+  public readonly authenticated$ = this.store.select(selectAuthenticated);
+
   constructor(elementRef: ElementRef, private readonly store: Store) {
     super(elementRef);
   }

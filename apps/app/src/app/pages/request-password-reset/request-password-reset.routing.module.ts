@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppPath, removeParentUrlParts } from '@common';
-import { RequestPasswordResetSuccessComponent } from './request-password-reset-success/request-password-reset-success.component';
+import { RequestPasswordResetSuccessComponent } from '@common-ui';
 import { RequestPasswordResetComponent } from './request-password-reset.component';
 
 const routes: Routes = [

@@ -1,7 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { RequestPasswordResetCredentials } from '@common';
-import { AuthActions } from '../../auth';
-import { AppAbstractAuthPageComponent } from '../../common';
+import { AppAbstractComponent } from '../../common';
 
 @Component({
   selector: 'app-request-password-reset',
@@ -9,8 +7,4 @@ import { AppAbstractAuthPageComponent } from '../../common';
   styleUrls: ['./request-password-reset.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class RequestPasswordResetComponent extends AppAbstractAuthPageComponent {
-  public requestPasswordReset(resetPassword: RequestPasswordResetCredentials): void {
-    this.store.dispatch(AuthActions.requestPasswordReset(resetPassword));
-  }
-}
+export class RequestPasswordResetComponent extends AppAbstractComponent {}

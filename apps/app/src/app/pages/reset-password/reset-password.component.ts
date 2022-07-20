@@ -1,11 +1,7 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ResetPasswordCredentials } from '@common';
-import { TranslateService } from '@common-ui';
-import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
-import { AuthActions } from '../../auth';
-import { AppAbstractAuthPageComponent } from '../../common';
+import { AppAbstractComponent } from '../../common';
 
 @Component({
   selector: 'app-reset-password',
@@ -13,7 +9,7 @@ import { AppAbstractAuthPageComponent } from '../../common';
   styleUrls: ['./reset-password.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ResetPasswordComponent extends AppAbstractAuthPageComponent {
+export class ResetPasswordComponent extends AppAbstractComponent {
   /**
    * The password reset code
    */
@@ -21,15 +17,9 @@ export class ResetPasswordComponent extends AppAbstractAuthPageComponent {
 
   constructor(
     elementRef: ElementRef,
-    store: Store,
-    translateService: TranslateService,
-    router: Router,
+
     private readonly activatedRoute: ActivatedRoute
   ) {
-    super(elementRef, store, translateService, router);
-  }
-
-  public resetPassword(credentials: ResetPasswordCredentials): void {
-    this.store.dispatch(AuthActions.resetPassword({ credentials }));
+    super(elementRef);
   }
 }

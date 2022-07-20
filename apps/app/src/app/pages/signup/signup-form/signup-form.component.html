@@ -1,7 +1,8 @@
 <form class="SignupForm__form" [formGroup]="form" (submit)="submit()">
   <common-panel *ngIf="error$ | async" [type]="PanelType.Error">
     <p>{{ error$ | async | translate }}</p>
-    <a *ngIf="(error$ | async) === APIErrorCode.UserAlreadyExists" [routerLink]="AppPath.Login">{{
+
+    <a *ngIf="(error$ | async) === APIErrorCode.UserAlreadyExists" [routerLink]="loginLink">{{
       'send_partners.login_instead' | translate
     }}</a>
   </common-panel>
@@ -57,4 +58,4 @@
   <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'send_partners.signup' | translate }}</button>
 </form>
 
-{{ 'send_partners.or' | translate }} <a [routerLink]="getRouterLinkForAppPath(AppPath.Login)">{{ 'common.login' | translate }}</a>
+{{ 'send_partners.or' | translate }} <a [routerLink]="loginLink">{{ 'common.login' | translate }}</a>

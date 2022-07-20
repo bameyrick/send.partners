@@ -6,12 +6,10 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { CommonUiModule, TranslateModule } from '@common-ui';
+import { CommonAppLoadService, CommonUiModule, TranslateModule } from '@common-ui';
 import { AppComponent } from './app.component';
-import { AuthModule } from './auth';
 import { AppRoutingModule, ROOT_REDUCERS } from './routing';
 import { environment } from '../environments/environment';
-import { AppLoadService } from './services';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,14 +40,13 @@ import { AppLoadService } from './services';
     }),
     EffectsModule.forRoot([]),
     AppRoutingModule,
-    AuthModule,
   ],
   providers: [
-    AppLoadService,
+    CommonAppLoadService,
     {
       provide: APP_INITIALIZER,
-      useFactory: (appLoadService: AppLoadService) => () => appLoadService.initializeApp(),
-      deps: [AppLoadService],
+      useFactory: (appLoadService: CommonAppLoadService) => () => appLoadService.initializeApp(),
+      deps: [CommonAppLoadService],
       multi: true,
     },
   ],
