@@ -1,8 +1,7 @@
-import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { RequestPasswordResetCredentials } from '@common';
-import { Store } from '@ngrx/store';
-import { AuthActions, selectAuthErrorCode } from '../../auth';
-import { AppAbstractComponent } from '../../common';
+import { AuthActions } from '../../auth';
+import { AppAbstractAuthPageComponent } from '../../common';
 
 @Component({
   selector: 'app-request-password-reset',
@@ -10,16 +9,7 @@ import { AppAbstractComponent } from '../../common';
   styleUrls: ['./request-password-reset.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class RequestPasswordResetComponent extends AppAbstractComponent {
-  /**
-   * Error message to display
-   */
-  public readonly error$ = this.store.select(selectAuthErrorCode);
-
-  constructor(elementRef: ElementRef, private readonly store: Store) {
-    super(elementRef);
-  }
-
+export class RequestPasswordResetComponent extends AppAbstractAuthPageComponent {
   public requestPasswordReset(resetPassword: RequestPasswordResetCredentials): void {
     this.store.dispatch(AuthActions.requestPasswordReset(resetPassword));
   }

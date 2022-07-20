@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { convertTimeUnit, TimeUnit } from '@qntm-code/utils';
 import { combineLatest, interval, map, shareReplay } from 'rxjs';
 import { AuthActions, selectResendEmailTime } from '../../../auth';
-import { AbstractAuthFormComponent } from '../abstracts/abstract-auth-form-component/abstract-auth-form.component';
+import { AbstractAuthFormComponent } from '../abstracts';
 
 @Component({
   selector: 'app-email-verification',
