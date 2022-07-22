@@ -10,6 +10,7 @@ describe('CommonAppLoadService', () => {
     TestBed.configureTestingModule({
       imports: [CommonUiTestingModule],
     });
+
     service = TestBed.inject(CommonAppLoadService);
   });
 
