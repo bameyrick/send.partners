@@ -62,33 +62,53 @@ describe('AuthController', () => {
     });
   });
 
-  // describe('signUp', () => {
-  //   it('should call authService.signUp', () => {
-  //     jest.spyOn(authService, 'signUp').mockImplementation(() => undefined);
+  describe('signUp', () => {
+    it('should call authService.signUp', () => {
+      jest.spyOn(authService, 'signUp');
 
-  //     controller.signUp({ email: 'email', password: 'password', language: 'en' }, mockResponseObject());
+      controller.signUp({ email: 'email', password: 'password', language: 'en' }, mockResponseObject());
 
-  //     expect(authService.signUp).toHaveBeenCalled();
-  //   });
-  // });
+      expect(authService.signUp).toHaveBeenCalled();
+    });
+  });
 
-  // describe('verifyEmail', () => {
-  //   it('should call authService.verifyEmail', () => {
-  //     jest.spyOn(authService, 'validateEmail').mockImplementation(() => undefined);
+  describe('verifyEmail', () => {
+    it('should call authService.verifyEmail', () => {
+      jest.spyOn(authService, 'validateEmail');
 
-  //     controller.verifyEmail({ user: createMock<JwtPayloadWithRefreshToken>() }, { code: '' });
+      controller.verifyEmail({ user: createMock<JwtPayloadWithRefreshToken>() }, { code: '' });
 
-  //     expect(authService.validateEmail).toHaveBeenCalled();
-  //   });
-  // });
+      expect(authService.validateEmail).toHaveBeenCalled();
+    });
+  });
 
-  // describe('resendEmailVerification', () => {
-  //   it('should call authService.resendEmailVerification', () => {
-  //     jest.spyOn(authService, 'sendEmailVerification').mockImplementation(() => undefined);
+  describe('resendEmailVerification', () => {
+    it('should call authService.resendEmailVerification', () => {
+      jest.spyOn(authService, 'sendEmailVerification');
 
-  //     controller.resendEmailVerification({ user: createMock<JwtPayloadWithRefreshToken>() });
+      controller.resendEmailVerification({ user: createMock<JwtPayloadWithRefreshToken>() });
 
-  //     expect(authService.sendEmailVerification).toHaveBeenCalled();
-  //   });
-  // });
+      expect(authService.sendEmailVerification).toHaveBeenCalled();
+    });
+  });
+
+  describe('requestPasswordReset', () => {
+    it('should call authService.requestPasswordReset', () => {
+      jest.spyOn(authService, 'requestPasswordReset');
+
+      controller.requestPasswordReset({ email: 'email' });
+
+      expect(authService.requestPasswordReset).toHaveBeenCalled();
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('should call authService.resetPassword', () => {
+      jest.spyOn(authService, 'resetPassword');
+
+      controller.resetPassword({ code: 'code', password: 'password ' });
+
+      expect(authService.resetPassword).toHaveBeenCalled();
+    });
+  });
 });

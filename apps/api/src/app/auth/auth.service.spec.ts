@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let userService: UsersService;
+  let usersService: UsersService;
   let mailService: MailService;
 
   beforeEach(async () => {
@@ -20,20 +20,24 @@ describe('AuthService', () => {
 
     const app = await Test.createTestingModule({
       imports: [JwtModule.register({})],
-      providers: [AuthService, UsersService, { provide: MailService, useValue: { sendEmailVerification: jest.fn() } }],
+      providers: [
+        AuthService,
+        { provide: UsersService, useValue: createMock<UsersService>() },
+        { provide: MailService, useValue: createMock<MailService>() },
+      ],
     }).compile();
 
     service = app.get<AuthService>(AuthService);
-    userService = app.get<UsersService>(UsersService);
+    usersService = app.get<UsersService>(UsersService);
     mailService = app.get<MailService>(MailService);
   });
 
   describe('signUp', () => {
     it('should create a user if the user does not exist', async () => {
-      jest.spyOn(userService, 'findByEmail').mockImplementation(() => new Promise(resolve => resolve(undefined)));
+      jest.spyOn(usersService, 'findByEmail').mockImplementation(() => new Promise(resolve => resolve(undefined)));
 
       jest
-        .spyOn(userService, 'createUser')
+        .spyOn(usersService, 'createUser')
         .mockImplementation(
           () =>
             new Promise(resolve =>
@@ -48,7 +52,7 @@ describe('AuthService', () => {
 
       await service.signUp('', '', '');
 
-      expect(userService.createUser).toHaveBeenCalled();
+      expect(usersService.createUser).toHaveBeenCalled();
       expect(service.sendEmailVerification).toHaveBeenCalled();
       expect(spy).toBeCalled();
     });
@@ -56,14 +60,14 @@ describe('AuthService', () => {
 
   describe('validateUser', () => {
     it(`should return null if user not found`, async () => {
-      jest.spyOn(userService, 'findFullByEmail').mockImplementation(() => undefined);
+      jest.spyOn(usersService, 'findFullByEmail').mockImplementation(() => undefined);
 
       expect(await service.validateUser('email', 'password')).toBeNull();
     });
 
     it(`should return null if password does not match`, async () => {
       jest
-        .spyOn(userService, 'findFullByEmail')
+        .spyOn(usersService, 'findFullByEmail')
         .mockImplementation(
           () =>
             new Promise(resolve =>
@@ -77,7 +81,7 @@ describe('AuthService', () => {
     it(`should return the user's id  if password does not match`, async () => {
       const user: FullUser = { id: 'test', email: 'test', name: 'test', password: await hash('test'), emailVerified: true, language: 'en' };
 
-      jest.spyOn(userService, 'findFullByEmail').mockImplementation(async () => user);
+      jest.spyOn(usersService, 'findFullByEmail').mockImplementation(async () => user);
 
       expect(await service.validateUser(user.email, 'test')).toEqual(user.id);
     });
@@ -96,24 +100,24 @@ describe('AuthService', () => {
 
   describe('logout', () => {
     it(`should call generateTokens`, async () => {
-      jest.spyOn(userService, 'removeRefreshHash').mockImplementation(() => undefined);
+      jest.spyOn(usersService, 'removeRefreshHash').mockImplementation(() => undefined);
 
       await service.logout('');
 
-      expect(userService.removeRefreshHash).toHaveBeenCalled();
+      expect(usersService.removeRefreshHash).toHaveBeenCalled();
     });
   });
 
   describe('refresh', () => {
     it(`should throw a forbidden exception if no user found`, async () => {
-      jest.spyOn(userService, 'findFullById').mockImplementation(() => undefined);
+      jest.spyOn(usersService, 'findFullById').mockImplementation(() => undefined);
 
       await expect(service.refresh('', '')).rejects.toThrow(new ForbiddenException());
     });
 
     it(`should throw a forbidden exception if user does not have a refresh_hash`, async () => {
       jest
-        .spyOn(userService, 'findFullById')
+        .spyOn(usersService, 'findFullById')
         .mockImplementation(async () => ({ id: '', email: '', name: '', password: '', emailVerified: false, language: 'en' }));
 
       await expect(service.refresh('', '')).rejects.toThrow(new ForbiddenException());
@@ -121,7 +125,7 @@ describe('AuthService', () => {
 
     it(`should throw a forbidden exception if refreshToken does not match refresh_hash`, async () => {
       const token = 'test';
-      jest.spyOn(userService, 'findFullById').mockImplementation(async () => ({
+      jest.spyOn(usersService, 'findFullById').mockImplementation(async () => ({
         id: '',
         email: '',
         name: '',
@@ -136,7 +140,7 @@ describe('AuthService', () => {
 
     it(`should return new tokens if hashes match`, async () => {
       const token = 'test';
-      jest.spyOn(userService, 'findFullById').mockImplementation(async () => ({
+      jest.spyOn(usersService, 'findFullById').mockImplementation(async () => ({
         id: '',
         email: '',
         name: '',
@@ -157,13 +161,19 @@ describe('AuthService', () => {
 
   describe('sendEmailVerification', () => {
     beforeEach(async () => {
-      jest.spyOn(userService, 'findById').mockImplementation(async () => ({
+      jest.spyOn(usersService, 'findById').mockImplementation(async () => ({
         id: '',
         email: '',
         name: '',
         emailVerified: false,
         language: 'en',
       }));
+    });
+
+    it(`should throw a forbidden exception if user is not found`, async () => {
+      jest.spyOn(usersService, 'findById').mockImplementation(async () => undefined);
+
+      await expect(service.sendEmailVerification('id')).rejects.toThrow(new ForbiddenException());
     });
 
     it(`should throw a forbidden exception if a code exists and it has not expired`, async () => {
@@ -205,7 +215,7 @@ describe('AuthService', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
 
-      jest.spyOn(userService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
+      jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
 
       await expect(service.validateEmail('id', '111111')).rejects.toThrow(
         new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired)
@@ -225,7 +235,7 @@ describe('AuthService', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).verificationCodes['id'] = { generated: new Date(0), code: '000000' };
 
-      jest.spyOn(userService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
+      jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
 
       await expect(service.validateEmail('id', '000000')).rejects.toThrow(
         new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired)
@@ -238,12 +248,69 @@ describe('AuthService', () => {
 
       const user: User = { id: 'id ', email: 'email', emailVerified: true, language: 'en' };
 
-      jest.spyOn(userService, 'markUserEmailAsValidated').mockImplementation(async () => user);
+      jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => user);
 
       await expect(service.validateEmail('id', '000000')).resolves.toEqual(user);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((service as any).verificationCodes['id']).toBeUndefined();
+    });
+  });
+
+  describe(`requestPasswordReset`, () => {
+    beforeEach(async () => {
+      jest.spyOn(usersService, 'findByEmail').mockImplementation(async () => ({
+        id: '',
+        email: '',
+        name: '',
+        emailVerified: false,
+        language: 'en',
+      }));
+    });
+
+    it(`should call mailService.sendPasswordReset`, async () => {
+      await service.requestPasswordReset('id');
+
+      expect(mailService.sendPasswordReset).toBeCalled();
+    });
+  });
+
+  describe(`resetPassword`, () => {
+    it(`should throw forbidden exception if the code does not exist`, () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (service as any).resetEmailHash['code'] = { generated: new Date() };
+
+      expect(service.resetPassword({ code: 'badCode', password: 'password ' })).rejects.toThrow(
+        new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired)
+      );
+    });
+
+    it(`should throw forbidden exception if the code has expired`, () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (service as any).resetEmailHash['code'] = { generated: new Date(0) };
+
+      expect(service.resetPassword({ code: 'code', password: 'password ' })).rejects.toThrow(
+        new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired)
+      );
+    });
+
+    it(`should call usersService.updatePassword if code is valid and hasnot expired`, () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (service as any).resetEmailHash['code'] = { generated: new Date() };
+
+      service.resetPassword({ code: 'code', password: 'password ' });
+
+      expect(usersService.updatePassword).toHaveBeenCalled();
+    });
+
+    it(`should call remove the code from the hash dictionary`, () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (service as any).resetEmailHash['code'] = { generated: new Date() };
+
+      service.resetPassword({ code: 'code', password: 'password ' });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect((service as any).resetEmailHash['code']).toBeUndefined();
     });
   });
 });
