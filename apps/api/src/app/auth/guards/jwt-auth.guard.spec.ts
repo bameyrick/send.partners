@@ -5,7 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AccessJwtStrategy } from '../strategies/access-jwt.strategy';
 
-describe.only(`JwtAuthGuard`, () => {
+describe(`JwtAuthGuard`, () => {
   let guard: JwtAuthGuard;
   let reflector: Reflector;
 
@@ -29,7 +29,7 @@ describe.only(`JwtAuthGuard`, () => {
     reflector = module.get<Reflector>(Reflector);
   });
 
-  it(`Should return true if route is marked as public`, () => {
+  it.only(`Should return true if route is marked as public`, () => {
     jest.spyOn(reflector, 'getAllAndOverride').mockImplementation(() => true);
 
     const context = createMock<ExecutionContext>();
