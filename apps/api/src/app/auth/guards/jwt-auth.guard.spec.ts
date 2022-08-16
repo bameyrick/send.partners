@@ -5,7 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AccessJwtStrategy } from '../strategies/access-jwt.strategy';
 
-describe(`JwtAuthGuard`, () => {
+describe.only(`JwtAuthGuard`, () => {
   let guard: JwtAuthGuard;
   let reflector: Reflector;
 
