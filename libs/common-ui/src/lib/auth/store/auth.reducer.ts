@@ -12,11 +12,13 @@ export interface AuthState {
   retryEnables?: Date;
 }
 
+export const initialState: AuthState = {
+  initialRefreshCompleted: false,
+  authorizing: false,
+};
+
 export const authReducer = createReducer<AuthState>(
-  {
-    initialRefreshCompleted: false,
-    authorizing: false,
-  },
+  initialState,
 
   on(AuthActions.refreshTokenSuccess, (state, { user }) => onAuthSuccess(state, user)),
 
