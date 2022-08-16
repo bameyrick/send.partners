@@ -29,7 +29,7 @@ jobs:
         run: yarn nx run-many --target=lint --all
       - name: Run the tests
         # run: yarn nx run-many --target=test --all --coverage --coverageReporters=lcov,text
-        run: yarn nx test --project api --all --coverage --coverageReporters=lcov,text
+        run: yarn nx test --project api --all --coverage --coverageReporters=lcov,text --verbose
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
