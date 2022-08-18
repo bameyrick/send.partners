@@ -289,8 +289,6 @@ describe('AuthService', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).resetEmailHash['code'] = { generated: new Date(0) };
 
-      console.log((service as any).resetEmailHash['code']);
-
       await expect(service.resetPassword({ code: 'code', password: 'password ' })).rejects.toThrow(
         new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired)
       );
