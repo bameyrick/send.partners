@@ -30,6 +30,10 @@ jobs:
       - name: Run the tests
         # run: yarn nx run-many --target=test --all --coverage --coverageReporters=lcov,text
         run: yarn nx test --project api --all --coverage --coverageReporters=lcov,text --verbose
+        env:
+          MAIL_VERIFICATION_EXPIRY_HOURS: 1
+          MAIL_VERIFICATION_RETRY_MINUTES: 1
+          PASSWORD_RESET_EXPIRY_HOURS: 1
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

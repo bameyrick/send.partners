@@ -141,12 +141,6 @@ export class AuthService {
   public async resetPassword(credentials: ResetPasswordCredentials): Promise<void> {
     const hash = this.resetEmailHash[credentials.code];
 
-    console.log(
-      hash.generated.getTime() + this.passwordResetExpiryMs,
-      new Date().getTime(),
-      hash.generated.getTime() + this.passwordResetExpiryMs <= new Date().getTime()
-    );
-
     if (!hash || hash.generated.getTime() + this.passwordResetExpiryMs <= new Date().getTime()) {
       throw new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired);
     }
