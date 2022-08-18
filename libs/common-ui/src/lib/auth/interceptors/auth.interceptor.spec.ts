@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpHandler, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { APIEndpoint } from '@common';
+import { APIEndpoint, User } from '@common';
 import { createMock } from '@golevelup/ts-jest';
-import { throwError } from 'rxjs';
+import { throwError, BehaviorSubject } from 'rxjs';
 import { CommonUiTestingModule } from '../../common-ui-testing.module';
 import { AuthService } from '../auth.service';
 import { AuthInterceptor } from './auth.interceptor';
@@ -86,12 +86,27 @@ describe(`AuthInterceptor`, () => {
   });
 
   describe(`handle401Error`, () => {
-    it(`should return error if refresh tokens fails`, () => {
-      const request = { url: APIEndpoint.Login };
-
+    beforeEach(() => {
       next = createMock<HttpHandler>({
         handle: jest.fn(() => throwError(() => new HttpErrorResponse({ status: 401, error: { message: 'No' } }))),
       });
+    });
+
+    it(`should return request successfully`, () => {
+      const request = { url: APIEndpoint.Login };
+
+      jest.spyOn(authService, 'refreshTokens').mockReturnValue(new BehaviorSubject(createMock<User>()));
+
+      interceptor.intercept(request as HttpRequest<unknown>, next).subscribe({
+        next: response => expect(response).toBeTruthy(),
+        error: () => {
+          throw Error('Expected successful request');
+        },
+      });
+    });
+
+    it(`should return error if refresh tokens fails`, () => {
+      const request = { url: APIEndpoint.Login };
 
       jest.spyOn(authService, 'refreshTokens').mockReturnValue(throwError(() => new HttpErrorResponse({ status: 403 })));
 
