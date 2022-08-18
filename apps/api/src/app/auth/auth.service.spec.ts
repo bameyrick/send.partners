@@ -276,20 +276,20 @@ describe('AuthService', () => {
   });
 
   describe(`resetPassword`, () => {
-    it(`should throw forbidden exception if the code does not exist`, () => {
+    it(`should throw forbidden exception if the code does not exist`, async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).resetEmailHash['code'] = { generated: new Date() };
 
-      expect(service.resetPassword({ code: 'badCode', password: 'password ' })).rejects.toThrow(
+      await expect(service.resetPassword({ code: 'badCode', password: 'password ' })).rejects.toThrow(
         new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired)
       );
     });
 
-    it(`should throw forbidden exception if the code has expired`, () => {
+    it(`should throw forbidden exception if the code has expired`, async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).resetEmailHash['code'] = { generated: new Date(0) };
 
-      expect(service.resetPassword({ code: 'code', password: 'password ' })).rejects.toThrow(
+      await expect(service.resetPassword({ code: 'code', password: 'password ' })).rejects.toThrow(
         new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired)
       );
     });

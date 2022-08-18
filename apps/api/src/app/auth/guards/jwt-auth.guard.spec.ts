@@ -29,7 +29,7 @@ describe(`JwtAuthGuard`, () => {
     reflector = module.get<Reflector>(Reflector);
   });
 
-  it.only(`Should return true if route is marked as public`, () => {
+  it(`Should return true if route is marked as public`, () => {
     jest.spyOn(reflector, 'getAllAndOverride').mockImplementation(() => true);
 
     const context = createMock<ExecutionContext>();
