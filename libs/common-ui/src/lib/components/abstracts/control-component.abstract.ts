@@ -1,9 +1,10 @@
 import { AfterContentInit, Directive, ElementRef, EventEmitter, Injector, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
-import { delay, Dictionary } from '@qntm-code/utils';
+import { delay, Dictionary, EqualityType, isEqual } from '@qntm-code/utils';
 import { debounceTime, Subject } from 'rxjs';
 import { Icon } from '../../enums';
 import { FormComponent } from '../form';
+// Must be relative to prevent circular dependency
 import { AbstractComponent } from './component.abstract';
 
 @Directive()
@@ -240,7 +241,7 @@ export abstract class AbstractControlComponent<ValueType>
 
     this.control = this.injector.get<NgControl | null>(NgControl, null);
 
-    if (this.control && this.control.statusChanges) {
+    if (this.control?.statusChanges) {
       this.subscriptions.add(this.control.statusChanges.subscribe(() => this.setStateQueue$.next()));
     }
 
@@ -288,7 +289,7 @@ export abstract class AbstractControlComponent<ValueType>
   }
 
   public registerOnChange(onChange: (value?: ValueType | null) => void): void {
-    this.onChange = onChange;
+    this._onChange = onChange;
   }
 
   /**
@@ -373,15 +374,6 @@ export abstract class AbstractControlComponent<ValueType>
   }
 
   /**
-   * Allows an external form to set the disabled state
-   */
-  public setDisabledState(disabled: boolean): void {
-    this._disabled = disabled;
-
-    this.setStateQueue$.next();
-  }
-
-  /**
    * Handles a focus event
    */
   public onFocus(event: FocusEvent): void {
@@ -410,7 +402,7 @@ export abstract class AbstractControlComponent<ValueType>
    */
   public setValue(value?: ValueType | null): void {
     this.value = value;
-    this.valueChanged = this.initialValue !== value;
+    this.valueChanged = !isEqual(this.initialValue as EqualityType, value as EqualityType);
 
     this.onTouched();
     this.onChange(value);
