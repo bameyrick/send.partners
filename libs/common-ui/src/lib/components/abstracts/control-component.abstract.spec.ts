@@ -1,6 +1,6 @@
 import { Component, forwardRef, ViewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { NG_VALUE_ACCESSOR, UntypedFormControl, Validators } from '@angular/forms';
+import { FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { delay } from '@qntm-code/utils';
 import { CommonUiTestingModule } from '../../common-ui-testing.module';
 import { FormComponent } from '../form';
@@ -34,7 +34,7 @@ class TestWrapperComponent {
 
   @ViewChild(FormComponent) public readonly formRef!: FormComponent;
 
-  public readonly control = new UntypedFormControl();
+  public readonly control = new FormControl();
 }
 
 describe(`AbstractControlComponent`, () => {
