@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../../../auth';
@@ -15,8 +15,8 @@ export class RequestPasswordResetComponent extends AbstractAuthFormComponent {
   /**
    * The form controls
    */
-  public readonly form = new UntypedFormGroup({
-    email: new UntypedFormControl(this.activatedRoute.snapshot.queryParams['email']),
+  public readonly form = new FormGroup({
+    email: new FormControl(this.activatedRoute.snapshot.queryParams['email']),
   });
 
   constructor(

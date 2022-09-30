@@ -1,18 +1,16 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "root": "apps/api",
   "sourceRoot": "apps/api/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/api",
         "main": "apps/api/src/main.ts",
         "tsConfig": "apps/api/tsconfig.app.json",
-        "assets": ["apps/api/src/assets", "apps/api/src/app/mail/templates"],
-        "target": "node",
-        "compiler": "tsc"
+        "assets": ["apps/api/src/assets", "apps/api/src/app/mail/templates"]
       },
       "configurations": {
         "production": {

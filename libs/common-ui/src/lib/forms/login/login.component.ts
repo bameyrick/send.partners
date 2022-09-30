@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { AuthActions } from '../../auth';
 import { AbstractAuthFormComponent } from '../abstracts';
 
@@ -13,9 +13,9 @@ export class LoginComponent extends AbstractAuthFormComponent {
   /**
    * The form controls
    */
-  public readonly form = new UntypedFormGroup({
-    email: new UntypedFormControl(),
-    password: new UntypedFormControl(),
+  public readonly form = new FormGroup({
+    email: new FormControl(),
+    password: new FormControl(),
   });
 
   protected dispatch(): void {

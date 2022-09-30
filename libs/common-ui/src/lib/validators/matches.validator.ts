@@ -1,7 +1,7 @@
-import { AbstractControl, UntypedFormControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { watchSwitchControlValues } from './watch-switch-control-values';
 
-export function matchesValidator(matchingControl: UntypedFormControl, matchingControlId: string): ValidatorFn {
+export function matchesValidator(matchingControl: FormControl, matchingControlId: string): ValidatorFn {
   let valueChangeWatcherAdded = false;
 
   return (control: AbstractControl) => {

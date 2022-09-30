@@ -1,6 +1,6 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "root": "apps/admin",
   "sourceRoot": "apps/admin/src",
   "prefix": "app",
   "targets": {
@@ -17,11 +17,7 @@
         "assets": [
           "apps/admin/src/favicon.ico",
           "apps/admin/src/assets",
-          {
-            "input": "libs/common-ui/src/lib/assets",
-            "glob": "**/*",
-            "output": "assets"
-          }
+          { "input": "libs/common-ui/src/lib/assets", "glob": "**/*", "output": "assets" }
         ],
         "styles": ["apps/admin/src/styles.scss", "libs/common-ui/src/lib/styles/index.scss"],
         "stylePreprocessorOptions": {

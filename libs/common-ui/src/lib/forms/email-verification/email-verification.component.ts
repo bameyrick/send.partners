@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { convertTimeUnit, TimeUnit } from '@qntm-code/utils';
 import { combineLatest, interval, map, shareReplay } from 'rxjs';
 import { selectResendEmailTime, AuthActions } from '../../auth';
@@ -29,12 +29,12 @@ export class EmailVerificationComponent extends AbstractAuthFormComponent {
   /**
    * Code form control
    */
-  public readonly code = new UntypedFormControl();
+  public readonly code = new FormControl();
 
   /**
    * The form controls
    */
-  public readonly form = new UntypedFormGroup({
+  public readonly form = new FormGroup({
     code: this.code,
   });
 

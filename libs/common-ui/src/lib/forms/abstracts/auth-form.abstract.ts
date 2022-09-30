@@ -1,5 +1,5 @@
 import { Directive, ElementRef, OnDestroy } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, skip } from 'rxjs';
@@ -17,7 +17,7 @@ export abstract class AbstractAuthFormComponent extends AbstractComponent implem
   /**
    * The form controls
    */
-  public abstract readonly form: UntypedFormGroup;
+  public abstract readonly form: FormGroup;
 
   constructor(
     elementRef: ElementRef,

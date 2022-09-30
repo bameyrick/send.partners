@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { AbstractAuthFormComponent } from '@common-ui';
 import { SignupActions } from '../../store';
 
@@ -14,9 +14,9 @@ export class SignupLocationFormComponent extends AbstractAuthFormComponent {
 
   public errorKey?: string;
 
-  private readonly location = new UntypedFormControl();
+  private readonly location = new FormControl();
 
-  public readonly form = new UntypedFormGroup({
+  public readonly form = new FormGroup({
     location: this.location,
   });
 
