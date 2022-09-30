@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { passwordRegex } from '@common';
 import { Store } from '@ngrx/store';
@@ -22,12 +22,12 @@ export class ResetPasswordComponent extends AbstractAuthFormComponent {
   /**
    * The password form control
    */
-  public readonly password = new FormControl();
+  public readonly password = new UntypedFormControl();
 
   /**
    * The form controls
    */
-  public readonly form = new FormGroup({
+  public readonly form = new UntypedFormGroup({
     password: this.password,
   });
 

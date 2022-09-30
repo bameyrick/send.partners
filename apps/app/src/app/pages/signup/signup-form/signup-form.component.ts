@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AppPath, getRouterLinkForAppPath, passwordRegex } from '@common';
 import { AbstractAuthFormComponent, AuthActions, matchesValidator } from '@common-ui';
 import { firstValueFrom } from 'rxjs';
@@ -29,22 +29,22 @@ export class SignupFormComponent extends AbstractAuthFormComponent implements On
   /**
    * Email form control
    */
-  public readonly email = new FormControl();
+  public readonly email = new UntypedFormControl();
 
   /**
    * Password form control
    */
-  public readonly password = new FormControl();
+  public readonly password = new UntypedFormControl();
 
   /**
    * Confirm password form control
    */
-  public readonly confirmPassword = new FormControl();
+  public readonly confirmPassword = new UntypedFormControl();
 
   /**
    * The form controls
    */
-  public readonly form = new FormGroup({
+  public readonly form = new UntypedFormGroup({
     email: this.email,
     password: this.password,
     confirmPassword: this.confirmPassword,

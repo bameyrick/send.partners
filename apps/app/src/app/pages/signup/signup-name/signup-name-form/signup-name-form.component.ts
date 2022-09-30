@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AbstractAuthFormComponent } from '@common-ui';
 import { SignupActions } from '../../store';
 
@@ -13,8 +13,8 @@ export class SignupNameFormComponent extends AbstractAuthFormComponent {
   /**
    * The form controls
    */
-  public readonly form = new FormGroup({
-    name: new FormControl(),
+  public readonly form = new UntypedFormGroup({
+    name: new UntypedFormControl(),
   });
 
   protected dispatch(): void {
