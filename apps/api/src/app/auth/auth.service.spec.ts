@@ -47,7 +47,6 @@ describe('AuthService', () => {
 
       jest.spyOn(service, 'sendEmailVerification').mockImplementation(() => new Promise(resolve => resolve(0)));
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn(service as any, 'generateTokens');
 
       await service.signUp('', '', '');
@@ -89,7 +88,6 @@ describe('AuthService', () => {
 
   describe('login', () => {
     it(`should call generateTokens`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn(service as any, 'generateTokens');
 
       await service.login('');
@@ -150,7 +148,6 @@ describe('AuthService', () => {
         language: 'en',
       }));
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn(service as any, 'generateTokens');
 
       await service.refresh('', token);
@@ -183,27 +180,22 @@ describe('AuthService', () => {
     });
 
     it(`should send a verification email if no code exists`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const generateCodeSpy = jest.spyOn(service as any, 'generateCode');
 
       await expect(service.sendEmailVerification('id')).resolves.not.toThrow();
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((service as any).verificationCodes['id']).not.toBeUndefined();
       expect(generateCodeSpy).toBeCalled();
       expect(mailService.sendEmailVerification).toBeCalled();
     });
 
     it(`should send a verification email if no code but has expired`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const generateCodeSpy = jest.spyOn(service as any, 'generateCode');
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).verificationCodes['id'] = { generated: new Date(0) };
 
       await expect(service.sendEmailVerification('id')).resolves.not.toThrow();
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((service as any).verificationCodes['id']).not.toBeUndefined();
       expect(generateCodeSpy).toBeCalled();
       expect(mailService.sendEmailVerification).toBeCalled();
@@ -212,7 +204,6 @@ describe('AuthService', () => {
 
   describe('validateEmail', () => {
     it(`should throw an error if the code is invalid`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
 
       jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
@@ -223,7 +214,6 @@ describe('AuthService', () => {
     });
 
     it(`should throw an error if user has no code`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
 
       await expect(service.validateEmail('badId', '000000')).rejects.toThrow(
@@ -232,7 +222,6 @@ describe('AuthService', () => {
     });
 
     it(`should throw an error if code has expired`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).verificationCodes['id'] = { generated: new Date(0), code: '000000' };
 
       jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
@@ -243,7 +232,6 @@ describe('AuthService', () => {
     });
 
     it(`should validate a valid code`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
 
       const user: User = { id: 'id ', email: 'email', emailVerified: true, language: 'en' };
@@ -252,7 +240,6 @@ describe('AuthService', () => {
 
       await expect(service.validateEmail('id', '000000')).resolves.toEqual(user);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((service as any).verificationCodes['id']).toBeUndefined();
     });
   });
@@ -277,7 +264,6 @@ describe('AuthService', () => {
 
   describe(`resetPassword`, () => {
     it(`should throw forbidden exception if the code does not exist`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).resetEmailHash['code'] = { generated: new Date() };
 
       await expect(service.resetPassword({ code: 'badCode', password: 'password ' })).rejects.toThrow(
@@ -286,7 +272,6 @@ describe('AuthService', () => {
     });
 
     it(`should throw forbidden exception if the code has expired`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).resetEmailHash['code'] = { generated: new Date(0) };
 
       await expect(service.resetPassword({ code: 'code', password: 'password ' })).rejects.toThrow(
@@ -295,7 +280,6 @@ describe('AuthService', () => {
     });
 
     it(`should call usersService.updatePassword if code is valid and hasnot expired`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).resetEmailHash['code'] = { generated: new Date() };
 
       service.resetPassword({ code: 'code', password: 'password ' });
@@ -304,12 +288,10 @@ describe('AuthService', () => {
     });
 
     it(`should call remove the code from the hash dictionary`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (service as any).resetEmailHash['code'] = { generated: new Date() };
 
       service.resetPassword({ code: 'code', password: 'password ' });
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((service as any).resetEmailHash['code']).toBeUndefined();
     });
   });

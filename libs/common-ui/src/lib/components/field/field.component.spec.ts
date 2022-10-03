@@ -50,7 +50,6 @@ describe('FieldComponent', () => {
     });
 
     it(`should add a Form__field class`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).getHostClasses()).toContain('Form__field');
     });
   });

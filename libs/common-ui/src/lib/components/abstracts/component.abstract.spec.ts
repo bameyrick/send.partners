@@ -35,19 +35,16 @@ describe(`AbstractComponent`, () => {
 
   describe(`ngOnInit`, () => {
     it(`should add the classes to the element`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).hostClass).toEqual('Test initialClass');
     });
   });
 
   describe(`ngOnDestroy`, () => {
     it(`should unsubscribe from all subscriptions`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       jest.spyOn((component as any).subscriptions, 'unsubscribe');
 
       component.ngOnDestroy();
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).subscriptions.unsubscribe).toHaveBeenCalledTimes(1);
     });
   });

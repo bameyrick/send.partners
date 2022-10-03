@@ -26,7 +26,6 @@ describe('UsersService', () => {
       language: 'en',
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (service as any).users = [testUser];
   });
 

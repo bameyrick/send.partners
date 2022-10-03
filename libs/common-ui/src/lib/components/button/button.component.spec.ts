@@ -29,14 +29,12 @@ describe('ButtonComponent', () => {
     it(`should add the --icon-only modifier if the iconOnly input is true`, () => {
       component.iconOnly = true;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).getHostClasses()).toContain('Button--icon-only');
     });
 
     it(`should add the --loading modifier if the loading input is true`, () => {
       component.loading = true;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).getHostClasses()).toContain('Button--loading');
     });
   });
@@ -67,7 +65,6 @@ describe(`ButtonComponent with icon`, () => {
     fixture.detectChanges();
     component = fixture.componentInstance.componentRef;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     iconDirective = (component as any).iconDirective as IconDirective;
   });
 

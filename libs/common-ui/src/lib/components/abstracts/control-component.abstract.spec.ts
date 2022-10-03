@@ -60,14 +60,12 @@ describe(`AbstractControlComponent`, () => {
 
   describe(`ngAfterContentInit`, () => {
     it(`should set contentInitialised to true`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).contentInitialised).toBe(true);
     });
   });
 
   describe(`on form submit`, () => {
     it(`should set submitted to true`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (wrapper.formRef as any).elementRef.nativeElement.dispatchEvent(new Event('submit'));
 
       expect(component.submitted).toBe(true);
@@ -76,7 +74,6 @@ describe(`AbstractControlComponent`, () => {
     it(`should set errorsSnapshot to null`, () => {
       expect(component.errorsSnapshot).toBeUndefined();
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (wrapper.formRef as any).elementRef.nativeElement.dispatchEvent(new Event('submit'));
 
       expect(component.errorsSnapshot).toBeNull();
@@ -91,7 +88,6 @@ describe(`AbstractControlComponent`, () => {
 
         await delay();
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (wrapper.formRef as any).elementRef.nativeElement.dispatchEvent(new Event('submit'));
 
         expect(component.errorsSnapshot).toEqual([{ translationArgs: { required: true }, translationKey: 'common.validation.required' }]);
@@ -103,7 +99,6 @@ describe(`AbstractControlComponent`, () => {
 
         await delay();
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (wrapper.formRef as any).elementRef.nativeElement.dispatchEvent(new Event('submit'));
 
         expect(component.errorsSnapshot).toEqual([{ translationArgs: { required: true }, translationKey: 'common.validation.required' }]);
@@ -113,7 +108,6 @@ describe(`AbstractControlComponent`, () => {
 
         await delay();
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (wrapper.formRef as any).elementRef.nativeElement.dispatchEvent(new Event('submit'));
 
         expect(component.errorsSnapshot).toBeNull();
@@ -123,7 +117,6 @@ describe(`AbstractControlComponent`, () => {
 
   describe(`onChange`, () => {
     it(`should call _onChange with the provided value`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn(component as any, '_onChange');
 
       component.onChange('test');
@@ -132,7 +125,6 @@ describe(`AbstractControlComponent`, () => {
     });
 
     it(`should call next on setStateQueue$`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn((component as any).setStateQueue$, 'next');
 
       component.onChange('test');
@@ -143,7 +135,6 @@ describe(`AbstractControlComponent`, () => {
 
   describe(`onTouched`, () => {
     it(`should call _onTouched`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn(component as any, '_onTouched');
 
       component.onTouched();
@@ -152,7 +143,6 @@ describe(`AbstractControlComponent`, () => {
     });
 
     it(`should call next on setStateQueue$`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn((component as any).setStateQueue$, 'next');
 
       component.onTouched();
@@ -185,7 +175,6 @@ describe(`AbstractControlComponent`, () => {
     });
 
     it(`should call next on setStateQueue$`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn((component as any).setStateQueue$, 'next');
 
       component.onFocus(new FocusEvent('focus'));
@@ -212,7 +201,6 @@ describe(`AbstractControlComponent`, () => {
     });
 
     it(`should call next on setStateQueue$`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn((component as any).setStateQueue$, 'next');
 
       component.onBlur(new FocusEvent('blur'));
@@ -249,7 +237,6 @@ describe(`AbstractControlComponent`, () => {
     });
 
     it(`should set valueChanged to false if the provided value matches the initial value (array)`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (component as any).initialValue = ['a', 'b', 'c'];
       component.setValue(['a', 'b', 'c']);
 
@@ -277,24 +264,20 @@ describe(`AbstractControlComponent`, () => {
     it(`should add the Field--disabled class if the field is disabled`, () => {
       component.disabled = true;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).getHostClasses()).toEqual(expect.arrayContaining([`Field--disabled`]));
     });
 
     it(`shouldn't add the Field--disabled class if the field isn't disabled`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).getHostClasses()).toEqual(expect.not.arrayContaining([`Field--disabled`]));
     });
 
     it(`should add the Field--readonly class if the field is readonly`, () => {
       component.readonly = true;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).getHostClasses()).toEqual(expect.arrayContaining([`Field--readonly`]));
     });
 
     it(`shouldn't add the Field--readonly class if the field isn't readonly`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).getHostClasses()).toEqual(expect.not.arrayContaining([`Field--readonly`]));
     });
   });
@@ -303,7 +286,6 @@ describe(`AbstractControlComponent`, () => {
     it(`should add any provided input classes`, () => {
       component.inputClass = 'test';
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((component as any).getInputClasses()).toEqual(expect.objectContaining({ test: true }));
     });
   });

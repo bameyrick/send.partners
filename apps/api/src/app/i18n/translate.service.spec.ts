@@ -11,13 +11,10 @@ describe(`TranslateService`, () => {
 
     service = app.get<TranslateService>(TranslateService);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (service as any).store.addLanguageNamespace('en', 'testing', { a: 'A', b: 'B', c: 'C' });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (service as any).store.addLanguageNamespace('z', 'testing', { a: 'zA', b: 'zB' });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (service as any).store.missingTranslationHandler = jest.fn();
   });
 

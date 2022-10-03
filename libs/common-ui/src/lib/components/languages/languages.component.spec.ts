@@ -24,7 +24,6 @@ describe('LanguagesComponent', () => {
 
   describe(`on language change`, () => {
     it(`should call mapLanguageForDisplay`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const spy = jest.spyOn(component as any, 'mapLanguageForDisplay');
 
       component.translateService.language$.next('cy');

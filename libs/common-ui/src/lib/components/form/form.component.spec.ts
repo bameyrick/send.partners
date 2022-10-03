@@ -28,10 +28,8 @@ describe('FormComponent', () => {
     let setHostClassSpy: jest.SpyInstance;
 
     beforeEach(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       setHostClassSpy = jest.spyOn(component as any, 'setHostClass');
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (component as any).elementRef.nativeElement.dispatchEvent(new Event('submit'));
     });
 
@@ -45,7 +43,6 @@ describe('FormComponent', () => {
 
     describe(`getHostClasses`, () => {
       it(`should add a Form--submitted class`, () => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         expect((component as any).getHostClasses()).toContain('Form--submitted');
       });
     });
@@ -58,7 +55,6 @@ describe('FormComponent', () => {
 
         component.formGroup = formGroup;
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (component as any).elementRef.nativeElement.dispatchEvent(new Event('submit'));
 
         await delay();
