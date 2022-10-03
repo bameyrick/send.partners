@@ -13,11 +13,11 @@ import { OptionComponent } from './option.component';
     <dropdown-option #textContent>Test</dropdown-option>`,
 })
 class TestComponent {
-  @ViewChild('noContent', { static: true }) public readonly noContent!: OptionComponent;
+  @ViewChild('noContent') public readonly noContent!: OptionComponent;
 
-  @ViewChild('htmlContent', { static: true }) public readonly htmlContent!: OptionComponent;
+  @ViewChild('htmlContent') public readonly htmlContent!: OptionComponent;
 
-  @ViewChild('textContent', { static: true }) public readonly textContent!: OptionComponent;
+  @ViewChild('textContent') public readonly textContent!: OptionComponent;
 
   constructor(public readonly domSanitizer: DomSanitizer) {}
 }
@@ -35,10 +35,11 @@ describe('OptionComponent', () => {
 
     fixture = TestBed.createComponent(TestComponent);
     testComponent = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
+
     component = testComponent.noContent;
 
     expect(component).toBeTruthy();
@@ -46,12 +47,13 @@ describe('OptionComponent', () => {
 
   describe(`when no content provided`, () => {
     beforeEach(() => {
+      fixture.detectChanges();
+
       component = testComponent.noContent;
     });
 
     it(`html should be empty`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expect(component.html).toStrictEqual((component as any).domSanitizer.bypassSecurityTrustHtml(''));
+      expect(component.html).toStrictEqual(testComponent.domSanitizer.bypassSecurityTrustHtml(''));
     });
 
     it(`searchValue should be undefined`, () => {
@@ -61,6 +63,8 @@ describe('OptionComponent', () => {
 
   describe(`html content`, () => {
     beforeEach(() => {
+      fixture.detectChanges();
+
       component = testComponent.htmlContent;
     });
 
@@ -77,6 +81,8 @@ describe('OptionComponent', () => {
 
   describe(`text content`, () => {
     beforeEach(() => {
+      fixture.detectChanges();
+
       component = testComponent.textContent;
     });
 
@@ -88,6 +94,18 @@ describe('OptionComponent', () => {
 
     it(`should set the search value to the contents of the html`, () => {
       expect(component.searchValue).toEqual(sanitizeSearchValue('Test'));
+    });
+  });
+
+  describe(`stringValue`, () => {
+    beforeEach(() => {
+      component.stringValue = 'Test String Value';
+
+      component.getHTML();
+    });
+
+    it(`should set the search value to the stringValue`, () => {
+      expect(component.searchValue).toEqual(sanitizeSearchValue('Test String Value'));
     });
   });
 });

@@ -38,7 +38,7 @@ export class OptionComponent implements AfterContentInit, AfterViewInit {
   /**
    * Reference to the template
    */
-  @ViewChild('template', { static: true }) private template?: TemplateRef<unknown>;
+  @ViewChild('template', { static: true }) private readonly template?: TemplateRef<unknown>;
 
   constructor(private readonly domSanitizer: DomSanitizer) {}
 
@@ -75,6 +75,7 @@ export class OptionComponent implements AfterContentInit, AfterViewInit {
 
       if (isNullOrUndefined(this.stringValue)) {
         const html = view?.rootNodes.filter(node => node.nodeType === 1);
+
         if (html?.length) {
           this.searchValue = sanitizeSearchValue(html.reduce((result, item) => `${result} ${item.textContent}`, ''));
         } else {
