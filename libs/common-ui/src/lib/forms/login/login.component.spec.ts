@@ -13,9 +13,7 @@ describe('LoginComponent', () => {
       imports: [CommonUiTestingModule],
       declarations: [LoginComponent],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
