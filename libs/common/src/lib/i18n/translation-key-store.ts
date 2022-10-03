@@ -1,5 +1,9 @@
 import { Dictionary, isEmpty, isObject, isString } from '@qntm-code/utils';
-import MessageFormat, { MessageFunction } from '@messageformat/core';
+import { MessageFunction } from '@messageformat/core';
+
+// Require needed so tests can run, otherwise it will throw an error
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const MessageFormat = require('@messageformat/core');
 
 export type TranslationValue = MessageFunction<'string'>;
 
@@ -21,8 +25,12 @@ export class TranslationKeyStore {
   private readonly messageformat = new MessageFormat([]);
 
   constructor(
-    private readonly missingTranslationHandler: (language: string, key: string) => void = (language: string, key: string) =>
-      console.error(`Translation not found for ${language}.${key}`)
+    enableLogging: boolean,
+    private readonly missingTranslationHandler: (language: string, key: string) => void = (language: string, key: string) => {
+      if (enableLogging) {
+        console.error(`Translation not found for ${language}.${key}`);
+      }
+    }
   ) {}
 
   /**
