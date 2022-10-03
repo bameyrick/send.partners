@@ -1,9 +1,9 @@
 import { Dictionary, isEmpty, isObject, isString } from '@qntm-code/utils';
-import { MessageFunction } from '@messageformat/core';
+import MessageFormat, { MessageFunction } from '@messageformat/core';
 
 // Require needed so tests can run, otherwise it will throw an error
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const MessageFormat = require('@messageformat/core');
+
+// const MessageFormat = require('@messageformat/core');
 
 export type TranslationValue = MessageFunction<'string'>;
 
