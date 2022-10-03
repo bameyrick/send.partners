@@ -8,7 +8,7 @@ import { OptionComponent } from './option.component';
 
 @Component({
   selector: 'test-component',
-  template: ` <dropdown-option #noContent></dropdown-option>
+  template: `<dropdown-option #noContent></dropdown-option>
     <dropdown-option #htmlContent><div>Test HTML</div></dropdown-option>
     <dropdown-option #textContent>Test</dropdown-option>`,
 })
