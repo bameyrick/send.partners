@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup } from '@angular/forms';
+import { delay } from '@qntm-code/utils';
 import { CommonUiTestingModule } from '../../common-ui-testing.module';
 
 import { FormComponent } from './form.component';
@@ -12,9 +14,7 @@ describe('FormComponent', () => {
       imports: [CommonUiTestingModule],
       declarations: [FormComponent],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(FormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -22,5 +22,51 @@ describe('FormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe(`on submit`, () => {
+    let setHostClassSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setHostClassSpy = jest.spyOn(component as any, 'setHostClass');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (component as any).elementRef.nativeElement.dispatchEvent(new Event('submit'));
+    });
+
+    it(`should set submitted to true`, () => {
+      expect(component.submitted).toBe(true);
+    });
+
+    it(`should call setHostClass`, () => {
+      expect(setHostClassSpy).toHaveBeenCalled();
+    });
+
+    describe(`getHostClasses`, () => {
+      it(`should add a Form--submitted class`, () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        expect((component as any).getHostClasses()).toContain('Form--submitted');
+      });
+    });
+
+    describe(`when the form is valid`, () => {
+      let formGroup: FormGroup;
+
+      beforeEach(async () => {
+        formGroup = new FormGroup({});
+
+        component.formGroup = formGroup;
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (component as any).elementRef.nativeElement.dispatchEvent(new Event('submit'));
+
+        await delay();
+      });
+
+      it(`should disable the form`, () => {
+        expect(formGroup.disabled).toBe(true);
+      });
+    });
   });
 });

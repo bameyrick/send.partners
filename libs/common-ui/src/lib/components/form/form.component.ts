@@ -37,7 +37,7 @@ export class FormComponent extends AbstractComponent {
         if (this.formGroup?.valid) {
           await delay();
 
-          this.formGroup?.disable();
+          this.formGroup.disable();
         }
 
         this.setHostClass();
