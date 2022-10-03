@@ -1,10 +1,6 @@
 import { Dictionary, isEmpty, isObject, isString } from '@qntm-code/utils';
 import MessageFormat, { MessageFunction } from '@messageformat/core';
 
-// Require needed so tests can run, otherwise it will throw an error
-
-// const MessageFormat = require('@messageformat/core');
-
 export type TranslationValue = MessageFunction<'string'>;
 
 export type TranslationNamespace = Dictionary<unknown>;
