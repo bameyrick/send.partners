@@ -12,11 +12,9 @@ export class SvgSymbolsService {
       const svgElement = parsedResult.getElementsByTagName('svg')[0];
 
       // Don't interfere with display
-      svgElement.style.display = 'none';
+      svgElement.setAttribute('style', 'display: none');
 
-      const head = document.getElementsByTagName('head')[0];
-
-      head.appendChild(svgElement);
+      document.head.appendChild(svgElement);
     });
   }
 }
