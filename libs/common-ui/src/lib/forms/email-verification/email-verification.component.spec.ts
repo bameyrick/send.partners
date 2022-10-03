@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { delay } from '@qntm-code/utils';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, skip, take } from 'rxjs';
 import { AuthActions } from '../../auth';
 import { CommonUiTestingModule } from '../../common-ui-testing.module';
 
@@ -33,11 +32,9 @@ describe('EmailVerificationComponent', () => {
 
       (component as any).store.dispatch(AuthActions.resendEmailVerificationSuccess({ retryEnables }));
 
-      for (let i = 2; i >= 0; i--) {
-        expect(await firstValueFrom(component.resendSeconds$)).toBe(i);
-
-        await delay(1001);
-      }
+      expect(await firstValueFrom(component.resendSeconds$.pipe(take(1)))).toBe(2);
+      expect(await firstValueFrom(component.resendSeconds$.pipe(skip(1), take(1)))).toBe(1);
+      expect(await firstValueFrom(component.resendSeconds$.pipe(skip(2), take(1)))).toBe(0);
     });
   });
 
