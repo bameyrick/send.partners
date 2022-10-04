@@ -1,23 +1,22 @@
 import { TranslationKeyStore } from '@common';
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Dictionary } from '@qntm-code/utils';
 
 import enCommon from '../../../../../i18n/en/common.i18n.json';
 import cyCommon from '../../../../../i18n/cy/common.i18n.json';
 import enAPI from '../../../../../i18n/en/api.json';
 import cyAPI from '../../../../../i18n/cy/api.json';
-import { ENABLE_LOGGING } from '@common-ui';
 
 @Injectable()
 export class TranslateService {
   /**
    * The dictionary for the known languages
    */
-  private readonly store = new TranslationKeyStore(this.enableLogging);
+  private readonly store = new TranslationKeyStore();
 
   private readonly defaultLanguage = 'en';
 
-  constructor(@Inject(ENABLE_LOGGING) private readonly enableLogging: boolean = false) {
+  constructor() {
     this.store.addLanguageNamespace('en', 'common', enCommon);
     this.store.addLanguageNamespace('cy', 'common', cyCommon);
     this.store.addLanguageNamespace('en', 'api', enAPI);

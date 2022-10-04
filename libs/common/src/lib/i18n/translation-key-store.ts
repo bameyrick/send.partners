@@ -21,7 +21,7 @@ export class TranslationKeyStore {
   private readonly messageformat = new MessageFormat([]);
 
   constructor(
-    enableLogging: boolean,
+    enableLogging?: boolean,
     private readonly missingTranslationHandler: (language: string, key: string) => void = (language: string, key: string) => {
       if (enableLogging) {
         console.error(`Translation not found for ${language}.${key}`);

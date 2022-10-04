@@ -8,6 +8,7 @@ import { Language, TranslateModule, TranslateService } from './translate';
 import { BehaviorSubject } from 'rxjs';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { AuthModule } from './auth';
 
 const imports = [CommonUiModule, HttpClientTestingModule, RouterTestingModule];
 
@@ -25,6 +26,7 @@ export const testLanguages: Language[] = [
     }),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
+    AuthModule,
   ],
   providers: [
     {
