@@ -91,27 +91,73 @@ describe(`TranslateService`, () => {
 
       translateRequest$.subscribe(r => (result = r));
 
-      await delay();
-
-      const request = httpMock.expectOne((AssetPath as Dictionary<string>)[`i18n/en.common.i18n.json`]);
-
-      request.flush({});
-
-      await delay();
-
-      expect(result).toBe('common.test');
-
       service.setLanguage('cy');
 
       await delay();
 
-      const request2 = httpMock.expectOne((AssetPath as Dictionary<string>)[`i18n/cy.common.i18n.json`]);
+      const request = httpMock.expectOne((AssetPath as Dictionary<string>)[`i18n/cy.common.i18n.json`]);
 
-      request2.flush({ test: 'test' });
+      request.flush({ test: 'test' });
 
       await delay();
 
       expect(result).toBe('test');
+
+      service.setLanguage('en');
+
+      await delay();
+
+      const request2 = httpMock.expectOne((AssetPath as Dictionary<string>)[`i18n/en.common.i18n.json`]);
+
+      request2.flush({});
+
+      await delay();
+
+      expect(result).toBe('common.test');
+    });
+
+    it(`should use the default language file for a given namespace if the namespace file does not exist for the current language`, async () => {
+      service.setLanguage('cy');
+
+      const translateRequest$ = service.translate('common.test');
+
+      const result = firstValueFrom(translateRequest$) as Promise<string>;
+
+      await delay();
+
+      httpMock.expectOne((AssetPath as Dictionary<string>)[`i18n/cy.common.i18n.json`]).flush('', { status: 404, statusText: 'Not Found' });
+
+      await delay();
+
+      httpMock.expectOne((AssetPath as Dictionary<string>)[`i18n/en.common.i18n.json`]).flush({ test: 'test' });
+
+      expect(await result).toBe('test');
+    });
+
+    it(`should return the key in the default language if it does not exist in the current language`, async () => {
+      service.setLanguage('cy');
+
+      const translateRequest$ = service.translate('common.test');
+
+      const result = firstValueFrom(translateRequest$) as Promise<string>;
+
+      await delay();
+
+      httpMock.expectOne((AssetPath as Dictionary<string>)[`i18n/cy.common.i18n.json`]).flush({});
+
+      await delay();
+
+      httpMock.expectOne((AssetPath as Dictionary<string>)[`i18n/en.common.i18n.json`]).flush({ test: 'test' });
+
+      expect(await result).toBe('test');
+    });
+  });
+
+  describe(`getValidLanguageCode`, () => {
+    it(`should return the default language if the language is not supported`, () => {
+      const result = (service as any).getValidLanguageCode('fr');
+
+      expect(result).toBe('en');
     });
   });
 });
