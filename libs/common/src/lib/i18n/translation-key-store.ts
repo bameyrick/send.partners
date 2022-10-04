@@ -1,7 +1,7 @@
 import { Dictionary, isEmpty, isObject, isString } from '@qntm-code/utils';
-// import MessageFormat, { MessageFunction } from '@messageformat/core';
+import MessageFormat, { MessageFunction } from '@messageformat/core';
 
-// export type TranslationValue = MessageFunction<'string'>;
+export type TranslationValue = MessageFunction<'string'>;
 
 export type TranslationNamespace = Dictionary<unknown>;
 
@@ -18,7 +18,7 @@ export class TranslationKeyStore {
   /**
    * Messageformat instance
    */
-  // private readonly messageformat = new MessageFormat([]);
+  private readonly messageformat = new MessageFormat([]);
 
   constructor(
     enableLogging: boolean,
@@ -64,8 +64,7 @@ export class TranslationKeyStore {
    * Gets a translation value for a given key in a given value. If the key can't be found in the given language it will attempt to find the
    * key in the default language if provided.
    */
-  public getTranslationValue(key: string, language: string, defaultLanguage?: string): undefined {
-    //TranslationValue | undefined {
+  public getTranslationValue(key: string, language: string, defaultLanguage?: string): TranslationValue | undefined {
     let store: TranslationLanguage = this.store[language];
 
     if (!store && !isEmpty(defaultLanguage) && defaultLanguage !== language) {
@@ -89,7 +88,7 @@ export class TranslationKeyStore {
         this.missingTranslationHandler(language, key);
       }
 
-      // return result as TranslationValue | undefined;
+      return result as TranslationValue | undefined;
     }
 
     return undefined;
@@ -101,7 +100,7 @@ export class TranslationKeyStore {
   private compileValues(values: Dictionary<unknown>): Dictionary<unknown> {
     return Object.entries(values).reduce((result, [key, value]) => {
       if (isString(value)) {
-        // result[key] = this.messageformat.compile(value);
+        result[key] = this.messageformat.compile(value);
       } else if (isObject(value)) {
         result[key] = this.compileValues(value as Dictionary<unknown>);
       }

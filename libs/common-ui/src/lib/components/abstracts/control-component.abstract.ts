@@ -402,7 +402,7 @@ export abstract class AbstractControlComponent<ValueType>
    */
   public setValue(value?: ValueType | null): void {
     this.value = value;
-    this.valueChanged = !isEqual(this.initialValue as EqualityType, value as EqualityType);
+    this.valueChanged = !isEqual(this.initialValue as unknown as EqualityType, value as unknown as EqualityType);
 
     this.onTouched();
     this.onChange(value);
