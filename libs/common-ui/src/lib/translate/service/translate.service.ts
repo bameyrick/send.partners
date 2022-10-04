@@ -154,6 +154,10 @@ export class TranslateService {
   private downloadFile(language: string, namespace: string): Observable<Dictionary<unknown> | undefined> {
     const path = (AssetPath as Dictionary<string>)[`i18n/${language}.${namespace}.i18n.json`];
 
+    if (!path && this.enableLogging) {
+      console.error(`File with namespace ${namespace} not found for language ${language}`);
+    }
+
     let observable = this.downloadedRequests[path];
 
     if (!isNullOrUndefined(observable)) {
@@ -166,10 +170,6 @@ export class TranslateService {
     );
 
     this.downloadedRequests[path] = observable;
-
-    if (!path && this.enableLogging) {
-      console.error(`File with namespace ${namespace} not found for language ${language}`);
-    }
 
     return observable;
   }
