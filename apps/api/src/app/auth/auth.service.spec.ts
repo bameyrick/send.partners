@@ -34,7 +34,7 @@ describe('AuthService', () => {
 
   describe('signUp', () => {
     it('should create a user if the user does not exist', async () => {
-      jest.spyOn(usersService, 'findByEmail').mockImplementation(() => new Promise(resolve => resolve(undefined)));
+      jest.spyOn(usersService, 'findByEmail').mockImplementation(() => Promise.resolve(undefined));
 
       jest
         .spyOn(usersService, 'createUser')

@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 import { AbstractComponent } from '../abstracts';
-// import zxcvbn from 'zxcvbn';
 
 @Component({
   selector: 'common-password-strength',
