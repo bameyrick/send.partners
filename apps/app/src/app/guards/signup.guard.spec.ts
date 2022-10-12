@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { AppPath, getRouterLinkForAppPath } from '@common';
-import { AuthState, selectAuthenticated, selectInitialRefreshCompleted } from '@common-ui';
+import { AppPath, getRouterLinkForAppPath, User } from '@common';
+import { AuthState, selectAuthenticated, selectInitialRefreshCompleted, selectProfile } from '@common-ui';
 import { createMock } from '@golevelup/ts-jest';
 import { MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -46,6 +46,16 @@ describe(`SignupGuard`, () => {
     expect(guard).toBeTruthy();
   });
 
+  describe(`canActivate`, () => {
+    it(`should call signUpCompleted`, () => {
+      const spy = jest.spyOn(guard as any, 'signUpCompleted');
+
+      guard.canActivate(activatedRouteSnapshotMock, createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.Signup) }));
+
+      expect(spy).toHaveBeenCalledWith(activatedRouteSnapshotMock);
+    });
+  });
+
   describe(`canActivateChild`, () => {
     describe(`if the user is not authenticated`, () => {
       beforeEach(() => {
@@ -77,6 +87,70 @@ describe(`SignupGuard`, () => {
             createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.Login) })
           )
         ).toBe(true);
+      });
+    });
+
+    describe(`if the user is authenticated`, () => {
+      beforeEach(() => {
+        mockAuthenticatedSelector.setResult(true);
+      });
+
+      it(`should allow the user to visit urls for uncompleted steps `, async () => {
+        mockStore.overrideSelector(selectProfile, undefined);
+
+        expect(
+          await guard.canActivateChild(
+            activatedRouteSnapshotMock,
+            createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.SignupVerify) })
+          )
+        ).toEqual(true);
+
+        mockStore.overrideSelector(selectProfile, { emailVerified: true } as User);
+
+        expect(
+          await guard.canActivateChild(
+            activatedRouteSnapshotMock,
+            createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.SignupName) })
+          )
+        ).toEqual(true);
+
+        mockStore.overrideSelector(selectProfile, { emailVerified: true, name: 'Test' } as User);
+
+        expect(
+          await guard.canActivateChild(
+            activatedRouteSnapshotMock,
+            createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.SignupLocation) })
+          )
+        ).toEqual(true);
+      });
+
+      it(`should redirect to the first uncompleted signup step`, async () => {
+        mockStore.overrideSelector(selectProfile, undefined);
+
+        expect(
+          await guard.canActivateChild(
+            activatedRouteSnapshotMock,
+            createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.Signup) })
+          )
+        ).toEqual(AppPath.SignupVerify);
+
+        mockStore.overrideSelector(selectProfile, { emailVerified: true } as User);
+
+        expect(
+          await guard.canActivateChild(
+            activatedRouteSnapshotMock,
+            createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.Signup) })
+          )
+        ).toEqual(AppPath.SignupName);
+
+        mockStore.overrideSelector(selectProfile, { emailVerified: true, name: 'Test' } as User);
+
+        expect(
+          await guard.canActivateChild(
+            activatedRouteSnapshotMock,
+            createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.Root) })
+          )
+        ).toEqual(AppPath.SignupLocation);
       });
     });
   });
