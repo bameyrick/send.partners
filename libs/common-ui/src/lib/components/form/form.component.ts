@@ -2,7 +2,8 @@ import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { delay } from '@qntm-code/utils';
 import { fromEvent } from 'rxjs';
-import { AbstractComponent } from '../abstracts';
+// Must be relative to prevent circular dependency
+import { AbstractComponent } from '../abstracts/component.abstract';
 
 @Component({
   selector: 'form',
@@ -36,7 +37,7 @@ export class FormComponent extends AbstractComponent {
         if (this.formGroup?.valid) {
           await delay();
 
-          this.formGroup?.disable();
+          this.formGroup.disable();
         }
 
         this.setHostClass();

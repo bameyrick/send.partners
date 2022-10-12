@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
 import { AbstractComponent } from '../abstracts';
-import * as zxcvbn from 'zxcvbn';
 
 @Component({
   selector: 'common-password-strength',
@@ -19,7 +18,9 @@ export class PasswordStrengthComponent extends AbstractComponent implements OnCh
    */
   public score = 0;
 
-  public ngOnChanges(): void {
+  public async ngOnChanges(): Promise<void> {
+    const zxcvbn = (await import('zxcvbn')).default;
+
     this.score = zxcvbn(this.password || '').score;
   }
 }

@@ -13,9 +13,7 @@ describe('SignupLocationComponent', () => {
       imports: [AppTestingModule],
       declarations: [SignupLocationComponent, SignupLocationFormComponent],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SignupLocationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

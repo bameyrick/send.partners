@@ -26,7 +26,6 @@ describe('UsersService', () => {
       language: 'en',
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (service as any).users = [testUser];
   });
 
@@ -128,6 +127,34 @@ describe('UsersService', () => {
 
     it('should create the user if it meets requirements', async () => {
       expect(await service.createUser('new', 'Password01', 'en')).toBeTruthy();
+    });
+  });
+
+  describe(`updateRefreshHash`, () => {
+    it(`should update the reset hash on the user`, async () => {
+      expect(testUser.refresh_hash).toBeUndefined();
+
+      await service.updateRefreshHash('test', 'test');
+
+      expect(testUser.refresh_hash).not.toBeUndefined();
+    });
+  });
+
+  describe(`updatePassword`, () => {
+    it(`should throw a NotFoundException if the user does not exist`, async () => {
+      await expect(service.updatePassword('id', 'password')).rejects.toThrow(new NotFoundException());
+    });
+
+    it(`should throw an error if the password does not meet requirements`, async () => {
+      await expect(service.updatePassword('test', '')).rejects.toThrow(new Error(APIErrorCode.PasswordDoesNotMeetRequirements));
+    });
+
+    it(`should update the user's password`, async () => {
+      const oldHash = testUser.password;
+
+      await service.updatePassword('test', 'NewPassword01');
+
+      expect(testUser.password).not.toEqual(oldHash);
     });
   });
 });

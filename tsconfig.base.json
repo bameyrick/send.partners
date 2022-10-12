@@ -18,7 +18,8 @@
       "@common": ["libs/common/src/index.ts"],
       "@common-ui": ["libs/common-ui/src/index.ts"],
       "@mocks": ["mocks"]
-    }
+    },
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "tmp"]
 }

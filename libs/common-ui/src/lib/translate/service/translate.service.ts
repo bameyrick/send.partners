@@ -23,6 +23,7 @@ import {
 } from 'rxjs';
 import { AssetPath } from '../../enums';
 import { Language } from '../interfaces';
+import { ENABLE_LOGGING } from '../../tokens';
 
 export const LANGUAGES = new InjectionToken<string>('LANGUAGES');
 
@@ -45,7 +46,7 @@ export class TranslateService {
   /**
    * The dictionary for the current language
    */
-  private readonly store = new TranslationKeyStore();
+  private readonly store = new TranslationKeyStore(this.enableLogging);
 
   /**
    * Files that have already been attempted to be downloaded
@@ -56,12 +57,15 @@ export class TranslateService {
     @Inject(LANGUAGES) public readonly languages: Language[],
     @Inject(DEFAULT_LANGUAGE) private readonly defaultLanguage: string,
     @Inject(USE_DEFAULT_LANGUAGE) private readonly useDefaultLanguage: boolean = true,
+    @Inject(ENABLE_LOGGING) private readonly enableLogging: boolean = false,
     private readonly http: HttpClient
   ) {
     this.subscribeToLanguageChange(this.language$, this.defaultLanguage$);
     this.subscribeToLanguageChange(this.defaultLanguage$, this.language$);
 
-    this.language$.subscribe(language => console.log(`Current language: ${language}`));
+    if (this.enableLogging) {
+      this.language$.subscribe(language => console.log(`Current language: ${language}`));
+    }
   }
 
   public setLanguage(language: string): void {
@@ -150,6 +154,10 @@ export class TranslateService {
   private downloadFile(language: string, namespace: string): Observable<Dictionary<unknown> | undefined> {
     const path = (AssetPath as Dictionary<string>)[`i18n/${language}.${namespace}.i18n.json`];
 
+    if (!path && this.enableLogging) {
+      console.error(`File with namespace ${namespace} not found for language ${language}`);
+    }
+
     let observable = this.downloadedRequests[path];
 
     if (!isNullOrUndefined(observable)) {
@@ -162,10 +170,6 @@ export class TranslateService {
     );
 
     this.downloadedRequests[path] = observable;
-
-    if (!path) {
-      console.error(`File with namespace ${namespace} not found for language ${language}`);
-    }
 
     return observable;
   }

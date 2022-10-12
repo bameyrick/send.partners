@@ -9,3 +9,4 @@ export * from './lib/modules';
 export * from './lib/services';
 export * from './lib/translate';
 export * from './lib/validators';
+export * from './lib/tokens';

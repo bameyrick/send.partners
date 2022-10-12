@@ -1,3 +1,4 @@
+import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccessJwtStrategy } from './access-jwt.strategy';
 
@@ -12,9 +13,13 @@ describe(`JwtAuthGuard`, () => {
     strategy = module.get<AccessJwtStrategy>(AccessJwtStrategy);
   });
 
-  it(`Should return the id of the payload`, () => {
+  it(`should return the id of the payload`, () => {
     const id = 'id';
 
     expect(strategy.validate({ id })).toEqual({ id });
+  });
+
+  it(`should throw an UnauthorizedException if the payload is undefined`, () => {
+    expect(() => strategy.validate()).toThrow(UnauthorizedException);
   });
 });

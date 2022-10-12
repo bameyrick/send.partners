@@ -38,7 +38,7 @@ export class OptionComponent implements AfterContentInit, AfterViewInit {
   /**
    * Reference to the template
    */
-  @ViewChild('template', { static: true }) private template?: TemplateRef<unknown>;
+  @ViewChild('template', { static: true }) private readonly template?: TemplateRef<unknown>;
 
   constructor(private readonly domSanitizer: DomSanitizer) {}
 
@@ -73,11 +73,19 @@ export class OptionComponent implements AfterContentInit, AfterViewInit {
     if (!isEmpty(content)) {
       this.html = this.domSanitizer.bypassSecurityTrustHtml(content as string);
 
-      this.searchValue = sanitizeSearchValue(
-        isNullOrUndefined(this.stringValue)
-          ? view?.rootNodes.filter(node => node.nodeType === 3).reduce((result, node) => result + node.nodeValue, '')
-          : this.stringValue
-      );
+      if (isNullOrUndefined(this.stringValue)) {
+        const html = view?.rootNodes.filter(node => node.nodeType === 1);
+
+        if (html?.length) {
+          this.searchValue = sanitizeSearchValue(html.reduce((result, item) => `${result} ${item.textContent}`, ''));
+        } else {
+          this.searchValue = sanitizeSearchValue(
+            view?.rootNodes.filter(node => node.nodeType === 3).reduce((result, node) => result + node.nodeValue, '')
+          );
+        }
+      } else {
+        this.searchValue = sanitizeSearchValue(this.stringValue);
+      }
     }
 
     view?.destroy();

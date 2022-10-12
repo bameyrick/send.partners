@@ -6,7 +6,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { CommonAppLoadService, CommonUiModule, TranslateModule } from '@common-ui';
+import { AuthModule, CommonAppLoadService, CommonUiModule, TranslateModule } from '@common-ui';
 import { AppComponent } from './app.component';
 import { AppRoutingModule, ROOT_REDUCERS } from './routing';
 import { environment } from '../environments/environment';
@@ -40,6 +40,7 @@ import { environment } from '../environments/environment';
     }),
     EffectsModule.forRoot([]),
     AppRoutingModule,
+    AuthModule,
   ],
   providers: [
     CommonAppLoadService,

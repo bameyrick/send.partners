@@ -108,8 +108,6 @@ export class AuthService {
   public async validateEmail(userId: string, code: string): Promise<User> {
     const activeCode = this.verificationCodes[userId];
 
-    console.log(userId, code, activeCode);
-
     if (
       !activeCode ||
       !(activeCode.code === code && activeCode.generated.getTime() + this.verificationCodeExpiryMs >= new Date().getTime())
@@ -146,6 +144,8 @@ export class AuthService {
     if (!hash || hash.generated.getTime() + this.passwordResetExpiryMs <= new Date().getTime()) {
       throw new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired);
     }
+
+    delete this.resetEmailHash[credentials.code];
 
     await this.usersService.updatePassword(hash.userId, credentials.password);
   }
