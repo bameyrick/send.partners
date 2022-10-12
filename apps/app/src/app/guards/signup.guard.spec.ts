@@ -50,6 +50,8 @@ describe(`SignupGuard`, () => {
     it(`should call signUpCompleted`, () => {
       const spy = jest.spyOn(guard as any, 'signUpCompleted');
 
+      mockStore.overrideSelector(selectProfile, undefined);
+
       guard.canActivate(activatedRouteSnapshotMock, createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.Signup) }));
 
       expect(spy).toHaveBeenCalledWith(activatedRouteSnapshotMock);
