@@ -29,7 +29,7 @@ export class EmailVerificationComponent extends AbstractAuthFormComponent {
   /**
    * Code form control
    */
-  public readonly code = new FormControl();
+  public readonly code = new FormControl<string | undefined>(undefined);
 
   /**
    * The form controls
@@ -43,6 +43,6 @@ export class EmailVerificationComponent extends AbstractAuthFormComponent {
   }
 
   protected dispatch(): void {
-    this.store.dispatch(AuthActions.verifyEmail({ code: this.code.value }));
+    this.store.dispatch(AuthActions.verifyEmail(this.form.value as { code: string }));
   }
 }

@@ -14,10 +14,10 @@ export class SignupNameFormComponent extends AbstractAuthFormComponent {
    * The form controls
    */
   public readonly form = new FormGroup({
-    name: new FormControl(),
+    name: new FormControl<string | undefined>(undefined),
   });
 
   protected dispatch(): void {
-    this.store.dispatch(SignupActions.setName(this.form.value));
+    this.store.dispatch(SignupActions.setName(this.form.value as { name: string }));
   }
 }

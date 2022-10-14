@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AppPath, getRouterLinkForAppPath, passwordRegex } from '@common';
 import { AbstractAuthFormComponent, AuthActions, matchesValidator } from '@common-ui';
+import { isString } from '@qntm-code/utils';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -29,17 +30,17 @@ export class SignupFormComponent extends AbstractAuthFormComponent implements On
   /**
    * Email form control
    */
-  public readonly email = new FormControl();
+  public readonly email = new FormControl<string | undefined>(undefined);
 
   /**
    * Password form control
    */
-  public readonly password = new FormControl();
+  public readonly password = new FormControl<string | undefined>(undefined);
 
   /**
    * Confirm password form control
    */
-  public readonly confirmPassword = new FormControl();
+  public readonly confirmPassword = new FormControl<string | undefined>(undefined);
 
   /**
    * The form controls
@@ -62,14 +63,16 @@ export class SignupFormComponent extends AbstractAuthFormComponent implements On
   }
 
   protected async dispatch(): Promise<void> {
-    this.store.dispatch(
-      AuthActions.signUp({
-        credentials: {
-          email: this.email.value,
-          password: this.password.value,
-          language: await firstValueFrom(this.translateService.language$),
-        },
-      })
-    );
+    if (isString(this.email.value) && isString(this.password.value)) {
+      this.store.dispatch(
+        AuthActions.signUp({
+          credentials: {
+            email: this.email.value,
+            password: this.password.value,
+            language: await firstValueFrom(this.translateService.language$),
+          },
+        })
+      );
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { LatLon } from '@common';
 import { AbstractAuthFormComponent } from '@common-ui';
 import { SignupActions } from '../../store';
 
@@ -14,7 +15,7 @@ export class SignupLocationFormComponent extends AbstractAuthFormComponent {
 
   public errorKey?: string;
 
-  private readonly location = new FormControl();
+  private readonly location = new FormControl<LatLon>([0, 0]);
 
   public readonly form = new FormGroup({
     location: this.location,
@@ -42,6 +43,6 @@ export class SignupLocationFormComponent extends AbstractAuthFormComponent {
   }
 
   protected dispatch(): void {
-    this.store.dispatch(SignupActions.setLocation(this.form.value));
+    this.store.dispatch(SignupActions.setLocation(this.form.value as { location: LatLon }));
   }
 }

@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AuthActions } from '../../../../auth';
 import { TranslateService } from '../../../../translate';
 import { AbstractAuthFormComponent } from '../../../../forms/abstracts';
+import { RequestPasswordResetCredentials } from '@common';
 
 @Component({
   selector: 'common-request-password-reset',
@@ -16,7 +17,7 @@ export class RequestPasswordResetComponent extends AbstractAuthFormComponent {
    * The form controls
    */
   public readonly form = new FormGroup({
-    email: new FormControl(this.activatedRoute.snapshot.queryParams['email']),
+    email: new FormControl<string>(this.activatedRoute.snapshot.queryParams['email']),
   });
 
   constructor(
@@ -30,6 +31,6 @@ export class RequestPasswordResetComponent extends AbstractAuthFormComponent {
   }
 
   protected dispatch(): void {
-    this.store.dispatch(AuthActions.requestPasswordReset({ ...this.form.value }));
+    this.store.dispatch(AuthActions.requestPasswordReset(this.form.value as RequestPasswordResetCredentials));
   }
 }

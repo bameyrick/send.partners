@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { passwordRegex } from '@common';
+import { passwordRegex, ResetPasswordCredentials } from '@common';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../../../auth';
 import { TranslateService } from '../../../../translate';
@@ -22,7 +22,7 @@ export class ResetPasswordComponent extends AbstractAuthFormComponent {
   /**
    * The password form control
    */
-  public readonly password = new FormControl();
+  public readonly password = new FormControl<string | undefined>(undefined);
 
   /**
    * The form controls
@@ -44,7 +44,7 @@ export class ResetPasswordComponent extends AbstractAuthFormComponent {
   protected dispatch(): void {
     this.store.dispatch(
       AuthActions.resetPassword({
-        credentials: { ...this.form.value, code: this.activatedRoute.snapshot.params['code'] },
+        credentials: { ...this.form.value, code: this.activatedRoute.snapshot.params['code'] } as ResetPasswordCredentials,
       })
     );
   }
