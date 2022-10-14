@@ -11,7 +11,7 @@ export class PasswordStrengthComponent extends AbstractComponent implements OnCh
   /**
    * The password to analyze
    */
-  @Input() public password?: string;
+  @Input() public password?: string | null;
 
   /**
    * Score

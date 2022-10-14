@@ -29,7 +29,7 @@ export class EmailVerificationComponent extends AbstractAuthFormComponent {
   /**
    * Code form control
    */
-  public readonly code = new FormControl<string | undefined>(undefined);
+  public readonly code = new FormControl<string | null | undefined>(undefined);
 
   /**
    * The form controls

@@ -30,17 +30,17 @@ export class SignupFormComponent extends AbstractAuthFormComponent implements On
   /**
    * Email form control
    */
-  public readonly email = new FormControl<string | undefined>(undefined);
+  public readonly email = new FormControl<string | null | undefined>(undefined);
 
   /**
    * Password form control
    */
-  public readonly password = new FormControl<string | undefined>(undefined);
+  public readonly password = new FormControl<string | null | undefined>(undefined);
 
   /**
    * Confirm password form control
    */
-  public readonly confirmPassword = new FormControl<string | undefined>(undefined);
+  public readonly confirmPassword = new FormControl<string | null | undefined>(undefined);
 
   /**
    * The form controls

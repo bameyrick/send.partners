@@ -22,7 +22,7 @@ export class ResetPasswordComponent extends AbstractAuthFormComponent {
   /**
    * The password form control
    */
-  public readonly password = new FormControl<string | undefined>(undefined);
+  public readonly password = new FormControl<string | null | undefined>(undefined);
 
   /**
    * The form controls

@@ -3,7 +3,7 @@ import { isEmpty } from '@qntm-code/utils';
 /**
  * Sanitizes a search value to be used in a filter or similarity score function
  */
-export function sanitizeSearchValue(value: string | undefined): string {
+export function sanitizeSearchValue(value: string | null | undefined): string {
   if (isEmpty(value)) {
     return '';
   }

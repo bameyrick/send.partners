@@ -15,8 +15,8 @@ export class LoginComponent extends AbstractAuthFormComponent {
    * The form controls
    */
   public readonly form = new FormGroup({
-    email: new FormControl<string | undefined>(undefined),
-    password: new FormControl<string | undefined>(undefined),
+    email: new FormControl<string | null | undefined>(undefined),
+    password: new FormControl<string | null | undefined>(undefined),
   });
 
   protected dispatch(): void {

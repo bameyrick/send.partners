@@ -14,7 +14,7 @@ export class SignupNameFormComponent extends AbstractAuthFormComponent {
    * The form controls
    */
   public readonly form = new FormGroup({
-    name: new FormControl<string | undefined>(undefined),
+    name: new FormControl<string | null | undefined>(undefined),
   });
 
   protected dispatch(): void {
