@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { delay } from '@qntm-code/utils';
 import { fromEvent } from 'rxjs';
 // Must be relative to prevent circular dependency
@@ -15,7 +15,7 @@ export class FormComponent extends AbstractComponent {
   /**
    * Reference to the provided form group
    */
-  @Input() public formGroup?: FormGroup;
+  @Input() public formGroup?: UntypedFormGroup;
 
   /**
    * Event listener for the submit

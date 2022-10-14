@@ -1,5 +1,5 @@
 {
-  "root": "apps/common-ui-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/common-ui-e2e/src",
   "projectType": "application",
   "targets": {

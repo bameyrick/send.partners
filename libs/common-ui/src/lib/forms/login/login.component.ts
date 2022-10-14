@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { LoginCredentials } from '@common';
 import { AuthActions } from '../../auth';
 import { AbstractAuthFormComponent } from '../abstracts';
 
@@ -14,11 +15,11 @@ export class LoginComponent extends AbstractAuthFormComponent {
    * The form controls
    */
   public readonly form = new FormGroup({
-    email: new FormControl(),
-    password: new FormControl(),
+    email: new FormControl<string | null | undefined>(undefined),
+    password: new FormControl<string | null | undefined>(undefined),
   });
 
   protected dispatch(): void {
-    this.store.dispatch(AuthActions.login({ credentials: this.form.value }));
+    this.store.dispatch(AuthActions.login({ credentials: this.form.value as LoginCredentials }));
   }
 }
