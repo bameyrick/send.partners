@@ -4,6 +4,8 @@ import { Reflector } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { AccessJwtStrategy } from '../strategies/access-jwt.strategy';
+import { DatabaseService } from '../../db';
+import { mockDatabaseService } from '@mocks';
 
 describe(`JwtAuthGuard`, () => {
   let guard: JwtAuthGuard;
@@ -21,6 +23,10 @@ describe(`JwtAuthGuard`, () => {
             get: jest.fn(),
             getAllAndOverride: jest.fn(),
           },
+        },
+        {
+          provide: DatabaseService,
+          useValue: mockDatabaseService,
         },
       ],
     }).compile();

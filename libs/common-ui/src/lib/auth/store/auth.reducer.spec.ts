@@ -11,7 +11,7 @@ describe(`AuthReducer`, () => {
 
   describe(`on AuthActions.refreshTokenSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', emailVerified: false, language: 'en' };
+      const user = { id: '1', email: 'email', email_verified: false, language: 'en' };
 
       const result = authReducer(initialState, AuthActions.refreshTokenSuccess({ user }));
 
@@ -50,7 +50,7 @@ describe(`AuthReducer`, () => {
 
   describe(`on AuthActions.signUpSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', emailVerified: false, language: 'en' };
+      const user = { id: '1', email: 'email', email_verified: false, language: 'en' };
 
       const result = authReducer(initialState, AuthActions.signUpSuccess({ user }));
 
@@ -78,7 +78,7 @@ describe(`AuthReducer`, () => {
 
   describe(`on AuthActions.loginSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', emailVerified: false, language: 'en' };
+      const user = { id: '1', email: 'email', email_verified: false, language: 'en' };
 
       const result = authReducer(initialState, AuthActions.loginSuccess({ user }));
 
@@ -96,7 +96,7 @@ describe(`AuthReducer`, () => {
 
   describe(`on AuthActions.verifyEmailSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', emailVerified: false, language: 'en' };
+      const user = { id: '1', email: 'email', email_verified: false, language: 'en' };
 
       const result = authReducer(initialState, AuthActions.verifyEmailSuccess({ user }));
 
@@ -161,7 +161,7 @@ describe(`AuthReducer`, () => {
     it(`should set the authorizing flag`, () => {
       const result = authReducer(
         initialState,
-        AuthActions.updateProfile({ user: { id: '1', email: 'email', language: 'en', emailVerified: true } })
+        AuthActions.updateProfile({ user: { id: '1', email: 'email', language: 'en', email_verified: true } })
       );
 
       expect(result).toEqual({ ...initialState, authorizing: true });
@@ -170,7 +170,7 @@ describe(`AuthReducer`, () => {
 
   describe(`on AuthActions.updateProfileSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', language: 'en', emailVerified: true };
+      const user = { id: '1', email: 'email', language: 'en', email_verified: true };
 
       const result = authReducer(initialState, AuthActions.updateProfileSuccess({ user }));
 

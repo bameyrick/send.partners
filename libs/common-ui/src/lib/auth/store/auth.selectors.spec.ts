@@ -99,7 +99,7 @@ describe(`AuthSelectors`, () => {
       const user: User = {
         id: '1',
         email: '',
-        emailVerified: false,
+        email_verified: false,
         language: 'en',
       };
 
@@ -124,7 +124,7 @@ describe(`AuthSelectors`, () => {
       const user: User = {
         id: '1',
         email: '',
-        emailVerified: false,
+        email_verified: false,
         language: 'en',
       };
 

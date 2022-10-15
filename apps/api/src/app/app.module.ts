@@ -3,6 +3,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 
 import { AuthModule, JwtAuthGuard } from './auth';
+import { DatabaseModule } from './db';
 import { MailModule } from './mail';
 import { UsersModule } from './users';
 
@@ -12,6 +13,7 @@ import { UsersModule } from './users';
       ttl: 60,
       limit: 10,
     }),
+    DatabaseModule,
     AuthModule,
     UsersModule,
     MailModule,

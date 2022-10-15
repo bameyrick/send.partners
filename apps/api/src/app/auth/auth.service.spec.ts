@@ -1,8 +1,11 @@
-import { APIErrorCode, FullUser, User } from '@common';
+import { APIErrorCode, EmailVerificationCodes, FullUser, ResetPasswordCodes, User } from '@common';
 import { createMock } from '@golevelup/ts-jest';
+import { mockDatabaseService } from '@mocks';
 import { ForbiddenException } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
+import { delay } from '@qntm-code/utils';
+import { DatabaseService } from '../db';
 import { hash } from '../helpers';
 import { MailService } from '../mail';
 import { UsersService } from '../users';
@@ -13,6 +16,7 @@ describe('AuthService', () => {
   let service: AuthService;
   let usersService: UsersService;
   let mailService: MailService;
+  let databaseService: DatabaseService;
 
   beforeEach(async () => {
     process.env.MAIL_VERIFICATION_RETRY_MINUTES = '60';
@@ -24,12 +28,21 @@ describe('AuthService', () => {
         AuthService,
         { provide: UsersService, useValue: createMock<UsersService>() },
         { provide: MailService, useValue: createMock<MailService>() },
+        {
+          provide: DatabaseService,
+          useValue: mockDatabaseService,
+        },
       ],
     }).compile();
 
     service = app.get<AuthService>(AuthService);
     usersService = app.get<UsersService>(UsersService);
     mailService = app.get<MailService>(MailService);
+    databaseService = app.get<DatabaseService>(DatabaseService);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('signUp', () => {
@@ -41,7 +54,7 @@ describe('AuthService', () => {
         .mockImplementation(
           () =>
             new Promise(resolve =>
-              resolve({ id: 'test', email: 'test', name: 'test', password: 'password', emailVerified: true, language: 'en' })
+              resolve({ id: 'test', email: 'test', name: 'test', password: 'password', email_verified: true, language: 'en' })
             )
         );
 
@@ -70,7 +83,7 @@ describe('AuthService', () => {
         .mockImplementation(
           () =>
             new Promise(resolve =>
-              resolve({ id: 'test', email: 'test', name: 'test', password: 'password', emailVerified: true, language: 'en' })
+              resolve({ id: 'test', email: 'test', name: 'test', password: 'password', email_verified: true, language: 'en' })
             )
         );
 
@@ -78,7 +91,14 @@ describe('AuthService', () => {
     });
 
     it(`should return the user's id  if password does not match`, async () => {
-      const user: FullUser = { id: 'test', email: 'test', name: 'test', password: await hash('test'), emailVerified: true, language: 'en' };
+      const user: FullUser = {
+        id: 'test',
+        email: 'test',
+        name: 'test',
+        password: await hash('test'),
+        email_verified: true,
+        language: 'en',
+      };
 
       jest.spyOn(usersService, 'findFullByEmail').mockImplementation(async () => user);
 
@@ -116,7 +136,7 @@ describe('AuthService', () => {
     it(`should throw a forbidden exception if user does not have a refresh_hash`, async () => {
       jest
         .spyOn(usersService, 'findFullById')
-        .mockImplementation(async () => ({ id: '', email: '', name: '', password: '', emailVerified: false, language: 'en' }));
+        .mockImplementation(async () => ({ id: '', email: '', name: '', password: '', email_verified: false, language: 'en' }));
 
       await expect(service.refresh('', '')).rejects.toThrow(new ForbiddenException());
     });
@@ -129,7 +149,7 @@ describe('AuthService', () => {
         name: '',
         password: '',
         refresh_hash: await hash(token),
-        emailVerified: false,
+        email_verified: false,
         language: 'en',
       }));
 
@@ -144,7 +164,7 @@ describe('AuthService', () => {
         name: '',
         password: '',
         refresh_hash: await hash(token),
-        emailVerified: false,
+        email_verified: false,
         language: 'en',
       }));
 
@@ -162,7 +182,7 @@ describe('AuthService', () => {
         id: '',
         email: '',
         name: '',
-        emailVerified: false,
+        email_verified: false,
         language: 'en',
       }));
     });
@@ -174,7 +194,9 @@ describe('AuthService', () => {
     });
 
     it(`should throw a forbidden exception if a code exists and it has not expired`, async () => {
-      await service.sendEmailVerification('id');
+      jest
+        .spyOn(databaseService.reset_password_codes(), 'findOne')
+        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ generated: new Date() }));
 
       await expect(service.sendEmailVerification('id')).rejects.toThrow(new ForbiddenException(APIErrorCode.WaitToResendVerificationEmail));
     });
@@ -184,7 +206,6 @@ describe('AuthService', () => {
 
       await expect(service.sendEmailVerification('id')).resolves.not.toThrow();
 
-      expect((service as any).verificationCodes['id']).not.toBeUndefined();
       expect(generateCodeSpy).toBeCalled();
       expect(mailService.sendEmailVerification).toBeCalled();
     });
@@ -192,11 +213,12 @@ describe('AuthService', () => {
     it(`should send a verification email if no code but has expired`, async () => {
       const generateCodeSpy = jest.spyOn(service as any, 'generateCode');
 
-      (service as any).verificationCodes['id'] = { generated: new Date(0) };
+      jest
+        .spyOn(databaseService.reset_password_codes(), 'findOne')
+        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ generated: new Date(0) }));
 
       await expect(service.sendEmailVerification('id')).resolves.not.toThrow();
 
-      expect((service as any).verificationCodes['id']).not.toBeUndefined();
       expect(generateCodeSpy).toBeCalled();
       expect(mailService.sendEmailVerification).toBeCalled();
     });
@@ -204,7 +226,9 @@ describe('AuthService', () => {
 
   describe('validateEmail', () => {
     it(`should throw an error if the code is invalid`, async () => {
-      (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
+      jest
+        .spyOn(databaseService.reset_password_codes(), 'findOne')
+        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ code: '000000' }));
 
       jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
 
@@ -214,7 +238,7 @@ describe('AuthService', () => {
     });
 
     it(`should throw an error if user has no code`, async () => {
-      (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
+      jest.spyOn(databaseService.reset_password_codes(), 'findOne').mockResolvedValueOnce(undefined);
 
       await expect(service.validateEmail('badId', '000000')).rejects.toThrow(
         new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired)
@@ -222,7 +246,9 @@ describe('AuthService', () => {
     });
 
     it(`should throw an error if code has expired`, async () => {
-      (service as any).verificationCodes['id'] = { generated: new Date(0), code: '000000' };
+      jest
+        .spyOn(databaseService.reset_password_codes(), 'findOne')
+        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ code: '000000', generated: new Date(0) }));
 
       jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
 
@@ -232,15 +258,20 @@ describe('AuthService', () => {
     });
 
     it(`should validate a valid code`, async () => {
-      (service as any).verificationCodes['id'] = { generated: new Date(), code: '000000' };
+      const code = '000000';
+      const user_id = 'id';
 
-      const user: User = { id: 'id ', email: 'email', emailVerified: true, language: 'en' };
+      jest
+        .spyOn(databaseService.reset_password_codes(), 'findOne')
+        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ generated: new Date(), code }));
+
+      const user: User = { id: user_id, email: 'email', email_verified: true, language: 'en' };
 
       jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => user);
 
-      await expect(service.validateEmail('id', '000000')).resolves.toEqual(user);
+      await expect(service.validateEmail(user_id, code)).resolves.toEqual(user);
 
-      expect((service as any).verificationCodes['id']).toBeUndefined();
+      expect(databaseService.reset_password_codes().delete).toHaveBeenCalledWith({ user_id });
     });
   });
 
@@ -250,7 +281,7 @@ describe('AuthService', () => {
         id: '',
         email: '',
         name: '',
-        emailVerified: false,
+        email_verified: false,
         language: 'en',
       }));
     });
@@ -264,35 +295,34 @@ describe('AuthService', () => {
 
   describe(`resetPassword`, () => {
     it(`should throw forbidden exception if the code does not exist`, async () => {
-      (service as any).resetEmailHash['code'] = { generated: new Date() };
-
-      await expect(service.resetPassword({ code: 'badCode', password: 'password ' })).rejects.toThrow(
+      await expect(service.resetPassword({ code: 'badCode', password: 'password' })).rejects.toThrow(
         new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired)
       );
     });
 
     it(`should throw forbidden exception if the code has expired`, async () => {
-      (service as any).resetEmailHash['code'] = { generated: new Date(0) };
+      jest
+        .spyOn(databaseService.reset_password_codes(), 'findOne')
+        .mockResolvedValueOnce(createMock<ResetPasswordCodes>({ generated: new Date(0) }));
 
-      await expect(service.resetPassword({ code: 'code', password: 'password ' })).rejects.toThrow(
+      await expect(service.resetPassword({ code: 'code', password: 'password' })).rejects.toThrow(
         new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired)
       );
     });
 
-    it(`should call usersService.updatePassword if code is valid and hasnot expired`, () => {
-      (service as any).resetEmailHash['code'] = { generated: new Date() };
+    it(`should call usersService.updatePassword if code is valid and has not expired`, async () => {
+      jest
+        .spyOn(databaseService.reset_password_codes(), 'findOne')
+        .mockResolvedValueOnce(createMock<ResetPasswordCodes>({ generated: new Date() }));
 
-      service.resetPassword({ code: 'code', password: 'password ' });
+      const code = 'code';
 
+      service.resetPassword({ code, password: 'password ' });
+
+      await delay();
+
+      expect(databaseService.reset_password_codes().delete).toBeCalledWith({ code });
       expect(usersService.updatePassword).toHaveBeenCalled();
-    });
-
-    it(`should call remove the code from the hash dictionary`, () => {
-      (service as any).resetEmailHash['code'] = { generated: new Date() };
-
-      service.resetPassword({ code: 'code', password: 'password ' });
-
-      expect((service as any).resetEmailHash['code']).toBeUndefined();
     });
   });
 });

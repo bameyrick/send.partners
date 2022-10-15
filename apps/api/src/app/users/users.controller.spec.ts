@@ -1,6 +1,8 @@
 import { JwtPayload, User } from '@common';
 import { createMock } from '@golevelup/ts-jest';
+import { mockDatabaseService } from '@mocks';
 import { Test, TestingModule } from '@nestjs/testing';
+import { DatabaseService } from '../db';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -11,7 +13,13 @@ describe('UsersController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
-      providers: [UsersService],
+      providers: [
+        UsersService,
+        {
+          provide: DatabaseService,
+          useValue: mockDatabaseService,
+        },
+      ],
     }).compile();
 
     controller = module.get<UsersController>(UsersController);

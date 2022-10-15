@@ -1,32 +1,49 @@
-import { APIErrorCode, FullUser, User } from '@common';
+import { APIErrorCode, User, UserLocations, Users } from '@common';
+import { Transaction } from '@databases/pg';
+import { UnorderedSelectQuery } from '@databases/pg-typed';
 import { createMock } from '@golevelup/ts-jest';
+import { mockDatabaseService } from '@mocks';
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
+import { DatabaseService } from '../db';
 import { hash } from '../helpers';
-
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
+  let databaseService: DatabaseService;
   let service: UsersService;
-  let testUser: FullUser;
+
+  const mockUser = createMock<Users>({
+    id: 'id',
+    email: 'email',
+    email_verified: true,
+    language: 'en',
+    name: 'name',
+    password: 'password',
+    refresh_hash: 'refresh_hash',
+  });
 
   beforeEach(async () => {
-    const app = await Test.createTestingModule({
-      providers: [UsersService],
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UsersService,
+        {
+          provide: DatabaseService,
+          useValue: mockDatabaseService,
+        },
+      ],
     }).compile();
 
-    service = app.get<UsersService>(UsersService);
+    service = module.get<UsersService>(UsersService);
+    databaseService = module.get<DatabaseService>(DatabaseService);
 
-    testUser = {
-      id: 'test',
-      email: 'test',
-      name: 'test',
-      password: await hash('password'),
-      emailVerified: true,
-      language: 'en',
-    };
+    jest
+      .spyOn(databaseService.user_locations(), 'find')
+      .mockReturnValue({ all: () => createMock<UserLocations[]>() } as unknown as UnorderedSelectQuery<UserLocations>);
+  });
 
-    (service as any).users = [testUser];
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('findByEmail', () => {
@@ -35,7 +52,9 @@ describe('UsersService', () => {
     });
 
     it(`should return the user`, async () => {
-      expect(await service.findByEmail('test')).toEqual(service.sanitizeUser(testUser));
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+
+      expect(await service.findByEmail('test')).toEqual(service.sanitizeUser(mockUser));
     });
   });
 
@@ -45,7 +64,9 @@ describe('UsersService', () => {
     });
 
     it(`should return the user`, async () => {
-      expect(await service.findFullByEmail('test')).toEqual(testUser);
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+
+      expect(await service.findFullByEmail('test')).toEqual(mockUser);
     });
   });
 
@@ -55,7 +76,9 @@ describe('UsersService', () => {
     });
 
     it(`should return the user`, async () => {
-      expect(await service.findById('test')).toEqual(service.sanitizeUser(testUser));
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+
+      expect(await service.findById('test')).toEqual(service.sanitizeUser(mockUser));
     });
   });
 
@@ -69,12 +92,43 @@ describe('UsersService', () => {
     });
 
     it(`should return the updated user if user exists and ids match`, async () => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const user = (await service.findById('test'))!;
+      const db = createMock<Transaction>();
 
-      user.name = 'Doop';
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+      jest.spyOn(databaseService.db, 'tx').mockImplementation(cb => cb(db));
+      jest.spyOn(databaseService.users(db), 'update').mockResolvedValueOnce([mockUser]);
 
-      expect(await service.updateById(user.id, user)).toEqual(user);
+      expect(await service.updateById(mockUser.id, mockUser)).toEqual(service.sanitizeUser(mockUser));
+    });
+
+    it(`should delete any existing locations that haven't been passed back up`, async () => {
+      const db = createMock<Transaction>();
+
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+      jest.spyOn(databaseService.db, 'tx').mockImplementation(cb => cb(db));
+      jest.spyOn(db, `query`).mockResolvedValueOnce([mockUser] as any);
+      jest.spyOn(databaseService.users(db), 'update').mockResolvedValueOnce([mockUser]);
+
+      const deleteSpy = jest.spyOn(databaseService.user_locations(db), 'delete');
+
+      await service.updateById(mockUser.id, { ...mockUser, locations: [[1, 1]] });
+
+      expect(deleteSpy).toHaveBeenCalled();
+    });
+
+    it(`should add new locations`, async () => {
+      const db = createMock<Transaction>();
+
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+      jest.spyOn(databaseService.db, 'tx').mockImplementation(cb => cb(db));
+      jest.spyOn(db, `query`).mockResolvedValueOnce([mockUser] as any);
+      jest.spyOn(databaseService.users(db), 'update').mockResolvedValueOnce([mockUser]);
+
+      const bulkInsertOrIgnoreSpy = jest.spyOn(databaseService.user_locations(db), 'bulkInsertOrIgnore');
+
+      await service.updateById(mockUser.id, { ...mockUser, locations: [[1, 1]] });
+
+      expect(bulkInsertOrIgnoreSpy).toHaveBeenCalled();
     });
   });
 
@@ -84,25 +138,27 @@ describe('UsersService', () => {
     });
 
     it(`should return the user`, async () => {
-      expect(await service.findFullById('test')).toEqual(testUser);
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+
+      expect(await service.findFullById('test')).toEqual(mockUser);
     });
   });
 
   describe('removeRefreshHash', () => {
-    it(`shouldn't set the refresh has to undefined if user not found`, async () => {
-      const user = await service.findFullById('test');
-      user.refresh_hash = 'test';
-
+    it(`shouldn't update the user if user is not found`, async () => {
       await service.removeRefreshHash('id');
-      expect(user.refresh_hash).not.toBeUndefined();
+
+      expect(databaseService.users().update).not.toHaveBeenCalled();
     });
 
-    it(`should return the user`, async () => {
-      const user = await service.findFullById('test');
-      user.refresh_hash = 'test';
+    it(`should update the user`, async () => {
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
 
-      await service.removeRefreshHash('test');
-      expect(user.refresh_hash).toBeUndefined();
+      const id = 'test';
+
+      await service.removeRefreshHash(id);
+
+      expect(databaseService.users().update).toHaveBeenCalledWith({ id }, { refresh_hash: undefined });
     });
   });
 
@@ -112,12 +168,17 @@ describe('UsersService', () => {
     });
 
     it(`should return a user marked with email verified if user found`, async () => {
-      expect((await service.markUserEmailAsValidated('test'))?.emailVerified).toEqual(true);
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+      jest.spyOn(databaseService.users(), 'update').mockResolvedValueOnce([mockUser]);
+
+      expect((await service.markUserEmailAsValidated('test'))?.email_verified).toEqual(true);
     });
   });
 
   describe(`createUser`, () => {
     it('should throw an exception if the user already exists', async () => {
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+
       await expect(service.createUser('test', '', '')).rejects.toThrow(new BadRequestException(APIErrorCode.UserAlreadyExists));
     });
 
@@ -126,17 +187,23 @@ describe('UsersService', () => {
     });
 
     it('should create the user if it meets requirements', async () => {
-      expect(await service.createUser('new', 'Password01', 'en')).toBeTruthy();
+      const password = 'Password1!';
+      const mockUser = createMock<Users>({
+        password: await hash(password),
+      });
+
+      jest.spyOn(databaseService.users(), 'insert').mockResolvedValueOnce([mockUser]);
+      expect(await service.createUser(mockUser.email, password, mockUser.language)).toBeTruthy();
     });
   });
 
   describe(`updateRefreshHash`, () => {
     it(`should update the reset hash on the user`, async () => {
-      expect(testUser.refresh_hash).toBeUndefined();
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
 
       await service.updateRefreshHash('test', 'test');
 
-      expect(testUser.refresh_hash).not.toBeUndefined();
+      expect(databaseService.users().update).toHaveBeenCalled();
     });
   });
 
@@ -146,15 +213,17 @@ describe('UsersService', () => {
     });
 
     it(`should throw an error if the password does not meet requirements`, async () => {
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+
       await expect(service.updatePassword('test', '')).rejects.toThrow(new Error(APIErrorCode.PasswordDoesNotMeetRequirements));
     });
 
     it(`should update the user's password`, async () => {
-      const oldHash = testUser.password;
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
 
-      await service.updatePassword('test', 'NewPassword01');
+      await service.updatePassword('id', 'NewPassword01');
 
-      expect(testUser.password).not.toEqual(oldHash);
+      expect(databaseService.users().update).toHaveBeenCalled();
     });
   });
 });

@@ -6,7 +6,7 @@ import { map, Observable } from 'rxjs';
 
 export const signupRules: Dictionary<(store: Store) => Observable<boolean>> = {
   [AppPath.Signup]: store => store.select(selectProfile).pipe(map(profile => !!profile)),
-  [AppPath.SignupVerify]: store => store.select(selectProfile).pipe(map(profile => !!profile?.emailVerified)),
+  [AppPath.SignupVerify]: store => store.select(selectProfile).pipe(map(profile => !!profile?.email_verified)),
   [AppPath.SignupName]: store => store.select(selectProfile).pipe(map(profile => !isEmpty(profile?.name))),
   [AppPath.SignupLocation]: store => store.select(selectProfile).pipe(map(profile => !isEmpty(profile?.locations))),
 };
