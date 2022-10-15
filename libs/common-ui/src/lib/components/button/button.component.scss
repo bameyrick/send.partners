@@ -51,6 +51,12 @@
     }
   }
 
+  &:focus {
+    @include focus-outline;
+
+    outline-offset: 0.2em;
+  }
+
   &__icon,
   &__inner,
   &__spinner {
