@@ -14,7 +14,7 @@
   }
 
   &:focus {
-    outline: 2px solid $colour-primary;
+    @include focus-outline;
   }
 
   &--with-icon {
