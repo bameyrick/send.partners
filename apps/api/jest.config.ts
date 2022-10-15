@@ -15,4 +15,5 @@ export default {
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/api',
   coverageReporters: ['text'],
+  coveragePathIgnorePatterns: ['/node_modules/', 'app/db/database.service.ts'],
 } as Config.InitialOptions;

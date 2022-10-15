@@ -1,7 +1,9 @@
 import { AppPath } from '@common';
 import { createMock } from '@golevelup/ts-jest';
+import { mockDatabaseService } from '@mocks';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Test, TestingModule } from '@nestjs/testing';
+import { DatabaseService } from '../db';
 import { TranslateService } from '../i18n';
 import { I18nModule } from '../i18n/translate.module';
 import { MailService } from './mail.service';
@@ -20,6 +22,10 @@ describe('MailService', () => {
         {
           provide: MailerService,
           useValue: createMock<MailerService>(),
+        },
+        {
+          provide: DatabaseService,
+          useValue: mockDatabaseService,
         },
       ],
     }).compile();

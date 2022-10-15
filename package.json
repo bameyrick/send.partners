@@ -23,7 +23,9 @@
     "pre-commit": "lint-staged",
     "prepare-husky": "husky install",
     "upgrade-interactive": "npm-check --update",
-    "generate-stories": "nx g @nrwl/angular:stories common-ui"
+    "generate-stories": "nx g @nrwl/angular:stories common-ui",
+    "mutations": "dotenv -- cross-var pg-migrations apply --directory migrations --database %DATABASE%",
+    "migrations": "dotenv -- cross-var npx @databases/pg-schema-cli --database %DATABASE% --directory libs/common/src/lib/db-interfaces"
   },
   "lint-staged": {
     "*.ts": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser typescript --write", "eslint --fix"],
@@ -42,6 +44,8 @@
     "@angular/platform-browser": "14.2.6",
     "@angular/platform-browser-dynamic": "14.2.6",
     "@angular/router": "14.2.6",
+    "@databases/pg": "^5.4.1",
+    "@databases/pg-typed": "^4.3.0",
     "@messageformat/core": "^3.0.1",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/common": "9.1.4",
@@ -84,6 +88,8 @@
     "@angular/cli": "~14.2.0",
     "@angular/compiler-cli": "14.2.6",
     "@angular/language-service": "14.2.6",
+    "@databases/pg-migrations": "^5.0.1",
+    "@databases/pg-schema-cli": "^4.3.0",
     "@golevelup/ts-jest": "^0.3.3",
     "@nestjs/schematics": "9.0.3",
     "@nestjs/testing": "9.1.4",
@@ -120,7 +126,9 @@
     "chokidar": "^3.5.3",
     "chokidar-cli": "^3.0.0",
     "concurrently-await": "^1.1.4",
+    "cross-var": "^1.1.0",
     "cypress": "^9.1.0",
+    "dotenv-cli": "^6.0.0",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.10.3",

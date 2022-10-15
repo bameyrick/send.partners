@@ -2,11 +2,12 @@ import { JwtPayload, JwtPayloadWithRefreshToken } from '@common';
 import { createMock } from '@golevelup/ts-jest';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { mockResponseObject } from '@mocks';
+import { mockDatabaseService, mockResponseObject } from '@mocks';
 import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { DatabaseService } from '../db';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -22,6 +23,10 @@ describe('AuthController', () => {
         {
           provide: AuthService,
           useValue: createMock<AuthService>(),
+        },
+        {
+          provide: DatabaseService,
+          useValue: mockDatabaseService,
         },
       ],
     }).compile();

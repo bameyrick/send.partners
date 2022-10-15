@@ -107,7 +107,7 @@ describe(`SignupGuard`, () => {
           )
         ).toEqual(true);
 
-        mockStore.overrideSelector(selectProfile, { emailVerified: true } as User);
+        mockStore.overrideSelector(selectProfile, { email_verified: true, email: 'email', language: 'en' } as User);
 
         expect(
           await guard.canActivateChild(
@@ -116,7 +116,7 @@ describe(`SignupGuard`, () => {
           )
         ).toEqual(true);
 
-        mockStore.overrideSelector(selectProfile, { emailVerified: true, name: 'Test' } as User);
+        mockStore.overrideSelector(selectProfile, { email_verified: true, email: 'email', language: 'en', name: 'Test' } as User);
 
         expect(
           await guard.canActivateChild(
@@ -136,7 +136,7 @@ describe(`SignupGuard`, () => {
           )
         ).toEqual(AppPath.SignupVerify);
 
-        mockStore.overrideSelector(selectProfile, { emailVerified: true } as User);
+        mockStore.overrideSelector(selectProfile, { email_verified: true, email: 'email', language: 'en' } as User);
 
         expect(
           await guard.canActivateChild(
@@ -145,7 +145,7 @@ describe(`SignupGuard`, () => {
           )
         ).toEqual(AppPath.SignupName);
 
-        mockStore.overrideSelector(selectProfile, { emailVerified: true, name: 'Test' } as User);
+        mockStore.overrideSelector(selectProfile, { email_verified: true, email: 'email', language: 'en', name: 'Test' } as User);
 
         expect(
           await guard.canActivateChild(

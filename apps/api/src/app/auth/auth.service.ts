@@ -8,23 +8,10 @@ import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { JwtConstants } from './constants';
 import { AuthResult } from './interfaces';
-
-interface VerificationCode {
-  generated: Date;
-  code: string;
-}
-
-interface ResetPasswordCode {
-  generated: Date;
-  userId: string;
-}
+import { DatabaseService } from '../db';
 
 @Injectable()
 export class AuthService {
-  private readonly verificationCodes: Record<string, VerificationCode> = {};
-
-  private readonly resetEmailHash: Record<string, ResetPasswordCode> = {};
-
   private readonly verificationCodeRetryMs = unitToMS(parseInt(process.env.MAIL_VERIFICATION_RETRY_MINUTES), TimeUnit.Minutes);
 
   private readonly verificationCodeExpiryMs = unitToMS(parseInt(process.env.MAIL_VERIFICATION_EXPIRY_HOURS), TimeUnit.Hours);
@@ -34,7 +21,8 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly mailService: MailService
+    private readonly mailService: MailService,
+    private readonly databaseService: DatabaseService
   ) {}
 
   public async signUp(email: string, password: string, language: string): Promise<AuthResult> {
@@ -75,8 +63,8 @@ export class AuthService {
     return { user: this.usersService.sanitizeUser(user), tokens: await this.generateTokens({ id }) };
   }
 
-  public async sendEmailVerification(userId: string): Promise<number> {
-    const verificationCode = this.verificationCodes[userId];
+  public async sendEmailVerification(user_id: string): Promise<number> {
+    const verificationCode = await this.databaseService.email_verification_codes().findOne({ user_id });
 
     if (verificationCode && this.generatedToRetryMs(verificationCode.generated) > new Date().getTime()) {
       throw new ForbiddenException(
@@ -85,28 +73,24 @@ export class AuthService {
       );
     }
 
-    const user = await this.usersService.findById(userId);
+    const user = await this.usersService.findById(user_id);
 
     if (!user) {
       throw new ForbiddenException();
     }
 
     const code = this.generateCode();
-
     const generated = new Date();
 
-    this.verificationCodes[userId] = {
-      code,
-      generated,
-    };
+    this.databaseService.email_verification_codes().insertOrUpdate(['user_id'], { user_id, code, generated });
 
     this.mailService.sendEmailVerification(user.email, code, user.language);
 
     return this.generatedToRetryMs(generated);
   }
 
-  public async validateEmail(userId: string, code: string): Promise<User> {
-    const activeCode = this.verificationCodes[userId];
+  public async validateEmail(user_id: string, code: string): Promise<User> {
+    const activeCode = await this.databaseService.email_verification_codes().findOne({ user_id });
 
     if (
       !activeCode ||
@@ -115,9 +99,9 @@ export class AuthService {
       throw new ForbiddenException(APIErrorCode.EmailVerificationInvalidOrExpired);
     }
 
-    const user = await this.usersService.markUserEmailAsValidated(userId);
+    const user = await this.usersService.markUserEmailAsValidated(user_id);
 
-    delete this.verificationCodes[userId];
+    await this.databaseService.email_verification_codes().delete({ user_id });
 
     return user;
   }
@@ -129,25 +113,22 @@ export class AuthService {
       const code = this.genererateResetCode();
       const generated = new Date();
 
-      this.resetEmailHash[code] = {
-        userId: user.id,
-        generated,
-      };
+      await this.databaseService.reset_password_codes().insertOrUpdate(['user_id'], { user_id: user.id, code, generated });
 
       this.mailService.sendPasswordReset(user.email, code, user.language);
     }
   }
 
   public async resetPassword(credentials: ResetPasswordCredentials): Promise<void> {
-    const hash = this.resetEmailHash[credentials.code];
+    const hash = await this.databaseService.reset_password_codes().findOne({ code: credentials.code });
 
     if (!hash || hash.generated.getTime() + this.passwordResetExpiryMs <= new Date().getTime()) {
       throw new ForbiddenException(APIErrorCode.PasswordResetInvalidOrExpired);
     }
 
-    delete this.resetEmailHash[credentials.code];
+    await this.databaseService.reset_password_codes().delete({ code: credentials.code });
 
-    await this.usersService.updatePassword(hash.userId, credentials.password);
+    await this.usersService.updatePassword(hash.user_id, credentials.password);
   }
 
   /**

@@ -1,15 +1,8 @@
+import { Users_InsertParameters } from '../db-interfaces';
 import { LatLon } from './lat-lon';
 
-export interface User {
-  id: string;
-  email: string;
-  emailVerified: boolean;
-  language: string;
-  name?: string;
+export interface FullUser extends Users_InsertParameters {
   locations?: LatLon[];
 }
 
-export interface FullUser extends User {
-  password: string;
-  refresh_hash?: string;
-}
+export type User = Pick<FullUser, 'id' | 'email' | 'email_verified' | 'language' | 'name' | 'locations'>;
