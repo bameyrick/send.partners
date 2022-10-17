@@ -51,7 +51,7 @@
     }
   }
 
-  &:focus {
+  &:focus-visible {
     @include focus-outline;
 
     outline-offset: 0.2em;
