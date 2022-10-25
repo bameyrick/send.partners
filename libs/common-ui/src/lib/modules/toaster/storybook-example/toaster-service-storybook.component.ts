@@ -8,16 +8,15 @@ import { ToasterService } from '../toaster.service';
 @Component({
   selector: 'storybook-toaster-service',
   templateUrl: `./toaster-service-storybook.component.html`,
-  styleUrls: [`./toaster-service-storybook.component.scss`],
   providers: [CommonUiModule],
 })
 export class StorybookToasterServiceComponent extends AbstractComponent {
-  @Input() public title?: string | undefined;
-  @Input() public body?: string | undefined;
-  @Input() public icon?: Icon | undefined;
-  @Input() public duration?: number | undefined;
-  @Input() public type?: string | undefined;
-  @Input() public dismissText?: string | undefined;
+  @Input() public title?: string;
+  @Input() public body?: string;
+  @Input() public icon?: Icon;
+  @Input() public duration?: number;
+  @Input() public type?: string;
+  @Input() public dismissText?: string;
 
   constructor(elementRef: ElementRef, private readonly toasterService: ToasterService) {
     super(elementRef);

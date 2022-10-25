@@ -5,7 +5,6 @@ import { AbstractControlComponent } from '../abstracts';
 @Component({
   selector: 'number-input',
   templateUrl: './number-input.component.html',
-  styleUrls: ['./number-input.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
     {

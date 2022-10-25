@@ -8,7 +8,5 @@ export class ReversePipe implements PipeTransform {
     if (value) {
       return [...value].reverse();
     }
-
-    return;
   }
 }

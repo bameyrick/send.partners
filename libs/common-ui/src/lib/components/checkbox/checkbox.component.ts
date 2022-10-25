@@ -5,7 +5,6 @@ import { AbstractControlComponent } from '../abstracts';
 @Component({
   selector: 'checkbox',
   templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
     {

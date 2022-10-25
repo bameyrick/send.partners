@@ -13,7 +13,7 @@ describe('KeysPipe', () => {
 
   describe('transform', () => {
     it(`should return undefined if the value is undefined`, () => {
-      expect(pipe.transform(undefined)).toBeUndefined();
+      expect(pipe.transform()).toBeUndefined();
     });
 
     it(`should return the keys of an object`, () => {

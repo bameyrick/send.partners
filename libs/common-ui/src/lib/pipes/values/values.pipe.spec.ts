@@ -13,7 +13,7 @@ describe(`ValuesPipe`, () => {
 
   describe(`transform`, () => {
     it(`should return undefined if the value is undefined`, () => {
-      expect(pipe.transform(undefined)).toBeUndefined();
+      expect(pipe.transform()).toBeUndefined();
     });
 
     it(`should return the values of an object`, () => {
