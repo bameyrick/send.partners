@@ -1,0 +1,22 @@
+<p field [parent]="this">
+  <input
+    #model="ngModel"
+    class="Field__input Input"
+    [ngClass]="inputClasses"
+    type="number"
+    [id]="inputId"
+    [attr.name]="name"
+    [min]="min"
+    [max]="max"
+    [required]="required"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [attr.tabIndex]="readonly || disabled ? -1 : 0"
+    [attr.autocomplete]="autocomplete"
+    [ngModel]="value"
+    (ngModelChange)="setValue($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (enter)="enter.emit($event)"
+  />
+</p>

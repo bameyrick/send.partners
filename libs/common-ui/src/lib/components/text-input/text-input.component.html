@@ -1,10 +1,10 @@
 <p field [parent]="this">
   <input
-    #input
+    #model="ngModel"
     class="Field__input Input"
     [ngClass]="inputClasses"
     [attr.type]="inputType"
-    [id]="id"
+    [id]="inputId"
     [attr.name]="name"
     [required]="required"
     [disabled]="disabled"

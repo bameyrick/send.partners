@@ -7,10 +7,12 @@ import { RouterModule } from '@angular/router';
 
 import {
   ButtonComponent,
+  CheckboxComponent,
   DropdownComponent,
   FieldComponent,
   FormComponent,
   LanguagesComponent,
+  NumberInputComponent,
   OptionComponent,
   PanelComponent,
   PasswordStrengthComponent,
@@ -19,6 +21,7 @@ import {
 import { EmailVerificationComponent, LoginComponent } from './forms';
 import { IconModule } from './icon';
 import { TranslateModule } from './translate';
+import { KeysPipe, ReversePipe, ValuesPipe } from './pipes';
 
 const imports = [
   CommonModule,
@@ -35,6 +38,7 @@ const imports = [
   imports,
   declarations: [
     ButtonComponent,
+    CheckboxComponent,
     TextInputComponent,
     FormComponent,
     FieldComponent,
@@ -45,10 +49,15 @@ const imports = [
     OptionComponent,
     LanguagesComponent,
     EmailVerificationComponent,
+    ReversePipe,
+    ValuesPipe,
+    NumberInputComponent,
+    KeysPipe,
   ],
   exports: [
     ...imports,
     ButtonComponent,
+    CheckboxComponent,
     TextInputComponent,
     FormComponent,
     FieldComponent,
@@ -59,6 +68,10 @@ const imports = [
     OptionComponent,
     LanguagesComponent,
     EmailVerificationComponent,
+    ReversePipe,
+    ValuesPipe,
+    NumberInputComponent,
+    KeysPipe,
   ],
 })
 export class CommonUiModule {}

@@ -1,8 +1,20 @@
-import { AfterContentInit, Directive, ElementRef, EventEmitter, Injector, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
+import {
+  AfterContentInit,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Injector,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { AbstractControl, ControlValueAccessor, NgControl, NgModel, ValidationErrors } from '@angular/forms';
 import { delay, Dictionary, EqualityType, isEqual } from '@qntm-code/utils';
 import { debounceTime, Subject } from 'rxjs';
-import { Icon } from '../../enums';
+import { v4 as uuid } from 'uuid';
+import { Icon, LabelPosition } from '../../enums';
 import { FormComponent } from '../form';
 // Must be relative to prevent circular dependency
 import { AbstractComponent } from './component.abstract';
@@ -21,6 +33,11 @@ export abstract class AbstractControlComponent<ValueType>
    * The input element's name attribute
    */
   @Input() public name?: string;
+
+  /**
+   * Id for the input and label
+   */
+  @Input() public inputId: string = uuid();
 
   /**
    * The input element's autocomplete attribute
@@ -43,16 +60,6 @@ export abstract class AbstractControlComponent<ValueType>
   @Input() public validationTranslations?: Dictionary<string>;
 
   /**
-   * The field icon to use
-   */
-  public icon?: Icon | null;
-
-  /**
-   * The icon class to use
-   */
-  public iconClass?: string;
-
-  /**
    * Emits an event on form field focus
    */
   // eslint-disable-next-line @angular-eslint/no-output-native
@@ -68,6 +75,16 @@ export abstract class AbstractControlComponent<ValueType>
    * Emits an event on enter key
    */
   @Output() public enter = new EventEmitter<Event>();
+
+  /**
+   * The field icon to use
+   */
+  public icon?: Icon | null;
+
+  /**
+   * The icon class to use
+   */
+  public iconClass?: string;
 
   /**
    * The current control value
@@ -225,6 +242,16 @@ export abstract class AbstractControlComponent<ValueType>
    * A subject to debounce the set state function
    */
   protected readonly setStateQueue$ = new Subject<void>();
+
+  /**
+   * Expose the LabelPosition enum to the view
+   */
+  public readonly LabelPosition = LabelPosition;
+
+  /**
+   * The input's model
+   */
+  @ViewChild('model') protected readonly model?: NgModel;
 
   constructor(elementRef: ElementRef, protected readonly injector: Injector) {
     super(elementRef);
@@ -412,15 +439,15 @@ export abstract class AbstractControlComponent<ValueType>
    * Sets the state of this control
    */
   protected setState(): void {
-    if (this.control) {
-      this.valid = !!this.control.valid;
-      this.invalid = !!this.control.invalid;
-      this.pending = !!this.control.pending;
-      this.pristine = !!this.control.pristine;
-      this.untouched = !!this.control.untouched;
-      this.touched = !!this.control.touched;
-      this.dirty = !!this.control.dirty;
-      this.errors = this.control.errors;
+    if (this.model || this.control) {
+      this.valid = !!this.model?.valid || !!this.control?.valid;
+      this.invalid = !!this.model?.invalid || !!this.control?.invalid;
+      this.pending = !!this.model?.pending || !!this.control?.pending;
+      this.pristine = !!this.model?.pristine || !!this.control?.pristine;
+      this.untouched = !!this.model?.untouched || !!this.control?.untouched;
+      this.touched = !!this.model?.touched || !!this.control?.touched;
+      this.dirty = !!this.model?.dirty || !!this.control?.dirty;
+      this.errors = this.model?.errors || this.control?.errors;
     }
 
     // this.showValidationErrors = this.getShowValidationErrors();
@@ -494,7 +521,7 @@ export abstract class AbstractControlComponent<ValueType>
    * otherwise we can only tell if this control is required by the [required] @Input
    */
   private checkIfControlIsRequired(): void {
-    if (this.control && this.control.control && this.control.control.validator) {
+    if (this.control?.control?.validator) {
       const validators = this.control.control.validator({} as AbstractControl);
 
       if (validators && validators['required']) {

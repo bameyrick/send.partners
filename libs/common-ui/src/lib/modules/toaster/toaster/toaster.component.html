@@ -1,0 +1,8 @@
+<common-toast
+  @toastAnimation
+  class="Toaster__toast"
+  *ngFor="let toast of toasterService.activeToasts$ | async"
+  [toast]="toast"
+  [mouseover]="mouseover"
+  aria-live="assertive"
+></common-toast>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Dictionary, isEqual, isNullOrUndefined, isString } from '@qntm-code/utils';
+import { Dictionary, isEqual, isNullOrUndefined, isObject, isString } from '@qntm-code/utils';
 import { TranslationKeyStore, TranslationValue } from '@common';
 import {
   BehaviorSubject,
@@ -77,7 +77,7 @@ export class TranslateService {
       distinctUntilChanged((previous, next) => isEqual(previous, next)),
       concatMap(() => (isString(key) ? of(key) : NEVER)),
       mergeMap(k => from(this.getKey(k))),
-      map(result => (isNullOrUndefined(result) ? key || '' : result(params)))
+      map(result => (isNullOrUndefined(result) ? key || '' : result(this.flattenParams(params))))
     );
   }
 
@@ -193,5 +193,25 @@ export class TranslateService {
     }
 
     return this.defaultLanguage;
+  }
+
+  private flattenParams(params?: Dictionary<unknown>): Dictionary<unknown> | undefined {
+    if (params) {
+      const result: Dictionary<unknown> = {};
+
+      Object.keys(params).forEach(key => {
+        const value = params[key];
+
+        if (isObject(value)) {
+          Object.assign(result, this.flattenParams(value as Dictionary<unknown>));
+        } else {
+          result[key] = value;
+        }
+      });
+
+      return result;
+    }
+
+    return params;
   }
 }

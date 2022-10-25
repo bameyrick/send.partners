@@ -1,14 +1,24 @@
-$gradient-primary: linear-gradient(45deg, $colour-primary 0%, lighten($colour-primary, 20%) 100%);
-$gradient-primary-hover: linear-gradient(45deg, lighten($colour-primary, 10%) 0%, lighten($colour-primary, 30%) 100%);
+@use 'sass:color';
+
+$gradient-primary: linear-gradient(45deg, $colour-primary 0%, color.adjust($colour-primary, $lightness: 20%) 100%);
+$gradient-primary-hover: linear-gradient(
+  45deg,
+  color.adjust($colour-primary, $lightness: 10%) 0%,
+  color.adjust($colour-primary, $lightness: 30%) 100%
+);
 $gradient-primary-disabled: linear-gradient(
   45deg,
-  desaturate($colour-primary, 40%) 0%,
-  desaturate(lighten($colour-primary, 10%), 40%) 100%
+  color.adjust($colour-primary, $saturation: -40%) 0%,
+  color.adjust(color.adjust($colour-primary, $lightness: 10%), $saturation: -40%) 100%
 );
-$gradient-secondary: linear-gradient(45deg, $colour-secondary 0%, lighten($colour-secondary, 15%) 100%);
-$gradient-secondary-hover: linear-gradient(45deg, lighten($colour-secondary, 10%) 0%, lighten($colour-secondary, 25%) 100%);
+$gradient-secondary: linear-gradient(45deg, $colour-secondary 0%, color.adjust($colour-secondary, $lightness: 15%) 100%);
+$gradient-secondary-hover: linear-gradient(
+  45deg,
+  color.adjust($colour-secondary, $lightness: 10%) 0%,
+  color.adjust($colour-secondary, $lightness: 25%) 100%
+);
 $gradient-secondary-disabled: linear-gradient(
   45deg,
-  desaturate($colour-secondary, 40%) 0%,
-  desaturate(lighten($colour-secondary, 10%), 40%) 100%
+  color.adjust($colour-secondary, $saturation: -40%) 0%,
+  color.adjust(color.adjust($colour-secondary, $lightness: 10%), $saturation: -40%) 100%
 );

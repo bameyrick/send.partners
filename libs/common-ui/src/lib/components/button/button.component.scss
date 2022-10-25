@@ -6,7 +6,7 @@
 
   display: flex;
   position: relative;
-  padding: math.div($input-height - $input-font-size, 2);
+  padding: math.div(math.div($input-height - $input-font-size, 2) * 1em, $base-font-size);
 
   overflow: hidden;
   border-radius: $radius;
@@ -31,18 +31,14 @@
   }
 
   &:before {
+    border-radius: inherit;
     background: $gradient-primary-hover;
   }
 
   &:after {
     z-index: 1;
+    border-radius: inherit;
     background: $gradient-primary-disabled;
-  }
-
-  &:hover:not(:disabled) {
-    &:before {
-      opacity: 1;
-    }
   }
 
   &:disabled {
@@ -55,6 +51,12 @@
     @include focus-outline;
 
     outline-offset: 0.2em;
+  }
+
+  &:hover:not(:disabled) {
+    &:before {
+      opacity: 1;
+    }
   }
 
   &__icon,
@@ -74,7 +76,7 @@
     display: block;
     width: 1em;
     height: 1em;
-    fill: currentColor;
+    fill: currentcolor;
   }
 
   &__icon + &__inner:not(:empty),

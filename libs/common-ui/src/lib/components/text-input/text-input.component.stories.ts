@@ -30,4 +30,5 @@ Primary.args = {
   label: 'Text Input',
   loading: false,
   disabled: false,
+  required: false,
 };

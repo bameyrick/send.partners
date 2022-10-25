@@ -8,7 +8,17 @@ import { AbstractControlComponent } from './control-component.abstract';
 
 @Component({
   selector: 'test-component',
-  template: '',
+  template: `<input
+    #model="ngModel"
+    type="text"
+    [ngModel]="value"
+    (ngModelChange)="setValue($event)"
+    [ngClass]="inputClasses"
+    [id]="inputId"
+    [attr.name]="name"
+    [disabled]="disabled"
+    [readonly]="readonly"
+  />`,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

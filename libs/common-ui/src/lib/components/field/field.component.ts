@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { LabelPosition } from '../../enums';
 import { AbstractComponent, AbstractControlComponent } from '../abstracts';
 
 @Component({
@@ -14,9 +15,24 @@ export class FieldComponent extends AbstractComponent implements OnInit {
   @Input() public parent?: unknown;
 
   /**
+   * Whether the label should be rendered before or after the input
+   */
+  @Input() public labelPosition = LabelPosition.Before;
+
+  /**
+   * Whether to layout the field horizontally
+   */
+  @Input() public horizontal = false;
+
+  /**
    * Expose AbstractControlComponent with typings
    */
   public control?: AbstractControlComponent<unknown>;
+
+  /**
+   * Expose the LabelPosition enum to the view
+   */
+  public readonly LabelPosition = LabelPosition;
 
   public override ngOnInit(): void {
     super.ngOnInit();
@@ -32,6 +48,12 @@ export class FieldComponent extends AbstractComponent implements OnInit {
    * Gets the host class and allows extending classes to extend by returning super.hostClass + 'custom-class'
    */
   protected override getHostClasses(): string[] {
-    return ['Form__field', ...super.getHostClasses()];
+    const classes = ['Form__field', ...super.getHostClasses()];
+
+    if (this.horizontal) {
+      classes.push(`${this.bemBlockClass}--horizontal`);
+    }
+
+    return classes;
   }
 }

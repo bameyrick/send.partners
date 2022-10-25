@@ -1,0 +1,18 @@
+<p field [parent]="this" [labelPosition]="LabelPosition.After" [horizontal]="true">
+  <input
+    #model="ngModel"
+    class="Field__input Input"
+    type="checkbox"
+    [ngClass]="inputClasses"
+    [id]="inputId"
+    [attr.name]="name"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [attr.tabIndex]="readonly || disabled ? -1 : 0"
+    [ngModel]="value"
+    (ngModelChange)="setValue($event)"
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (enter)="enter.emit($event)"
+  />
+</p>

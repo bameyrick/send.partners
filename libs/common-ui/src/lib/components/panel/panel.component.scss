@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use 'sass:math';
 @import '../../styles/base';
 
@@ -41,7 +42,7 @@ $panel-padding: math.div($element-spacing, 1);
 
     &__body {
       border-left-color: $colour-blue;
-      background: lighten($colour-blue, 50%);
+      background: color.adjust($colour-blue, $lightness: 50%);
     }
   }
 
@@ -52,7 +53,7 @@ $panel-padding: math.div($element-spacing, 1);
 
     &__body {
       border-left-color: $colour-red;
-      background: lighten($colour-red, 40%);
+      background: color.adjust($colour-red, $lightness: 40%);
       color: $colour-red;
     }
   }
@@ -64,7 +65,7 @@ $panel-padding: math.div($element-spacing, 1);
 
     &__body {
       border-left-color: $colour-green;
-      background: lighten($colour-green, 40%);
+      background: color.adjust($colour-green, $lightness: 40%);
     }
   }
 
@@ -75,7 +76,7 @@ $panel-padding: math.div($element-spacing, 1);
 
     &__body {
       border-left-color: $colour-yellow;
-      background: lighten($colour-yellow, 40%);
+      background: color.adjust($colour-yellow, $lightness: 40%);
     }
   }
 }

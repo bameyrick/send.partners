@@ -14,7 +14,7 @@ async function colours(): Promise<void> {
   const scssColours = fs
     .readFileSync(COLOURS_SCSS_DIR, 'utf-8')
     .split('\n')
-    .filter(item => !isEmpty(item))
+    .filter(item => !isEmpty(item) && !/^\/\//.test(item))
     .map(item => {
       const [key, colour] = item.split(':');
 

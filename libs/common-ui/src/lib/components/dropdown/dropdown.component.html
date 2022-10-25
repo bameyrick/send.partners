@@ -1,9 +1,9 @@
 <p field [parent]="this">
   <select
-    #input
+    #model="ngModel"
     class="Field__input Input Input--select"
     [ngClass]="inputClasses"
-    [id]="id"
+    [id]="inputId"
     [attr.name]="name"
     [required]="required"
     [disabled]="disabled"

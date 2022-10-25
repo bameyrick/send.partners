@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
-    "start": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,api,app,admin,storybook  \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx serve api\" \"nx serve\" \"nx serve admin --port 4600\" \"npm run storybook\"",
-    "storybook": "nx storybook common-ui",
+    "start": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,api,app,admin,storybook \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx serve api\" \"nx serve\" \"nx serve admin --port 4600\" \"nx storybook common-ui\"",
+    "storybook": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,storybook \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx storybook common-ui\"",
     "build": "nx build",
     "test": "yarn nx run-many --target=test --all",
     "lint": "nx run-many --target=lint --all && remark .",
@@ -29,7 +29,7 @@
   },
   "lint-staged": {
     "*.ts": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser typescript --write", "eslint --fix"],
-    "*.scss": ["prettier --print-width 140 --single-quote --parser css --write", "sass-lint"],
+    "*.scss": ["prettier --print-width 140 --single-quote --parser css --write", "stylelint"],
     "*.json": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write"],
     "*.md": ["prettier --write", "remark"]
   },
@@ -125,7 +125,7 @@
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "chokidar-cli": "^3.0.0",
-    "concurrently-await": "^1.1.4",
+    "concurrently-await": "^1.2.0",
     "cross-var": "^1.1.0",
     "cypress": "^9.1.0",
     "dotenv-cli": "^6.0.0",
@@ -147,14 +147,19 @@
     "remark-lint": "^9.1.1",
     "remark-preset-lint-recommended": "^6.1.2",
     "rimraf": "^3.0.2",
-    "sass-lint": "^1.13.1",
     "storybook-addon-rtl": "^0.4.3",
     "storybook-dark-mode": "^1.1.0",
+    "stylelint": "^14.14.0",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-standard-scss": "^5.0.0",
+    "stylelint-order": "^5.0.0",
+    "stylelint-selector-bem-pattern": "^2.1.1",
     "svg-sprite": "^2.0.0",
     "svgo": "^2.8.0",
     "ts-jest": "28.0.8",
     "ts-node": "10.9.1",
     "typescript": "4.8.4",
+    "utility-types": "^3.10.0",
     "webpack": "^5.73.0"
   }
 }
