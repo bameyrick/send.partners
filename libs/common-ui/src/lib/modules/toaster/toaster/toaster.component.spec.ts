@@ -21,4 +21,28 @@ describe('ToasterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe(`mouseover`, () => {
+    it(`should set the mouseover property to true when the mouse is over the toaster`, () => {
+      expect(component.mouseover).toEqual(false);
+
+      const event = new MouseEvent(`mouseover`);
+
+      (component as any).elementRef.nativeElement.dispatchEvent(event);
+
+      expect(component.mouseover).toEqual(true);
+    });
+  });
+
+  describe(`mouseout`, () => {
+    it(`should set the mouseover property to false when the mouse leaves the toaster`, () => {
+      component.mouseover = true;
+
+      const event = new MouseEvent(`mouseout`);
+
+      (component as any).elementRef.nativeElement.dispatchEvent(event);
+
+      expect(component.mouseover).toEqual(false);
+    });
+  });
 });

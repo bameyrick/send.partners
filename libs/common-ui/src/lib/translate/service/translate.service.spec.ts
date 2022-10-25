@@ -190,4 +190,20 @@ describe(`TranslateService`, () => {
       });
     });
   });
+
+  describe(`flattenParams`, () => {
+    it(`should return an empty object if no params are passed`, () => {
+      const params = undefined;
+      const result = (service as any).flattenParams(params);
+
+      expect(result).toEqual(params);
+    });
+
+    it(`should convert nested parameters to a flat object`, () => {
+      const params = { test: { test: 'test' } };
+      const result = (service as any).flattenParams(params);
+
+      expect(result).toEqual({ test: 'test' });
+    });
+  });
 });
