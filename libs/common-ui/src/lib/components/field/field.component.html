@@ -3,9 +3,21 @@
     control!.errorsSnapshot![0].translationKey | translate: control!.errorsSnapshot![0].translationArgs
   }}</strong>
 
-  <label *ngIf="control?.label" [for]="id" class="Field__label">{{ control?.label }}</label>
+  <div class="Field__wrapper">
+    <ng-container *ngIf="labelPosition === LabelPosition.Before">
+      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+    </ng-container>
 
-  <span class="Field__inner" [icon]="control?.icon" [iconClass]="control?.iconClass" [iconPlacement]="IconPlacement.After">
-    <ng-content></ng-content>
-  </span>
+    <span class="Field__inner" [icon]="control?.icon" [iconClass]="control?.iconClass" [iconPlacement]="IconPlacement.After">
+      <ng-content></ng-content>
+    </span>
+
+    <ng-container *ngIf="labelPosition === LabelPosition.After">
+      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+    </ng-container>
+  </div>
 </common-panel>
+
+<ng-template #labelTemplate>
+  <label *ngIf="control?.label" [for]="control?.inputId" class="Field__label">{{ control?.label }}</label>
+</ng-template>

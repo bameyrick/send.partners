@@ -1,0 +1,54 @@
+@use 'sass:math';
+@import '../../../styles/base';
+
+.Toaster {
+  position: fixed;
+  margin: 0 math.div($element-spacing, 2);
+  padding: math.div($element-spacing, 2) 0;
+  max-height: 100vh;
+  overflow: auto;
+
+  &--top {
+    top: 0;
+    left: 50%;
+  }
+
+  &--top-right {
+    top: 0;
+    right: 0;
+  }
+
+  &--top-left {
+    top: 0;
+    left: 0;
+  }
+
+  &--right {
+    top: 50%;
+    right: 0;
+  }
+
+  &--bottom {
+    bottom: 0;
+    left: 50%;
+  }
+
+  &--bottom-right {
+    right: 0;
+    bottom: 0;
+  }
+
+  &--bottom-left {
+    bottom: 0;
+    left: 0;
+  }
+
+  &--left {
+    top: 50%;
+    left: 0;
+  }
+
+  &__toast {
+    margin: math.div($element-spacing, 2);
+  }
+}

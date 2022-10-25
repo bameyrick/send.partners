@@ -15,10 +15,12 @@ export class IconDirective implements OnChanges {
    * Populates the icon by name
    */
   @Input('icon') public set iconName(value: Icon | undefined | null) {
-    this.name = value;
+    if (value && Object.values(Icon).includes(value)) {
+      this.name = value;
 
-    if (value) {
       this.useElement.setAttributeNS(NS_XLINK, 'href', `#${value}`);
+    } else {
+      this.name = undefined;
     }
   }
 

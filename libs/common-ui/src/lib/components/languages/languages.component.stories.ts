@@ -17,4 +17,5 @@ const Template: Story<LanguagesComponent> = (props: LanguagesComponent) => ({
 });
 
 export const Primary = Template.bind({});
+
 Primary.args = {};

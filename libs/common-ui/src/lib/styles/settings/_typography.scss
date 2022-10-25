@@ -1,14 +1,14 @@
+/* stylelint-disable-next-line value-keyword-case */
 $font-family: Gilroy, -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 $base-font-size: 18px;
-
 $font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-medium: 500;
 $font-weight-bold: 700;
 $font-weight-heavy: 800;
 
-$typography-spacing: $element-spacing;
+$typography-spacing: 0.5rem;
 
 $type-matrix: (
   fs-xxxl: (

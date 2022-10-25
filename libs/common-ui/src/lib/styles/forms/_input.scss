@@ -5,12 +5,30 @@
   border: 0;
   border-radius: $radius;
   background: $colour-concrete;
+
   // box-shadow: 0 0 3px darken($colour-concrete, 40%);
   font-size: rems($input-font-size);
   line-height: 1;
 
   &[type='password'] {
     letter-spacing: 0.2em;
+  }
+
+  &[type='checkbox'] {
+    appearance: none;
+    width: 1em;
+    height: 1em;
+
+    &:focus {
+      box-shadow: 0 0 0 $focus-outline-width $focus-outline-color;
+    }
+
+    &:checked {
+      background-image: url($svg-check-svg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 0.75em;
+    }
   }
 
   &:focus-visible {

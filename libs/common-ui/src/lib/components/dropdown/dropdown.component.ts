@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChildren, forwardRef, OnInit, QueryList, ViewEncapsulation } from '@angular/core';
+import { Component, ContentChildren, forwardRef, QueryList, ViewEncapsulation } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AbstractControlComponent } from '../abstracts';
 import { OptionValue } from '../option/option-value';
@@ -20,7 +20,7 @@ import { OptionComponent } from '../option/option.component';
     },
   ],
 })
-export class DropdownComponent extends AbstractControlComponent<OptionValue | Array<OptionValue>> implements OnInit, AfterContentInit {
+export class DropdownComponent extends AbstractControlComponent<OptionValue | Array<OptionValue>> {
   /**
    * The options available for selection
    */

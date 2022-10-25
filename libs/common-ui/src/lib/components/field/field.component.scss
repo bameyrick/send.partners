@@ -1,6 +1,8 @@
 @use 'sass:math';
 @import '../../styles/base';
 
+$field-horizontal-label-spacing: 0.3rem;
+
 .Field {
   display: block;
 
@@ -40,12 +42,26 @@
   &__button {
     font-size: 1em !important;
   }
+
+  &--horizontal & {
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      margin: math.div($field-horizontal-label-spacing, -2);
+    }
+
+    &__inner,
+    &__label {
+      margin: math.div($field-horizontal-label-spacing, 2);
+    }
+  }
 }
 
 @keyframes field-icon-spin {
   0% {
     transform: translate(0, -50%) rotate(0deg);
   }
+
   100% {
     transform: translate(0, -50%) rotate(360deg);
   }

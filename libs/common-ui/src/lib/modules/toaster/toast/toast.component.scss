@@ -1,0 +1,61 @@
+@use 'sass:math';
+@import '../../../styles/base';
+
+.Toast {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: math.div($element-spacing, 2);
+  width: calc(100vw - #{$element-spacing * 2});
+  max-width: 360px;
+  overflow: hidden;
+  border-radius: 0.5em;
+  background: $colour-alabaster;
+  box-shadow: 0 0 3px rgba($colour-text, 0.3);
+
+  &__icon-container,
+  &__content,
+  &__dismiss {
+    flex: 0 0 auto;
+    margin: math.div($element-spacing, 2);
+  }
+
+  &__content {
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  &__title {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__body {
+    /* stylelint-disable-next-line value-no-vendor-prefix */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+  }
+
+  &__icon {
+    width: 2em;
+    height: 2em;
+    fill: $colour-text;
+  }
+
+  &__dismiss {
+    font-size: 0.6rem;
+  }
+
+  &__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background: $colour-grey;
+  }
+}
