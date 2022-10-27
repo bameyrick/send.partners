@@ -43,7 +43,7 @@ describe('MailService', () => {
     it('should send an email', async () => {
       const to = 'to';
       const code = 'code';
-      const language = 'language';
+      const language = 'en';
 
       await service.sendEmailVerification(to, code, language);
 
@@ -65,7 +65,7 @@ describe('MailService', () => {
 
   describe('sendPasswordReset', () => {
     it('should send an email', async () => {
-      const user = createMock<User>({ email: 'email' });
+      const user = createMock<User>({ email: 'email', language: 'en' });
       const code = 'code';
 
       await service.sendPasswordReset(user, code);

@@ -28,6 +28,10 @@ describe('AuthController', () => {
           provide: DatabaseService,
           useValue: mockDatabaseService,
         },
+        {
+          provide: UsersService,
+          useValue: createMock<UsersService>(),
+        },
       ],
     }).compile();
 

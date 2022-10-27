@@ -20,7 +20,14 @@ describe('UsersController', () => {
           provide: DatabaseService,
           useValue: mockDatabaseService,
         },
-        { provide: MailService, useValue: createMock<MailService>() },
+        {
+          provide: MailService,
+          useValue: createMock<MailService>(),
+        },
+        {
+          provide: UsersService,
+          useValue: createMock<UsersService>(),
+        },
       ],
     }).compile();
 

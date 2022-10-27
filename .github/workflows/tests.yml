@@ -33,6 +33,8 @@ jobs:
           MAIL_VERIFICATION_EXPIRY_HOURS: 1
           MAIL_VERIFICATION_RETRY_MINUTES: 1
           PASSWORD_RESET_EXPIRY_HOURS: 1
+          FRONTEND_URL: http://localhost:4300
+          ADMIN_URL: http://localhost:4600
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
