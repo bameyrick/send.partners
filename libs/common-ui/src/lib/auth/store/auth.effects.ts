@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AppPath, getRouterLinkForAppPath } from '@common';
@@ -6,13 +6,16 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { AuthActions } from './auth.actions';
 
+export const LOGOUT_REDIRECT_PATH = new InjectionToken<AppPath>('LOGOUT_REDIRECT_PATH');
+
 @Injectable()
 export class AuthEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    @Inject(LOGOUT_REDIRECT_PATH) private readonly logoutRedirectPath: AppPath
   ) {}
 
   public refreshToken$ = createEffect(() =>
@@ -76,7 +79,14 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.logoutSuccess),
-        tap(() => this.router.navigateByUrl(getRouterLinkForAppPath(AppPath.Root)))
+        tap(() => {
+          const url = this.router.routerState.snapshot.url;
+
+          const queryParams =
+            this.logoutRedirectPath === AppPath.Login && getRouterLinkForAppPath(AppPath.Root) !== url ? { redirect: url } : undefined;
+
+          this.router.navigate([this.logoutRedirectPath], { queryParams });
+        })
       ),
     { dispatch: false }
   );
@@ -105,13 +115,13 @@ export class AuthEffects {
     )
   );
 
-  public updateProfile$ = createEffect(() =>
+  public updateAuthUser$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.updateProfile),
+      ofType(AuthActions.updateAuthUser),
       switchMap(({ user }) =>
-        this.authService.updateProfile(user).pipe(
-          map(updatedUser => AuthActions.updateProfileSuccess({ user: updatedUser })),
-          catchError(({ error }) => of(AuthActions.updateProfileFailed({ errorCode: error.message })))
+        this.authService.updateAuthUser(user).pipe(
+          map(updatedUser => AuthActions.updateAuthUserSuccess({ user: updatedUser })),
+          catchError(({ error }) => of(AuthActions.updateAuthUserFailed({ errorCode: error.message })))
         )
       )
     )

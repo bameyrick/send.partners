@@ -12,8 +12,8 @@ export const selectAuthErrorCode = createSelector(selectAuthState, state =>
   state.errorCode ? APIErrorCodeTranslation[state.errorCode] : undefined
 );
 
-export const selectProfile = createSelector(selectAuthState, state => state.user);
+export const selectAuthUser = createSelector(selectAuthState, state => state.user);
 
-export const selectAuthenticated = createSelector(selectProfile, profile => !!profile);
+export const selectAuthenticated = createSelector(selectAuthUser, authUser => !!authUser);
 
 export const selectResendEmailTime = createSelector(selectAuthState, state => state.retryEnables);

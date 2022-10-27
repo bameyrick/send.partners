@@ -6,10 +6,11 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { AuthModule, CommonAppLoadService, CommonUiModule, ROOT_REDUCERS, TranslateModule } from '@common-ui';
+import { AuthModule, CommonAppLoadService, CommonUiModule, LOGOUT_REDIRECT_PATH, ROOT_REDUCERS, TranslateModule } from '@common-ui';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './routing';
 import { environment } from '../environments/environment';
+import { AppPath } from '@common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,6 +50,10 @@ import { environment } from '../environments/environment';
       useFactory: (appLoadService: CommonAppLoadService) => () => appLoadService.initializeApp(),
       deps: [CommonAppLoadService],
       multi: true,
+    },
+    {
+      provide: LOGOUT_REDIRECT_PATH,
+      useValue: AppPath.Root,
     },
   ],
   bootstrap: [AppComponent],

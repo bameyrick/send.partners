@@ -54,7 +54,7 @@ describe('AuthService', () => {
         .mockImplementation(
           () =>
             new Promise(resolve =>
-              resolve({ id: 'test', email: 'test', name: 'test', password: 'password', email_verified: true, language: 'en' })
+              resolve({ id: 'test', email: 'test', name: 'test', password: 'password', email_verified: true, language: 'en', role: 'user' })
             )
         );
 
@@ -83,7 +83,7 @@ describe('AuthService', () => {
         .mockImplementation(
           () =>
             new Promise(resolve =>
-              resolve({ id: 'test', email: 'test', name: 'test', password: 'password', email_verified: true, language: 'en' })
+              resolve({ id: 'test', email: 'test', name: 'test', password: 'password', email_verified: true, language: 'en', role: 'user' })
             )
         );
 
@@ -98,6 +98,7 @@ describe('AuthService', () => {
         password: await hash('test'),
         email_verified: true,
         language: 'en',
+        role: 'user',
       };
 
       jest.spyOn(usersService, 'findFullByEmail').mockImplementation(async () => user);
@@ -134,9 +135,15 @@ describe('AuthService', () => {
     });
 
     it(`should throw a forbidden exception if user does not have a refresh_hash`, async () => {
-      jest
-        .spyOn(usersService, 'findFullById')
-        .mockImplementation(async () => ({ id: '', email: '', name: '', password: '', email_verified: false, language: 'en' }));
+      jest.spyOn(usersService, 'findFullById').mockImplementation(async () => ({
+        id: '',
+        email: '',
+        name: '',
+        password: '',
+        email_verified: false,
+        language: 'en',
+        role: 'user',
+      }));
 
       await expect(service.refresh('', '')).rejects.toThrow(new ForbiddenException());
     });
@@ -151,6 +158,7 @@ describe('AuthService', () => {
         refresh_hash: await hash(token),
         email_verified: false,
         language: 'en',
+        role: 'user',
       }));
 
       await expect(service.refresh('', 'badToken')).rejects.toThrow(new ForbiddenException());
@@ -166,6 +174,7 @@ describe('AuthService', () => {
         refresh_hash: await hash(token),
         email_verified: false,
         language: 'en',
+        role: 'user',
       }));
 
       const spy = jest.spyOn(service as any, 'generateTokens');
@@ -184,6 +193,7 @@ describe('AuthService', () => {
         name: '',
         email_verified: false,
         language: 'en',
+        role: 'user',
       }));
     });
 
@@ -265,7 +275,7 @@ describe('AuthService', () => {
         .spyOn(databaseService.reset_password_codes(), 'findOne')
         .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ generated: new Date(), code }));
 
-      const user: User = { id: user_id, email: 'email', email_verified: true, language: 'en' };
+      const user: User = { id: user_id, email: 'email', email_verified: true, language: 'en', role: 'user' };
 
       jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => user);
 
@@ -283,13 +293,14 @@ describe('AuthService', () => {
         name: '',
         email_verified: false,
         language: 'en',
+        role: 'user',
       }));
     });
 
-    it(`should call mailService.sendPasswordReset`, async () => {
+    it(`should call usersService.requestPasswordReset`, async () => {
       await service.requestPasswordReset('id');
 
-      expect(mailService.sendPasswordReset).toBeCalled();
+      expect(usersService.requestPasswordReset).toBeCalled();
     });
   });
 

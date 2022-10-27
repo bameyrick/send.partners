@@ -4,7 +4,7 @@ import {
   selectInitialRefreshCompleted,
   selectAuthorizing,
   selectAuthErrorCode,
-  selectProfile,
+  selectAuthUser,
   selectAuthenticated,
   selectResendEmailTime,
 } from './auth.selectors';
@@ -85,14 +85,14 @@ describe(`AuthSelectors`, () => {
     });
   });
 
-  describe(`selectProfile`, () => {
-    it(`should return the profile`, () => {
+  describe(`selectAuthUser`, () => {
+    it(`should return the authUser`, () => {
       state = {
         initialRefreshCompleted: false,
         authorizing: false,
       };
 
-      const result = selectProfile.projector(state);
+      const result = selectAuthUser.projector(state);
 
       expect(result).toBeUndefined();
 
@@ -101,6 +101,7 @@ describe(`AuthSelectors`, () => {
         email: '',
         email_verified: false,
         language: 'en',
+        role: 'user',
       };
 
       state = {
@@ -109,7 +110,7 @@ describe(`AuthSelectors`, () => {
         user,
       };
 
-      const result2 = selectProfile.projector(state);
+      const result2 = selectAuthUser.projector(state);
 
       expect(result2).toBe(user);
     });
@@ -126,6 +127,7 @@ describe(`AuthSelectors`, () => {
         email: '',
         email_verified: false,
         language: 'en',
+        role: 'user',
       };
 
       const result2 = selectAuthenticated.projector(user);

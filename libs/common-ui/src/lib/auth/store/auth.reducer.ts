@@ -58,11 +58,11 @@ export const authReducer = createReducer<AuthState>(
 
   on(AuthActions.logoutSuccess, state => ({ ...state, user: undefined })),
 
-  on(AuthActions.updateProfile, state => onAuth(state)),
+  on(AuthActions.updateAuthUser, state => onAuth(state)),
 
-  on(AuthActions.updateProfileSuccess, (state, { user }) => ({ ...state, user, authorizing: false })),
+  on(AuthActions.updateAuthUserSuccess, (state, { user }) => ({ ...state, user, authorizing: false })),
 
-  on(AuthActions.updateProfileFailed, (state, { errorCode }) => onAuthFailed(state, errorCode)),
+  on(AuthActions.updateAuthUserFailed, (state, { errorCode }) => onAuthFailed(state, errorCode)),
 
   on(AuthActions.requestPasswordResetFailed, (state, { errorCode }) => onAuthFailed(state, errorCode)),
 

@@ -1,15 +1,18 @@
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Authority, hasAuthority } from '@common';
 import { Store } from '@ngrx/store';
-import { selectProfile } from '../../auth';
+import { selectAuthUser } from '../../auth';
 
 @Directive({
   selector: '[hasAuthority]',
 })
 export class HasAuthorityDirective implements OnInit {
+  /**
+   * The authority to check
+   */
   @Input() public authority?: Authority;
 
-  private readonly user$ = this.store.select(selectProfile);
+  private readonly user$ = this.store.select(selectAuthUser);
 
   constructor(
     private readonly store: Store,

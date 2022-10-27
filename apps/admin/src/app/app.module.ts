@@ -1,6 +1,14 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { APP_ROUTING_TREE, AuthModule, CommonAppLoadService, CommonUiModule, ROOT_REDUCERS, TranslateModule } from '@common-ui';
+import {
+  APP_ROUTING_TREE,
+  AuthModule,
+  CommonAppLoadService,
+  CommonUiModule,
+  LOGOUT_REDIRECT_PATH,
+  ROOT_REDUCERS,
+  TranslateModule,
+} from '@common-ui';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
@@ -11,6 +19,7 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './routing';
 import { AppRoutingTree } from './routing/app-routing-tree';
+import { AppPath } from '@common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -54,6 +63,10 @@ import { AppRoutingTree } from './routing/app-routing-tree';
     {
       provide: APP_ROUTING_TREE,
       useValue: AppRoutingTree,
+    },
+    {
+      provide: LOGOUT_REDIRECT_PATH,
+      useValue: AppPath.Login,
     },
   ],
   bootstrap: [AppComponent],

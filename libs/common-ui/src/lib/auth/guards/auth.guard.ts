@@ -3,11 +3,10 @@ import { ActivatedRouteSnapshot, CanActivateChild, Router, RouterStateSnapshot, 
 import { AppPath, asyncEvery, Authority, getRouterLinkForAppPath, PartialRecord } from '@common';
 import { Store } from '@ngrx/store';
 import { isNullOrUndefined } from '@qntm-code/utils';
-import { markdownTable } from 'markdown-table';
 import { firstValueFrom, skipWhile } from 'rxjs';
 import { AppRouteAuthorities, AppTreeRoute } from '../../interfaces';
 import { AuthorityService } from '../../services';
-import { selectAuthenticated, selectInitialRefreshCompleted, selectProfile } from '../store';
+import { selectAuthenticated, selectInitialRefreshCompleted, selectAuthUser, AuthActions } from '../store';
 
 export const APP_ROUTING_TREE = new InjectionToken<AppTreeRoute[]>('APP_ROUTING_TREE');
 
@@ -27,7 +26,7 @@ export class AuthGuard implements CanActivateChild {
     private readonly authorityService: AuthorityService,
     @Inject(APP_ROUTING_TREE) private readonly appRoutingTree: AppTreeRoute[]
   ) {
-    this.reportRoutingAuthorityConflicts();
+    void this.reportRoutingAuthorityConflicts();
   }
 
   public async canActivate(_route: ActivatedRouteSnapshot, { url }: RouterStateSnapshot): Promise<boolean | UrlTree> {
@@ -53,7 +52,7 @@ export class AuthGuard implements CanActivateChild {
       return true;
     }
 
-    const user = await firstValueFrom(this.store.select(selectProfile));
+    const user = await firstValueFrom(this.store.select(selectAuthUser));
 
     if (!(await asyncEvery(route.authorities, async authority => await this.authorityService.hasAuthority(authority, user)))) {
       console.warn(`User does not have authority to access route "${url}". Required authorities: ${route.authorities.join(', ')}`);
@@ -76,9 +75,7 @@ export class AuthGuard implements CanActivateChild {
         return false;
       }
     } else if (!isLoginUrl) {
-      const queryParams = getRouterLinkForAppPath(AppPath.Root) !== url ? { redirect: url } : undefined;
-
-      this.router.navigate([AppPath.Login], { queryParams });
+      this.store.dispatch(AuthActions.logout());
 
       return false;
     }
@@ -113,7 +110,7 @@ export class AuthGuard implements CanActivateChild {
     children?.forEach(child => this.addRouteToDictionary(dictionary, child, [...(dictionary[path]?.authorities || [])]));
   }
 
-  private reportRoutingAuthorityConflicts(): void {
+  private async reportRoutingAuthorityConflicts(): Promise<void> {
     const routes: string[][] = Object.entries(this.appRoutesDictionary)
       .filter(
         ([_key, routeConfig]) =>
@@ -135,7 +132,10 @@ export class AuthGuard implements CanActivateChild {
       });
 
     if (routes.length) {
-      const table = markdownTable([['Parent Route', 'Parent Authority', 'Child Route', 'Child Authority'], ...routes]);
+      const table = (await import('markdown-table')).markdownTable([
+        ['Parent Route', 'Parent Authority', 'Child Route', 'Child Authority'],
+        ...routes,
+      ]);
 
       console.warn(
         `There are parent routes that have authorities unrelated to the authorities applied to it's child routes. This may mean that although the user has a granted authority for the child route, they will not be able to access it if they do not have the authority required to access the parent route.\n\n${table}`

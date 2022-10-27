@@ -7,6 +7,7 @@ import { BadRequestException, ForbiddenException, NotFoundException } from '@nes
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseService } from '../db';
 import { hash } from '../helpers';
+import { MailService } from '../mail';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
@@ -21,6 +22,7 @@ describe('UsersService', () => {
     name: 'name',
     password: 'password',
     refresh_hash: 'refresh_hash',
+    role: 'user',
   });
 
   beforeEach(async () => {
@@ -31,6 +33,7 @@ describe('UsersService', () => {
           provide: DatabaseService,
           useValue: mockDatabaseService,
         },
+        { provide: MailService, useValue: createMock<MailService>() },
       ],
     }).compile();
 
@@ -40,6 +43,8 @@ describe('UsersService', () => {
     jest
       .spyOn(databaseService.user_locations(), 'find')
       .mockReturnValue({ all: () => createMock<UserLocations[]>() } as unknown as UnorderedSelectQuery<UserLocations>);
+
+    jest.spyOn(databaseService.users(), 'insert').mockReturnValue(Promise.resolve([mockUser]));
   });
 
   afterEach(() => {
@@ -219,6 +224,8 @@ describe('UsersService', () => {
     });
 
     it(`should update the user's password`, async () => {
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+
       jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
 
       await service.updatePassword('id', 'NewPassword01');
