@@ -6,9 +6,9 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { AuthModule, CommonAppLoadService, CommonUiModule, TranslateModule } from '@common-ui';
+import { AuthModule, CommonAppLoadService, CommonUiModule, ROOT_REDUCERS, TranslateModule } from '@common-ui';
 import { AppComponent } from './app.component';
-import { AppRoutingModule, ROOT_REDUCERS } from './routing';
+import { AppRoutingModule } from './routing';
 import { environment } from '../environments/environment';
 
 @NgModule({

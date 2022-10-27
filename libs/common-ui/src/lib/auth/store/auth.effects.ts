@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AppPath, getRouterLinkForAppPath } from '@common';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
@@ -8,7 +8,12 @@ import { AuthActions } from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
-  constructor(private readonly actions$: Actions, private readonly authService: AuthService, private readonly router: Router) {}
+  constructor(
+    private readonly actions$: Actions,
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
+  ) {}
 
   public refreshToken$ = createEffect(() =>
     this.actions$.pipe(
@@ -44,6 +49,15 @@ export class AuthEffects {
         )
       )
     )
+  );
+
+  public loginSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.loginSuccess),
+        tap(() => this.router.navigateByUrl(this.activatedRoute.snapshot.queryParams['redirect'] || getRouterLinkForAppPath(AppPath.Root)))
+      ),
+    { dispatch: false }
   );
 
   public logout$ = createEffect(() =>

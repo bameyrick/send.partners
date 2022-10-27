@@ -13,7 +13,7 @@ import { I18nModule } from '../i18n/translate.module';
         host: process.env.MAIL_HOST,
         port: parseInt(process.env.MAIL_PORT),
         auth: {
-          user: process.env.MAIL_USER,
+          user: process.env.MAIL_USERNAME,
           pass: process.env.MAIL_PASSWORD,
         },
       },

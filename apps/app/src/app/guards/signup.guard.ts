@@ -11,12 +11,12 @@ import { signupRules } from '../pages/signup/signup-rules';
 export class SignUpGuard implements CanActivate, CanActivateChild {
   constructor(private readonly store: Store, private readonly router: Router) {}
 
-  public async canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    return this.signUpCompleted(state.url);
+  public async canActivate(_route: ActivatedRouteSnapshot, { url }: RouterStateSnapshot): Promise<boolean | UrlTree> {
+    return this.signUpCompleted(url);
   }
 
-  public async canActivateChild(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    return this.signUpCompleted(state.url);
+  public async canActivateChild(_route: ActivatedRouteSnapshot, { url }: RouterStateSnapshot): Promise<boolean | UrlTree> {
+    return this.signUpCompleted(url);
   }
 
   private async signUpCompleted(url: string): Promise<boolean | UrlTree> {

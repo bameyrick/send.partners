@@ -1,14 +1,20 @@
-import { APIErrorCode, FullUser, LatLon, passwordRegex, User, Users } from '@common';
+import { APIErrorCode, FullUser, LatLon, passwordRegex, User, UserRole, Users } from '@common';
 import { ConnectionPool, sql, Transaction } from '@databases/pg';
 import { allOf } from '@databases/pg-typed';
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { clone } from '@qntm-code/utils';
+import * as crypto from 'crypto';
+import { v4 as uuid } from 'uuid';
 import { DatabaseService } from '../db';
 import { hash } from '../helpers';
+import { MailService } from '../mail';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(private readonly databaseService: DatabaseService, private readonly mailService: MailService) {
+    void this.createDefaultSysadmin();
+  }
+
   /**
    * This should only be used by internal code, and the data should not be returned to the user
    */
@@ -58,9 +64,9 @@ export class UsersService {
     const foundUser = await this.findFullById(id);
 
     if (foundUser) {
-      const modifiedUser = { ...foundUser, ...user };
+      const { name, language } = user;
 
-      delete modifiedUser.locations;
+      const modifiedUser = { ...foundUser, name, language };
 
       let updatedUser: Users;
 
@@ -123,7 +129,14 @@ export class UsersService {
     }
   }
 
-  public async createUser(email: string, password: string, language: string): Promise<FullUser> {
+  public async createUser(
+    email: string,
+    password: string,
+    language: string,
+    email_verified = false,
+    role: UserRole = 'user',
+    name?: string
+  ): Promise<FullUser> {
     if (await this.findByEmail(email)) {
       throw new BadRequestException(APIErrorCode.UserAlreadyExists);
     }
@@ -131,9 +144,11 @@ export class UsersService {
     if (passwordRegex.test(password)) {
       return (
         await this.databaseService.users().insert({
+          role,
           email,
+          name,
           password: await hash(password),
-          email_verified: false,
+          email_verified,
           language,
         })
       )[0];
@@ -156,6 +171,19 @@ export class UsersService {
     }
   }
 
+  public async requestPasswordReset(email: string): Promise<void> {
+    const user = await this.findByEmail(email);
+
+    if (user) {
+      const code = this.genererateResetCode();
+      const generated = new Date();
+
+      await this.databaseService.reset_password_codes().insertOrUpdate(['user_id'], { user_id: user.id, code, generated });
+
+      this.mailService.sendPasswordReset(user, code);
+    }
+  }
+
   public sanitizeUser(fullUser: FullUser): User {
     const user = clone(fullUser);
 
@@ -171,5 +199,19 @@ export class UsersService {
     );
 
     return locations?.map(({ lat, lon }) => [lat, lon]);
+  }
+
+  private genererateResetCode(): string {
+    return crypto.randomBytes(16).toString('hex');
+  }
+
+  private async createDefaultSysadmin(): Promise<void> {
+    const sysadmin = await this.findByEmail(process.env.DEFAULT_SYSADMIN_EMAIL);
+
+    if (!sysadmin) {
+      await this.createUser(process.env.DEFAULT_SYSADMIN_EMAIL, `${uuid()}!A`, 'en', true, 'sysadmin', process.env.DEFAULT_SYSADMIN_NAME);
+
+      this.requestPasswordReset(process.env.DEFAULT_SYSADMIN_EMAIL);
+    }
   }
 }

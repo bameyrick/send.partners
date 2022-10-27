@@ -107,16 +107,7 @@ export class AuthService {
   }
 
   public async requestPasswordReset(email: string): Promise<void> {
-    const user = await this.usersService.findByEmail(email);
-
-    if (user) {
-      const code = this.genererateResetCode();
-      const generated = new Date();
-
-      await this.databaseService.reset_password_codes().insertOrUpdate(['user_id'], { user_id: user.id, code, generated });
-
-      this.mailService.sendPasswordReset(user.email, code, user.language);
-    }
+    await this.usersService.requestPasswordReset(email);
   }
 
   public async resetPassword(credentials: ResetPasswordCredentials): Promise<void> {
@@ -156,10 +147,6 @@ export class AuthService {
       .fill(null)
       .map(() => crypto.randomInt(0, 9))
       .join('');
-  }
-
-  private genererateResetCode(): string {
-    return crypto.randomBytes(16).toString('hex');
   }
 
   private generatedToRetryMs(generated: Date): number {
