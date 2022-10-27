@@ -1,8 +1,8 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { AppPath, asyncEvery, Authority, getRouterLinkForAppPath, PartialRecord } from '@common';
+import { AppPath, Authority, getRouterLinkForAppPath, PartialRecord } from '@common';
 import { Store } from '@ngrx/store';
-import { isNullOrUndefined } from '@qntm-code/utils';
+import { asyncEvery, isNullOrUndefined } from '@qntm-code/utils';
 import { firstValueFrom, skipWhile } from 'rxjs';
 import { AppRouteAuthorities, AppTreeRoute } from '../../interfaces';
 import { AuthorityService } from '../../services';
