@@ -37,14 +37,14 @@ describe('UsersService', () => {
       ],
     }).compile();
 
+    jest.spyOn(databaseService.users(), 'insert').mockResolvedValueOnce([mockUser]);
+
     service = module.get<UsersService>(UsersService);
     databaseService = module.get<DatabaseService>(DatabaseService);
 
     jest
       .spyOn(databaseService.user_locations(), 'find')
       .mockReturnValue({ all: () => createMock<UserLocations[]>() } as unknown as UnorderedSelectQuery<UserLocations>);
-
-    jest.spyOn(databaseService.users(), 'insert').mockReturnValue(Promise.resolve([mockUser]));
   });
 
   afterEach(() => {
