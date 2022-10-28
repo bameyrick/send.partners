@@ -1,6 +1,6 @@
 import { APIErrorCode, EmailVerificationCodes, FullUser, ResetPasswordCodes, User } from '@common';
 import { createMock } from '@golevelup/ts-jest';
-import { mockDatabaseService } from '@mocks';
+import { mockDatabaseService, mockUser } from '@mocks';
 import { ForbiddenException } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
@@ -39,6 +39,7 @@ describe('AuthService', () => {
     usersService = app.get<UsersService>(UsersService);
     mailService = app.get<MailService>(MailService);
     databaseService = app.get<DatabaseService>(DatabaseService);
+    jest.spyOn(databaseService.users(), 'insert').mockResolvedValueOnce([mockUser]);
   });
 
   afterEach(() => {

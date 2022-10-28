@@ -2,7 +2,7 @@ import { APIErrorCode, User, UserLocations, Users } from '@common';
 import { Transaction } from '@databases/pg';
 import { UnorderedSelectQuery } from '@databases/pg-typed';
 import { createMock } from '@golevelup/ts-jest';
-import { mockDatabaseService } from '@mocks';
+import { mockDatabaseService, mockUser } from '@mocks';
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseService } from '../db';
@@ -13,17 +13,6 @@ import { UsersService } from './users.service';
 describe('UsersService', () => {
   let databaseService: DatabaseService;
   let service: UsersService;
-
-  const mockUser = createMock<Users>({
-    id: 'id',
-    email: 'email',
-    email_verified: true,
-    language: 'en',
-    name: 'name',
-    password: 'password',
-    refresh_hash: 'refresh_hash',
-    role: 'user',
-  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
