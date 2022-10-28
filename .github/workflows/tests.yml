@@ -47,8 +47,8 @@ jobs:
       - name: Lint the code
         run: yarn nx run-many --target=lint --all
       - name: Run the tests
-        # run: yarn nx run-many --target=test --all --coverage --coverageReporters=lcov,text --runInBand
-        run: yarn nx run api:test --coverage --coverageReporters=lcov,text --runInBand --detectOpenHandles
+        run: yarn nx run-many --target=test --all --coverage --coverageReporters=lcov,text --runInBand --detectOpenHandles
+        # run: yarn nx run api:test --coverage --coverageReporters=lcov,text --runInBand --detectOpenHandles
         env:
           MAIL_VERIFICATION_EXPIRY_HOURS: 1
           MAIL_VERIFICATION_RETRY_MINUTES: 1
