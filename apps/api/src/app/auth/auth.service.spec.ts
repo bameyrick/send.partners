@@ -39,7 +39,6 @@ describe('AuthService', () => {
     usersService = app.get<UsersService>(UsersService);
     mailService = app.get<MailService>(MailService);
     databaseService = app.get<DatabaseService>(DatabaseService);
-    jest.spyOn(databaseService.users(), 'insert').mockResolvedValueOnce([mockUser]);
   });
 
   afterEach(() => {

@@ -27,7 +27,6 @@ describe('UsersService', () => {
     }).compile();
 
     databaseService = module.get<DatabaseService>(DatabaseService);
-    jest.spyOn(databaseService.users(), 'insert').mockResolvedValueOnce([mockUser]);
 
     service = module.get<UsersService>(UsersService);
 
@@ -187,6 +186,7 @@ describe('UsersService', () => {
       });
 
       jest.spyOn(databaseService.users(), 'insert').mockResolvedValueOnce([mockUser]);
+
       expect(await service.createUser(mockUser.email, password, mockUser.language)).toBeTruthy();
     });
   });
