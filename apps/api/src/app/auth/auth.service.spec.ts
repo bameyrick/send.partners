@@ -50,7 +50,7 @@ describe('AuthService', () => {
     it('should create a user if the user does not exist', async () => {
       jest.spyOn(usersService, 'findByEmail').mockImplementation(() => Promise.resolve(undefined));
 
-      jest.spyOn(usersService, 'createUser').mockImplementation(() => new Promise(resolve => resolve(mockUser)));
+      jest.spyOn(usersService, 'createUser').mockImplementation(() => Promise.resolve(mockUser));
 
       jest.spyOn(service, 'sendEmailVerification').mockImplementation(() => new Promise(resolve => resolve(0)));
 
@@ -72,7 +72,7 @@ describe('AuthService', () => {
     });
 
     it(`should return null if password does not match`, async () => {
-      jest.spyOn(usersService, 'findFullByEmail').mockImplementation(() => new Promise(resolve => resolve(mockUser)));
+      jest.spyOn(usersService, 'findFullByEmail').mockImplementation(() => Promise.resolve(mockUser));
 
       expect(await service.validateUser('test', 'badPassword')).toBeNull();
     });
