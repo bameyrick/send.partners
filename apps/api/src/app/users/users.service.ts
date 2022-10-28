@@ -71,25 +71,29 @@ export class UsersService {
       let updatedUser: Users;
 
       await this.databaseService.db.tx(async db => {
-        updatedUser = (await this.databaseService.users(db).update({ id }, modifiedUser))[0];
+        try {
+          updatedUser = (await this.databaseService.users(db).update({ id }, modifiedUser))[0];
 
-        const locations = await this.getUserLocations(id, db);
+          const locations = await this.getUserLocations(id, db);
 
-        const newLocations = user.locations
-          ?.filter(location => !locations.includes(location))
-          .map(location => this.databaseService.toPoint(location));
+          const newLocations = user.locations
+            ?.filter(location => !locations.includes(location))
+            .map(location => this.databaseService.toPoint(location));
 
-        const deletedLocations = locations
-          .filter(location => !user.locations.includes(location))
-          .map(location => this.databaseService.toPoint(location));
+          const deletedLocations = locations
+            .filter(location => !user.locations.includes(location))
+            .map(location => this.databaseService.toPoint(location));
 
-        await this.databaseService.user_locations(db).delete({ user_id: id, location: allOf(deletedLocations) });
+          await this.databaseService.user_locations(db).delete({ user_id: id, location: allOf(deletedLocations) });
 
-        if (newLocations) {
-          await this.databaseService.user_locations(db).bulkInsertOrIgnore({
-            columnsToInsert: [`user_id`, `location`],
-            records: newLocations.map(location => ({ location, user_id: id })),
-          });
+          if (newLocations) {
+            await this.databaseService.user_locations(db).bulkInsertOrIgnore({
+              columnsToInsert: [`user_id`, `location`],
+              records: newLocations.map(location => ({ location, user_id: id })),
+            });
+          }
+        } catch (error) {
+          console.log('FAILED TO UPDATE USER', error);
         }
       });
 
@@ -108,9 +112,13 @@ export class UsersService {
       throw new NotFoundException();
     }
 
-    const updatedUser = (await this.databaseService.users().update({ id }, { email_verified: true }))[0];
+    try {
+      const updatedUser = (await this.databaseService.users().update({ id }, { email_verified: true }))[0];
 
-    return this.sanitizeUser(updatedUser);
+      return this.sanitizeUser(updatedUser);
+    } catch (error) {
+      console.log('FAILED TO MARK USER EMAIL AS VALIDATED', error);
+    }
   }
 
   public async updateRefreshHash(id: string, refreshToken: string): Promise<void> {
@@ -142,16 +150,20 @@ export class UsersService {
     }
 
     if (passwordRegex.test(password)) {
-      return (
-        await this.databaseService.users().insert({
-          role,
-          email,
-          name,
-          password: await hash(password),
-          email_verified,
-          language,
-        })
-      )[0];
+      try {
+        return (
+          await this.databaseService.users().insert({
+            role,
+            email,
+            name,
+            password: await hash(password),
+            email_verified,
+            language,
+          })
+        )[0];
+      } catch (error) {
+        console.log('FAILED TO CREATE USER', error);
+      }
     } else {
       throw new Error(APIErrorCode.PasswordDoesNotMeetRequirements);
     }
