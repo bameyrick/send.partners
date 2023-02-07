@@ -2,13 +2,13 @@ import { APIErrorCode, JwtPayload, JwtTokens, ResetPasswordCredentials, User } f
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TimeUnit, unitToMS } from '@qntm-code/utils';
-import * as crypto from 'crypto';
 import { compare } from 'bcrypt';
+import * as crypto from 'crypto';
+import { DatabaseService } from '../db';
 import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { JwtConstants } from './constants';
 import { AuthResult } from './interfaces';
-import { DatabaseService } from '../db';
 
 @Injectable()
 export class AuthService {

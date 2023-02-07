@@ -142,16 +142,16 @@ export class UsersService {
     }
 
     if (passwordRegex.test(password)) {
-      return (
-        await this.databaseService.users().insert({
-          role,
-          email,
-          name,
-          password: await hash(password),
-          email_verified,
-          language,
-        })
-      )[0];
+      const users = await this.databaseService.users().insert({
+        role,
+        email,
+        name,
+        password: await hash(password),
+        email_verified,
+        language,
+      });
+
+      return users[0];
     } else {
       throw new Error(APIErrorCode.PasswordDoesNotMeetRequirements);
     }
@@ -211,7 +211,7 @@ export class UsersService {
     if (!sysadmin) {
       await this.createUser(process.env.DEFAULT_SYSADMIN_EMAIL, `${uuid()}!A`, 'en', true, 'sysadmin', process.env.DEFAULT_SYSADMIN_NAME);
 
-      this.requestPasswordReset(process.env.DEFAULT_SYSADMIN_EMAIL);
+      void this.requestPasswordReset(process.env.DEFAULT_SYSADMIN_EMAIL);
     }
   }
 }
