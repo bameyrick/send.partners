@@ -31,7 +31,7 @@ export class AuthService {
     return this.http.post<number>(APIEndpoint.ResendEmailVerification, null);
   }
 
-  public updateProfile(user: User): Observable<User> {
+  public updateAuthUser(user: User): Observable<User> {
     return this.http.put<User>(APIEndpoint.MyProfile, user);
   }
 

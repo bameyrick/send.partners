@@ -1,4 +1,4 @@
-import { APIErrorCode } from '@common';
+import { APIErrorCode, User } from '@common';
 import { AuthActions } from './auth.actions';
 import { authReducer, initialState } from './auth.reducer';
 
@@ -11,7 +11,7 @@ describe(`AuthReducer`, () => {
 
   describe(`on AuthActions.refreshTokenSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', email_verified: false, language: 'en' };
+      const user: User = { id: '1', email: 'email', email_verified: false, language: 'en', role: 'user' };
 
       const result = authReducer(initialState, AuthActions.refreshTokenSuccess({ user }));
 
@@ -50,7 +50,7 @@ describe(`AuthReducer`, () => {
 
   describe(`on AuthActions.signUpSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', email_verified: false, language: 'en' };
+      const user: User = { id: '1', email: 'email', email_verified: false, language: 'en', role: 'user' };
 
       const result = authReducer(initialState, AuthActions.signUpSuccess({ user }));
 
@@ -78,7 +78,7 @@ describe(`AuthReducer`, () => {
 
   describe(`on AuthActions.loginSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', email_verified: false, language: 'en' };
+      const user: User = { id: '1', email: 'email', email_verified: false, language: 'en', role: 'user' };
 
       const result = authReducer(initialState, AuthActions.loginSuccess({ user }));
 
@@ -96,7 +96,7 @@ describe(`AuthReducer`, () => {
 
   describe(`on AuthActions.verifyEmailSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', email_verified: false, language: 'en' };
+      const user: User = { id: '1', email: 'email', email_verified: false, language: 'en', role: 'user' };
 
       const result = authReducer(initialState, AuthActions.verifyEmailSuccess({ user }));
 
@@ -157,32 +157,32 @@ describe(`AuthReducer`, () => {
     });
   });
 
-  describe(`on AuthActions.updateProfile`, () => {
+  describe(`on AuthActions.updateAuthUser`, () => {
     it(`should set the authorizing flag`, () => {
       const result = authReducer(
         initialState,
-        AuthActions.updateProfile({ user: { id: '1', email: 'email', language: 'en', email_verified: true } })
+        AuthActions.updateAuthUser({ user: { id: '1', email: 'email', language: 'en', email_verified: true, role: 'user' } })
       );
 
       expect(result).toEqual({ ...initialState, authorizing: true });
     });
   });
 
-  describe(`on AuthActions.updateProfileSuccess`, () => {
+  describe(`on AuthActions.updateAuthUserSuccess`, () => {
     it(`should set the user`, () => {
-      const user = { id: '1', email: 'email', language: 'en', email_verified: true };
+      const user: User = { id: '1', email: 'email', language: 'en', email_verified: true, role: 'user' };
 
-      const result = authReducer(initialState, AuthActions.updateProfileSuccess({ user }));
+      const result = authReducer(initialState, AuthActions.updateAuthUserSuccess({ user }));
 
       expect(result).toEqual({ ...initialState, errorCode: undefined, authorizing: false, user });
     });
   });
 
-  describe(`on AuthActions.updateProfileFailed`, () => {
+  describe(`on AuthActions.updateAuthUserFailed`, () => {
     it(`should set the errorCode`, () => {
       const errorCode = APIErrorCode.InvalidCredentials;
 
-      const result = authReducer(initialState, AuthActions.updateProfileFailed({ errorCode }));
+      const result = authReducer(initialState, AuthActions.updateAuthUserFailed({ errorCode }));
 
       expect(result).toEqual({ ...initialState, errorCode, authorizing: false });
     });

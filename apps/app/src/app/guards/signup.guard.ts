@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppPath, asyncEvery, getRouterLinkForAppPath } from '@common';
+import { AppPath, getRouterLinkForAppPath } from '@common';
 import { selectInitialRefreshCompleted, selectAuthenticated } from '@common-ui';
+import { asyncEvery } from '@qntm-code/utils';
 import { firstValueFrom, skipWhile } from 'rxjs';
 import { signupOrder } from '../pages/signup/signup-order';
 import { signupRules } from '../pages/signup/signup-rules';
@@ -11,12 +12,12 @@ import { signupRules } from '../pages/signup/signup-rules';
 export class SignUpGuard implements CanActivate, CanActivateChild {
   constructor(private readonly store: Store, private readonly router: Router) {}
 
-  public async canActivate(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    return this.signUpCompleted(state.url);
+  public async canActivate(_route: ActivatedRouteSnapshot, { url }: RouterStateSnapshot): Promise<boolean | UrlTree> {
+    return this.signUpCompleted(url);
   }
 
-  public async canActivateChild(_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    return this.signUpCompleted(state.url);
+  public async canActivateChild(_route: ActivatedRouteSnapshot, { url }: RouterStateSnapshot): Promise<boolean | UrlTree> {
+    return this.signUpCompleted(url);
   }
 
   private async signUpCompleted(url: string): Promise<boolean | UrlTree> {

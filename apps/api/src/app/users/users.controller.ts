@@ -12,7 +12,7 @@ export class UsersController {
   }
 
   @Put(removeParentUrlParts(APIEndpoint.Users, APIEndpoint.MyProfile))
-  public async updateMyProfile(@Request() { user }: { user: JwtPayload }, @Body() profile: User): Promise<User> {
-    return this.userService.updateById(user.id, profile);
+  public async updateMyProfile(@Request() { user }: { user: JwtPayload }, @Body() authUser: User): Promise<User> {
+    return this.userService.updateById(user.id, authUser);
   }
 }

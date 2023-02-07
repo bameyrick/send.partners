@@ -4,9 +4,12 @@ export default async function applyMigration(db: Connection) {
   await db.query(sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
   await db.query(sql`CREATE EXTENSION IF NOT EXISTS "Postgis"`);
 
+  await db.query(sql`CREATE TYPE user_role AS ENUM ('sysadmin', 'admin', 'moderator', 'user')`);
+
   await db.query(sql`
     CREATE TABLE IF NOT EXISTS users (
       id UUID PRIMARY KEY DEFAULT UUID_GENERATE_V4() NOT NULL,
+      role user_role NOT NULL,
       email TEXT NOT NULL,
       email_verified BOOLEAN DEFAULT FALSE,
       language TEXT NOT NULL,
@@ -40,7 +43,8 @@ export default async function applyMigration(db: Connection) {
     CREATE TABLE IF NOT EXISTS reset_password_codes (
       code TEXT PRIMARY KEY NOT NULL,
       user_id UUID NOT NULL REFERENCES users(id),
-      generated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      generated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      unique(user_id)
     )
   `);
 }

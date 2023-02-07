@@ -22,6 +22,7 @@ import { EmailVerificationComponent, LoginComponent } from './forms';
 import { IconModule } from './icon';
 import { TranslateModule } from './translate';
 import { KeysPipe, ReversePipe, ValuesPipe } from './pipes';
+import { HasAuthorityDirective } from './directives';
 
 const imports = [
   CommonModule,
@@ -53,6 +54,7 @@ const imports = [
     ValuesPipe,
     NumberInputComponent,
     KeysPipe,
+    HasAuthorityDirective,
   ],
   exports: [
     ...imports,
@@ -72,6 +74,7 @@ const imports = [
     ValuesPipe,
     NumberInputComponent,
     KeysPipe,
+    HasAuthorityDirective,
   ],
 })
 export class CommonUiModule {}

@@ -2,26 +2,18 @@ import { APIErrorCode, User, UserLocations, Users } from '@common';
 import { Transaction } from '@databases/pg';
 import { UnorderedSelectQuery } from '@databases/pg-typed';
 import { createMock } from '@golevelup/ts-jest';
-import { mockDatabaseService } from '@mocks';
+import { mockDatabaseService, mockUser } from '@mocks';
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { delay } from '@qntm-code/utils';
 import { DatabaseService } from '../db';
 import { hash } from '../helpers';
+import { MailService } from '../mail';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
   let databaseService: DatabaseService;
   let service: UsersService;
-
-  const mockUser = createMock<Users>({
-    id: 'id',
-    email: 'email',
-    email_verified: true,
-    language: 'en',
-    name: 'name',
-    password: 'password',
-    refresh_hash: 'refresh_hash',
-  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,15 +23,20 @@ describe('UsersService', () => {
           provide: DatabaseService,
           useValue: mockDatabaseService,
         },
+        { provide: MailService, useValue: createMock<MailService>() },
       ],
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
     databaseService = module.get<DatabaseService>(DatabaseService);
+
+    service = module.get<UsersService>(UsersService);
 
     jest
       .spyOn(databaseService.user_locations(), 'find')
       .mockReturnValue({ all: () => createMock<UserLocations[]>() } as unknown as UnorderedSelectQuery<UserLocations>);
+
+    // Allow default user to be created
+    await delay();
   });
 
   afterEach(() => {
@@ -193,6 +190,7 @@ describe('UsersService', () => {
       });
 
       jest.spyOn(databaseService.users(), 'insert').mockResolvedValueOnce([mockUser]);
+
       expect(await service.createUser(mockUser.email, password, mockUser.language)).toBeTruthy();
     });
   });
@@ -219,6 +217,8 @@ describe('UsersService', () => {
     });
 
     it(`should update the user's password`, async () => {
+      jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
+
       jest.spyOn(databaseService.users(), 'findOne').mockResolvedValueOnce(mockUser);
 
       await service.updatePassword('id', 'NewPassword01');

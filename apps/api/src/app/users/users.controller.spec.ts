@@ -3,6 +3,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { mockDatabaseService } from '@mocks';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseService } from '../db';
+import { MailService } from '../mail';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
@@ -18,6 +19,14 @@ describe('UsersController', () => {
         {
           provide: DatabaseService,
           useValue: mockDatabaseService,
+        },
+        {
+          provide: MailService,
+          useValue: createMock<MailService>(),
+        },
+        {
+          provide: UsersService,
+          useValue: createMock<UsersService>(),
         },
       ],
     }).compile();

@@ -25,7 +25,7 @@ describe(`AuthEffects`, () => {
         AuthEffects,
         provideMockActions(() => actions$),
         { provide: AuthService, useValue: createMock<AuthService>() },
-        { provide: Router, useValue: { navigateByUrl: jest.fn() } },
+        // { provide: Router, useValue: { navigateByUrl: jest.fn() } },
       ],
     }).compileComponents();
 
@@ -217,31 +217,31 @@ describe(`AuthEffects`, () => {
     });
   });
 
-  describe(`updateProfile$`, () => {
-    it(`should return a cold observable updateProfileSuccess`, () => {
-      const action = AuthActions.updateProfile({ user: createMock<User>() });
-      const completion = AuthActions.updateProfileSuccess({ user: createMock<User>() });
+  describe(`updateAuthUser$`, () => {
+    it(`should return a cold observable updateAuthUserSuccess`, () => {
+      const action = AuthActions.updateAuthUser({ user: createMock<User>() });
+      const completion = AuthActions.updateAuthUserSuccess({ user: createMock<User>() });
 
-      jest.spyOn(authService, 'updateProfile').mockImplementation(() => cold('-b', { b: {} }));
+      jest.spyOn(authService, 'updateAuthUser').mockImplementation(() => cold('-b', { b: {} }));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('--(b)', { b: completion });
 
-      expect(effects.updateProfile$).toBeObservable(expected);
+      expect(effects.updateAuthUser$).toBeObservable(expected);
     });
 
-    it(`should dispatch updateProfileFailed if updateProfile fails`, () => {
-      const action = AuthActions.updateProfile({ user: createMock<User>() });
-      const completion = AuthActions.updateProfileFailed({ errorCode: APIErrorCode.InvalidCredentials });
+    it(`should dispatch updateAuthUserFailed if updateAuthUser fails`, () => {
+      const action = AuthActions.updateAuthUser({ user: createMock<User>() });
+      const completion = AuthActions.updateAuthUserFailed({ errorCode: APIErrorCode.InvalidCredentials });
 
       jest
-        .spyOn(authService, 'updateProfile')
+        .spyOn(authService, 'updateAuthUser')
         .mockImplementation(() => cold('-#', {}, { error: { message: APIErrorCode.InvalidCredentials } }));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('--(b)', { b: completion });
 
-      expect(effects.updateProfile$).toBeObservable(expected);
+      expect(effects.updateAuthUser$).toBeObservable(expected);
     });
   });
 

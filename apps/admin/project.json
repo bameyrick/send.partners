@@ -1,8 +1,9 @@
 {
+  "name": "admin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/admin/src",
-  "prefix": "app",
+  "prefix": "admin",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -70,14 +71,14 @@
         },
         "development": {
           "browserTarget": "admin:build:development"
-        },
-        "defaultConfiguration": "development",
-        "options": {
-          "proxyConfig": "apps/app/proxy.conf.json",
-          "port": 5000
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/admin/proxy.conf.json",
+        "port": 4600,
+        "disableHostCheck": true
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -93,7 +94,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/admin"],
+      "outputs": ["{workspaceRoot}/coverage/apps/admin"],
       "options": {
         "jestConfig": "apps/admin/jest.config.ts",
         "passWithNoTests": true

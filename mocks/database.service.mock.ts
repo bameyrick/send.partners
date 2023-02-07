@@ -1,5 +1,6 @@
 import { createMock } from '@golevelup/ts-jest';
 import { DatabaseService } from '../apps/api/src/app/db/database.service';
+import { mockUser } from './mock-user';
 
 const mockTable = {
   findOne: jest.fn(),
@@ -18,7 +19,7 @@ export const mockDatabaseService = createMock<DatabaseService>({
     query: jest.fn(),
     tx: jest.fn(),
   },
-  users: () => mockTable,
+  users: () => ({ ...mockTable, insert: jest.fn().mockResolvedValue([mockUser]) }),
   user_locations: () => mockTable,
   email_verification_codes: () => mockTable,
   reset_password_codes: () => mockTable,

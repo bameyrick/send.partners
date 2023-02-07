@@ -1,4 +1,4 @@
-import { AppPath } from '@common';
+import { AppPath, User } from '@common';
 import { createMock } from '@golevelup/ts-jest';
 import { mockDatabaseService } from '@mocks';
 import { MailerService } from '@nestjs-modules/mailer';
@@ -43,7 +43,7 @@ describe('MailService', () => {
     it('should send an email', async () => {
       const to = 'to';
       const code = 'code';
-      const language = 'language';
+      const language = 'en';
 
       await service.sendEmailVerification(to, code, language);
 
@@ -65,22 +65,21 @@ describe('MailService', () => {
 
   describe('sendPasswordReset', () => {
     it('should send an email', async () => {
-      const to = 'to';
+      const user = createMock<User>({ email: 'email', language: 'en' });
       const code = 'code';
-      const language = 'language';
 
-      await service.sendPasswordReset(to, code, language);
+      await service.sendPasswordReset(user, code);
 
       expect(mailerService.sendMail).toHaveBeenCalledWith({
-        to,
+        to: user.email,
         template: 'reset-password',
-        subject: translateService.translate(language, 'api.emails.reset_password.subject', {
-          site_name: translateService.translate(language, 'common.send_partners'),
+        subject: translateService.translate(user.language, 'api.emails.reset_password.subject', {
+          site_name: translateService.translate(user.language, 'common.send_partners'),
         }),
         context: {
-          linkText: translateService.translate(language, 'api.emails.reset_password.link_text'),
+          linkText: translateService.translate(user.language, 'api.emails.reset_password.link_text'),
           link: `${process.env.FRONTEND_URL}/${AppPath.ResetPasswordCode}`.replace(/:code/, code),
-          expires: translateService.translate(language, 'api.emails.reset_password.expires', {
+          expires: translateService.translate(user.language, 'api.emails.reset_password.expires', {
             hours: process.env.PASSWORD_RESET_EXPIRY_HOURS,
           }),
         },

@@ -1,4 +1,4 @@
-import { AppPath } from '@common';
+import { AppPath, Authority, hasAuthority, User } from '@common';
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { TranslateService } from '../i18n';
@@ -23,17 +23,19 @@ export class MailService {
     });
   }
 
-  public async sendPasswordReset(to: string, code: string, language: string): Promise<void> {
+  public async sendPasswordReset(user: User, code: string): Promise<void> {
+    const baseUrl = process.env[hasAuthority(Authority.Admin, user) ? 'ADMIN_URL' : 'FRONTEND_URL'];
+
     await this.mailerService.sendMail({
-      to,
-      subject: this.translateService.translate(language, 'api.emails.reset_password.subject', {
-        site_name: this.translateService.translate(language, 'common.send_partners'),
+      to: user.email,
+      subject: this.translateService.translate(user.language, 'api.emails.reset_password.subject', {
+        site_name: this.translateService.translate(user.language, 'common.send_partners'),
       }),
       template: 'reset-password',
       context: {
-        linkText: this.translateService.translate(language, 'api.emails.reset_password.link_text'),
-        link: `${process.env.FRONTEND_URL}/${AppPath.ResetPasswordCode}`.replace(/:code/, code),
-        expires: this.translateService.translate(language, 'api.emails.reset_password.expires', {
+        linkText: this.translateService.translate(user.language, 'api.emails.reset_password.link_text'),
+        link: `${baseUrl}/${AppPath.ResetPasswordCode}`.replace(/:code/, code),
+        expires: this.translateService.translate(user.language, 'api.emails.reset_password.expires', {
           hours: process.env.PASSWORD_RESET_EXPIRY_HOURS,
         }),
       },

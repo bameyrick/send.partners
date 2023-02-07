@@ -1,8 +1,9 @@
-import { LatLon, serializeValue, DatabaseSchema } from '@common';
+import { DatabaseSchema, LatLon, serializeValue } from '@common';
 import createConnectionPool, { ConnectionPool, Transaction } from '@databases/pg';
 import tables from '@databases/pg-typed';
 import { Injectable } from '@nestjs/common';
 
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import databaseSchema from '../../../../../libs/common/src/lib/db-interfaces/schema.json';
 
 @Injectable()

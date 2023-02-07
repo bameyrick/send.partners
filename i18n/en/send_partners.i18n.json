@@ -8,6 +8,8 @@
   "login_instead": "Login instead",
   "get_my_location": "Get my location",
   "location_error": {
-    "code_1": "Please allow location permissions in your browser"
+    "code_1": "Please allow location permissions in your browser",
+    "code_2": "There was an error getting your location. Please check your browser settings",
+    "code_3": "The request to get your location timed out. Please try again later"
   }
 }

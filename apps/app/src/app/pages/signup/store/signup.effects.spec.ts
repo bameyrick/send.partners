@@ -4,7 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 import { AppTestingModule } from '../../../app-testing.module';
 import { SignupEffects } from './signup.effects';
-import { AuthActions, selectProfile } from '@common-ui';
+import { AuthActions, selectAuthUser } from '@common-ui';
 import { createMock } from '@golevelup/ts-jest';
 import { LatLon, User } from '@common';
 import { hot, cold } from 'jest-marbles';
@@ -31,14 +31,14 @@ describe(`SignupEffects`, () => {
   });
 
   describe(`setName$`, () => {
-    it(`should return a cold observable of updateProfile`, () => {
+    it(`should return a cold observable of updateAuthUser`, () => {
       const user = createMock<User>({ id: 'id' });
 
-      mockStore.overrideSelector(selectProfile, user);
+      mockStore.overrideSelector(selectAuthUser, user);
 
       const name = 'name';
       const action = SignupActions.setName({ name });
-      const completion = AuthActions.updateProfile({ user: { ...user, name } });
+      const completion = AuthActions.updateAuthUser({ user: { ...user, name } });
 
       actions$ = hot('-a', { a: action });
       const expected = cold(`-(b)`, { b: completion });
@@ -48,14 +48,14 @@ describe(`SignupEffects`, () => {
   });
 
   describe(`setLocation$`, () => {
-    it(`should return a cold observable of updateProfile`, () => {
+    it(`should return a cold observable of updateAuthUser`, () => {
       const user = createMock<User>({ id: 'id' });
 
-      mockStore.overrideSelector(selectProfile, user);
+      mockStore.overrideSelector(selectAuthUser, user);
 
       const location: LatLon = [0, 0];
       const action = SignupActions.setLocation({ location });
-      const completion = AuthActions.updateProfile({ user: { ...user, locations: [location] } });
+      const completion = AuthActions.updateAuthUser({ user: { ...user, locations: [location] } });
 
       actions$ = hot('-a', { a: action });
       const expected = cold(`-(b)`, { b: completion });

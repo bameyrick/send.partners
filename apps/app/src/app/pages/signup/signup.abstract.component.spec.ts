@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AppPath, getRouterLinkForAppPath, User } from '@common';
-import { selectProfile } from '@common-ui';
+import { selectAuthUser } from '@common-ui';
 import { createMock } from '@golevelup/ts-jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { delay } from '@qntm-code/utils';
@@ -52,7 +52,7 @@ describe(`AbstractSignupStepComponent`, () => {
     mockStore = TestBed.inject(MockStore);
     router = TestBed.inject(Router);
 
-    mockStore.overrideSelector(selectProfile, undefined);
+    mockStore.overrideSelector(selectAuthUser, undefined);
 
     fixture = TestBed.createComponent(TestWrapperComponent);
 
@@ -70,7 +70,7 @@ describe(`AbstractSignupStepComponent`, () => {
 
   describe(`listenForNextStep`, () => {
     it(`should navigate to the next path when the current step's rule passes`, async () => {
-      mockStore.overrideSelector(selectProfile, {} as User);
+      mockStore.overrideSelector(selectAuthUser, {} as User);
 
       component.ngOnInit();
 
@@ -84,7 +84,7 @@ describe(`AbstractSignupStepComponent`, () => {
 
       fixture.detectChanges();
 
-      mockStore.overrideSelector(selectProfile, { locations: [[0, 0]] } as User);
+      mockStore.overrideSelector(selectAuthUser, { locations: [[0, 0]] } as User);
 
       component.ngOnInit();
 

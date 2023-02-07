@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { AppPath, getRouterLinkForAppPath, User } from '@common';
-import { AuthState, selectAuthenticated, selectInitialRefreshCompleted, selectProfile } from '@common-ui';
+import { AuthState, selectAuthenticated, selectInitialRefreshCompleted, selectAuthUser } from '@common-ui';
 import { createMock } from '@golevelup/ts-jest';
 import { MemoizedSelector } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -50,7 +50,7 @@ describe(`SignupGuard`, () => {
     it(`should call signUpCompleted`, () => {
       const spy = jest.spyOn(guard as any, 'signUpCompleted');
 
-      mockStore.overrideSelector(selectProfile, undefined);
+      mockStore.overrideSelector(selectAuthUser, undefined);
 
       guard.canActivate(activatedRouteSnapshotMock, createMock<RouterStateSnapshot>({ url: getRouterLinkForAppPath(AppPath.Signup) }));
 
@@ -98,7 +98,7 @@ describe(`SignupGuard`, () => {
       });
 
       it(`should allow the user to visit urls for uncompleted steps `, async () => {
-        mockStore.overrideSelector(selectProfile, undefined);
+        mockStore.overrideSelector(selectAuthUser, undefined);
 
         expect(
           await guard.canActivateChild(
@@ -107,7 +107,7 @@ describe(`SignupGuard`, () => {
           )
         ).toEqual(true);
 
-        mockStore.overrideSelector(selectProfile, { email_verified: true, email: 'email', language: 'en' } as User);
+        mockStore.overrideSelector(selectAuthUser, { email_verified: true, email: 'email', language: 'en' } as User);
 
         expect(
           await guard.canActivateChild(
@@ -116,7 +116,7 @@ describe(`SignupGuard`, () => {
           )
         ).toEqual(true);
 
-        mockStore.overrideSelector(selectProfile, { email_verified: true, email: 'email', language: 'en', name: 'Test' } as User);
+        mockStore.overrideSelector(selectAuthUser, { email_verified: true, email: 'email', language: 'en', name: 'Test' } as User);
 
         expect(
           await guard.canActivateChild(
@@ -127,7 +127,7 @@ describe(`SignupGuard`, () => {
       });
 
       it(`should redirect to the first uncompleted signup step`, async () => {
-        mockStore.overrideSelector(selectProfile, undefined);
+        mockStore.overrideSelector(selectAuthUser, undefined);
 
         expect(
           await guard.canActivateChild(
@@ -136,7 +136,7 @@ describe(`SignupGuard`, () => {
           )
         ).toEqual(AppPath.SignupVerify);
 
-        mockStore.overrideSelector(selectProfile, { email_verified: true, email: 'email', language: 'en' } as User);
+        mockStore.overrideSelector(selectAuthUser, { email_verified: true, email: 'email', language: 'en' } as User);
 
         expect(
           await guard.canActivateChild(
@@ -145,7 +145,7 @@ describe(`SignupGuard`, () => {
           )
         ).toEqual(AppPath.SignupName);
 
-        mockStore.overrideSelector(selectProfile, { email_verified: true, email: 'email', language: 'en', name: 'Test' } as User);
+        mockStore.overrideSelector(selectAuthUser, { email_verified: true, email: 'email', language: 'en', name: 'Test' } as User);
 
         expect(
           await guard.canActivateChild(

@@ -110,11 +110,11 @@ describe(`AuthService`, () => {
     });
   });
 
-  describe(`updateProfile`, () => {
+  describe(`updateAuthUser`, () => {
     it(`should call http get with APIEndpoint.MyProfile`, async () => {
       const user = createMock<User>();
 
-      service.updateProfile(user).subscribe(result => expect(result).toEqual(user));
+      service.updateAuthUser(user).subscribe(result => expect(result).toEqual(user));
 
       const mock = httpTestingController.expectOne(APIEndpoint.MyProfile);
 
