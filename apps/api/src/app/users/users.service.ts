@@ -1,7 +1,7 @@
 import { APIErrorCode, FullUser, LatLon, passwordRegex, User, UserRole, Users } from '@common';
 import { ConnectionPool, sql, Transaction } from '@databases/pg';
 import { allOf } from '@databases/pg-typed';
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { clone } from '@qntm-code/utils';
 import * as crypto from 'crypto';
 import { v4 as uuid } from 'uuid';
@@ -10,9 +10,11 @@ import { hash } from '../helpers';
 import { MailService } from '../mail';
 
 @Injectable()
-export class UsersService {
-  constructor(private readonly databaseService: DatabaseService, private readonly mailService: MailService) {
-    void this.createDefaultSysadmin();
+export class UsersService implements OnModuleInit {
+  constructor(private readonly databaseService: DatabaseService, private readonly mailService: MailService) {}
+
+  public async onModuleInit(): Promise<void> {
+    await this.createDefaultSysadmin();
   }
 
   /**
@@ -209,6 +211,8 @@ export class UsersService {
     const sysadmin = await this.findByEmail(process.env.DEFAULT_SYSADMIN_EMAIL);
 
     if (!sysadmin) {
+      console.log('CREATE SYSADMIN');
+
       await this.createUser(process.env.DEFAULT_SYSADMIN_EMAIL, `${uuid()}!A`, 'en', true, 'sysadmin', process.env.DEFAULT_SYSADMIN_NAME);
 
       void this.requestPasswordReset(process.env.DEFAULT_SYSADMIN_EMAIL);

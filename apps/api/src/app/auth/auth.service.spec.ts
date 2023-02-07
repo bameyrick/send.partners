@@ -39,9 +39,6 @@ describe('AuthService', () => {
     usersService = app.get<UsersService>(UsersService);
     mailService = app.get<MailService>(MailService);
     databaseService = app.get<DatabaseService>(DatabaseService);
-
-    // Allow default user to be created
-    await delay();
   });
 
   afterEach(() => {
