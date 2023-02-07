@@ -38,10 +38,10 @@ export class UsersService {
   /**
    * This should only be used by internal code, and the data should not be returned to the user
    */
-  public async findFullById(id: string): Promise<FullUser | undefined> {
+  public async findFullById(id: string, getUserLocations = true): Promise<FullUser | undefined> {
     const user = await this.databaseService.users().findOne({ id });
 
-    if (user) {
+    if (getUserLocations && user) {
       (user as FullUser).locations = await this.getUserLocations(user.id);
     }
 
@@ -61,7 +61,7 @@ export class UsersService {
       throw new ForbiddenException();
     }
 
-    const foundUser = await this.findFullById(id);
+    const foundUser = await this.findFullById(id, false);
 
     if (foundUser) {
       const { name, language } = user;

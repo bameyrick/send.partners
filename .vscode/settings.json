@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["golevelup", "nestjs"]
+  "cSpell.words": ["golevelup", "nestjs"],
+  "vsicons.presets.angular": true
 }
