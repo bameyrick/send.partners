@@ -5,7 +5,6 @@ import { createMock } from '@golevelup/ts-jest';
 import { mockDatabaseService, mockUser } from '@mocks';
 import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { delay } from '@qntm-code/utils';
 import { DatabaseService } from '../db';
 import { hash } from '../helpers';
 import { MailService } from '../mail';
@@ -34,9 +33,6 @@ describe('UsersService', () => {
     jest
       .spyOn(databaseService.user_locations(), 'find')
       .mockReturnValue({ all: () => createMock<UserLocations[]>() } as unknown as UnorderedSelectQuery<UserLocations>);
-
-    // Allow default user to be created
-    await delay();
   });
 
   afterEach(() => {
