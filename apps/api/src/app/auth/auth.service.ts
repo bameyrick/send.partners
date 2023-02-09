@@ -106,8 +106,8 @@ export class AuthService {
     return user;
   }
 
-  public async requestPasswordReset(email: string): Promise<void> {
-    await this.usersService.requestPasswordReset(email);
+  public async requestPasswordReset(email: string, requested_by_user_id?: string): Promise<void> {
+    await this.usersService.requestPasswordReset(email, requested_by_user_id);
   }
 
   public async resetPassword(credentials: ResetPasswordCredentials): Promise<void> {

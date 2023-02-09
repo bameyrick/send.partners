@@ -79,8 +79,8 @@ export class AuthController {
 
   @Public()
   @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.RequestPasswordReset))
-  public async requestPasswordReset(@Body() { email }: { email: string }): Promise<void> {
-    await this.authService.requestPasswordReset(email);
+  public async requestPasswordReset(@Request() { user }: { user: JwtPayload }, @Body() { email }: { email: string }): Promise<void> {
+    await this.authService.requestPasswordReset(email, user?.id);
   }
 
   @Public()

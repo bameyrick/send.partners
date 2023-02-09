@@ -34,6 +34,10 @@ export class AppComponent extends AbstractComponent {
               path: AppPath.Users,
               translationKey: 'admin.users',
             },
+            {
+              path: AppPath.ActivityConfigs,
+              translationKey: 'admin.activity_configs',
+            },
           ],
           async link => await this.authGuard.hasAuthorityForRoute(link.path)
         )

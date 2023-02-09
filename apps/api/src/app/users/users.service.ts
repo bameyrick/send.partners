@@ -68,7 +68,7 @@ export class UsersService implements OnModuleInit {
     if (foundUser) {
       const { name, language } = user;
 
-      const modifiedUser = { ...foundUser, name, language };
+      const modifiedUser: FullUser = { ...foundUser, name, language, last_updated_by: id, updated: new Date() };
 
       let updatedUser: Users;
 
@@ -89,8 +89,8 @@ export class UsersService implements OnModuleInit {
 
         if (newLocations) {
           await this.databaseService.user_locations(db).bulkInsertOrIgnore({
-            columnsToInsert: [`user_id`, `location`],
-            records: newLocations.map(location => ({ location, user_id: id })),
+            columnsToInsert: [`user_id`, `location`, `created_by`, `last_updated_by`],
+            records: newLocations.map(location => ({ location, user_id: id, created_by: id, last_updated_by: id })),
           });
         }
       });
@@ -110,7 +110,9 @@ export class UsersService implements OnModuleInit {
       throw new NotFoundException();
     }
 
-    const updatedUser = (await this.databaseService.users().update({ id }, { email_verified: true }))[0];
+    const updatedUser = (
+      await this.databaseService.users().update({ id }, { email_verified: true, last_updated_by: id, updated: new Date() } as FullUser)
+    )[0];
 
     return this.sanitizeUser(updatedUser);
   }
@@ -137,7 +139,8 @@ export class UsersService implements OnModuleInit {
     language: string,
     email_verified = false,
     role: UserRole = 'user',
-    name?: string
+    name?: string,
+    created_by?: string
   ): Promise<FullUser> {
     if (await this.findByEmail(email)) {
       throw new BadRequestException(APIErrorCode.UserAlreadyExists);
@@ -151,6 +154,7 @@ export class UsersService implements OnModuleInit {
         password: await hash(password),
         email_verified,
         language,
+        created_by,
       });
 
       return users[0];
@@ -167,20 +171,22 @@ export class UsersService implements OnModuleInit {
     }
 
     if (passwordRegex.test(password)) {
-      await this.databaseService.users().update({ id }, { password: await hash(password) });
+      await this.databaseService
+        .users()
+        .update({ id }, { password: await hash(password), last_updated_by: id, updated: new Date() } as FullUser);
     } else {
       throw new Error(APIErrorCode.PasswordDoesNotMeetRequirements);
     }
   }
 
-  public async requestPasswordReset(email: string): Promise<void> {
+  public async requestPasswordReset(email: string, created_by?: string): Promise<void> {
     const user = await this.findByEmail(email);
 
     if (user) {
       const code = this.genererateResetCode();
       const generated = new Date();
 
-      await this.databaseService.reset_password_codes().insertOrUpdate(['user_id'], { user_id: user.id, code, generated });
+      await this.databaseService.reset_password_codes().insertOrUpdate(['user_id'], { user_id: user.id, code, generated, created_by });
 
       this.mailService.sendPasswordReset(user, code);
     }
@@ -213,9 +219,16 @@ export class UsersService implements OnModuleInit {
     if (!sysadmin) {
       console.log('CREATE SYSADMIN');
 
-      await this.createUser(process.env.DEFAULT_SYSADMIN_EMAIL, `${uuid()}!A`, 'en', true, 'sysadmin', process.env.DEFAULT_SYSADMIN_NAME);
+      const { id } = await this.createUser(
+        process.env.DEFAULT_SYSADMIN_EMAIL,
+        `${uuid()}!A`,
+        'en',
+        true,
+        'sysadmin',
+        process.env.DEFAULT_SYSADMIN_NAME
+      );
 
-      void this.requestPasswordReset(process.env.DEFAULT_SYSADMIN_EMAIL);
+      void this.requestPasswordReset(process.env.DEFAULT_SYSADMIN_EMAIL, id);
     }
   }
 }

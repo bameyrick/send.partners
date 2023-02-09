@@ -10,6 +10,10 @@ export const AppRoutingTree: AppTreeRoute[] = [
     authority: Authority.ManageUsers,
   },
   {
+    path: AppPath.ActivityConfigs,
+    authority: Authority.ManageActivityConfigs,
+  },
+  {
     path: AppPath.RequestPasswordReset,
   },
   {

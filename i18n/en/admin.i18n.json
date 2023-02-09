@@ -1,5 +1,6 @@
 {
   "app_title": "Send Partners Admin",
   "dashboard": "Dashboard",
-  "users": "Users"
+  "users": "Users",
+  "activity_configs": "Activity Configurations"
 }

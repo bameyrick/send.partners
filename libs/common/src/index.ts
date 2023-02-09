@@ -1,4 +1,5 @@
 export * from './lib/db-interfaces';
+export { default as DatabaseSchema } from './lib/db-interfaces';
 export * from './lib/db-interfaces/_enums';
 export * from './lib/enums';
 export * from './lib/helpers';

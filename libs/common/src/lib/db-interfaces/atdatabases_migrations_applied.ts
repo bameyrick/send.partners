@@ -5,8 +5,6 @@
  * Checksum: WsmDmKvwU+poIX0iFyB7Bz5NyR4Fm9VrG2x3f4c3JAwWc31YsLU4jiLx+9kHFzICeXSQYvdlpaLUEDPCGjMv+g==
  */
 
-// tslint:disable
-
 interface AtdatabasesMigrationsApplied {
   applied_at: Date;
   /**

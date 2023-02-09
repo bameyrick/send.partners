@@ -5,7 +5,5 @@
  * Checksum: phYc+qQSRP9NAyKluYZ0Q+84wc/lDImXdTTohRaV/s/+ZdZiy5AVMkBhLVd/cwk72TcBA6OXYPGdt+S5gDgr/Q==
  */
 
-// tslint:disable
-
 type UserRole = 'admin' | 'moderator' | 'sysadmin' | 'user';
 export type { UserRole };

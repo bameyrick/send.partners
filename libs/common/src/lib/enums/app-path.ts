@@ -13,4 +13,5 @@ export enum AppPath {
   Users = 'users',
   ManageUser = 'users/:id',
   CreateUser = 'users/new',
+  ActivityConfigs = 'activity-configs',
 }

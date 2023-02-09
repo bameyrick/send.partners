@@ -5,8 +5,6 @@
  * Checksum: TpzCQ93K0bjZPn+fXJRl8zC0sQMsUxzUePHiU8MTUjxrIJrQ3DId+E1dxnpZFwz7QWacFdhwsU5SfE9Y34LG4w==
  */
 
-// tslint:disable
-
 interface AtdatabasesMigrationsVersion {
   id: number & { readonly __brand?: 'atdatabases_migrations_version_id' };
   version: string | null;

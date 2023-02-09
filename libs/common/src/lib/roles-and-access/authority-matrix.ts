@@ -40,6 +40,10 @@ const AUTHORITY_MATRIX: AuthorityAccessRule[] = [
           },
         ],
       },
+      {
+        authority: Authority.ManageActivityConfigs,
+        deny: ['moderator'],
+      },
     ],
   },
 ];
