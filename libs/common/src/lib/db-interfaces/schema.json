@@ -1,5 +1,113 @@
 [
   {
+    "name": "activity",
+    "columns": [
+      {
+        "name": "category_id",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
+        "name": "created",
+        "isNullable": false,
+        "hasDefault": true,
+        "typeId": 1114,
+        "typeName": "TIMESTAMP"
+      },
+      {
+        "name": "created_by",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
+        "name": "description",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 25,
+        "typeName": "TEXT"
+      },
+      {
+        "name": "id",
+        "isNullable": false,
+        "hasDefault": true,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
+        "name": "last_updated_by",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
+        "name": "name",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 25,
+        "typeName": "TEXT"
+      },
+      {
+        "name": "updated",
+        "isNullable": false,
+        "hasDefault": true,
+        "typeId": 1114,
+        "typeName": "TIMESTAMP"
+      }
+    ]
+  },
+  {
+    "name": "activity_categories",
+    "columns": [
+      {
+        "name": "created",
+        "isNullable": false,
+        "hasDefault": true,
+        "typeId": 1114,
+        "typeName": "TIMESTAMP"
+      },
+      {
+        "name": "created_by",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
+        "name": "id",
+        "isNullable": false,
+        "hasDefault": true,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
+        "name": "last_updated_by",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
+        "name": "name",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 25,
+        "typeName": "TEXT"
+      },
+      {
+        "name": "updated",
+        "isNullable": false,
+        "hasDefault": true,
+        "typeId": 1114,
+        "typeName": "TIMESTAMP"
+      }
+    ]
+  },
+  {
     "name": "atdatabases_migrations_applied",
     "columns": [
       {
@@ -109,6 +217,13 @@
         "typeName": "TEXT"
       },
       {
+        "name": "created_by",
+        "isNullable": true,
+        "hasDefault": false,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
         "name": "generated",
         "isNullable": false,
         "hasDefault": true,
@@ -175,9 +290,23 @@
         "typeName": "TIMESTAMP"
       },
       {
+        "name": "created_by",
+        "isNullable": false,
+        "hasDefault": false,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
         "name": "id",
         "isNullable": false,
         "hasDefault": true,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
+        "name": "last_updated_by",
+        "isNullable": false,
+        "hasDefault": false,
         "typeId": 2950,
         "typeName": "UUID"
       },
@@ -215,6 +344,13 @@
         "typeName": "TIMESTAMP"
       },
       {
+        "name": "created_by",
+        "isNullable": true,
+        "hasDefault": false,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
         "name": "email",
         "isNullable": false,
         "hasDefault": false,
@@ -243,6 +379,13 @@
         "typeName": "TEXT"
       },
       {
+        "name": "last_updated_by",
+        "isNullable": true,
+        "hasDefault": false,
+        "typeId": 2950,
+        "typeName": "UUID"
+      },
+      {
         "name": "name",
         "isNullable": true,
         "hasDefault": false,
@@ -267,7 +410,7 @@
         "name": "role",
         "isNullable": false,
         "hasDefault": false,
-        "typeId": 48244,
+        "typeId": 48823,
         "typeName": "USER_ROLE"
       },
       {

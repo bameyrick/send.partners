@@ -8,12 +8,13 @@ import {
   SignUpCredentials,
   User,
 } from '@common';
-import { Body, Controller, Get, Post, Res, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
+import { isNullOrUndefined } from '@qntm-code/utils';
 import { Response } from 'express';
-import { Public } from './decorators';
 import { AuthService } from './auth.service';
-import { JwtRefreshAuthGuard, LocalAuthGuard } from './guards';
 import { JWT_COOKIE_KEY } from './constants';
+import { Public } from './decorators';
+import { JwtRefreshAuthGuard, LocalAuthGuard } from './guards';
 
 @Controller(APIEndpoint.Auth)
 export class AuthController {
@@ -45,6 +46,10 @@ export class AuthController {
 
   @Get(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.Logout))
   public logout(@Request() { user }: { user: JwtPayload }): Promise<void> {
+    if (isNullOrUndefined(user)) {
+      return Promise.resolve();
+    }
+
     return this.authService.logout(user.id);
   }
 
@@ -74,8 +79,8 @@ export class AuthController {
 
   @Public()
   @Post(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.RequestPasswordReset))
-  public async requestPasswordReset(@Body() { email }: { email: string }): Promise<void> {
-    await this.authService.requestPasswordReset(email);
+  public async requestPasswordReset(@Request() { user }: { user: JwtPayload }, @Body() { email }: { email: string }): Promise<void> {
+    await this.authService.requestPasswordReset(email, user?.id);
   }
 
   @Public()

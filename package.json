@@ -6,6 +6,8 @@
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
     "start": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,api,app,admin,storybook \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx serve api\" \"nx serve\" \"nx serve admin\" \"nx storybook common-ui\"",
+    "start:app": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,app \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx serve\"",
+    "start:admin": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,admin \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx serve admin\"",
     "storybook": "npm run pre-build && concurrently-await -n icons,colours,i18n,hashing,storybook \"npm run icons:watch\" \"npm run colours:watch\" \"npm run i18n:watch\" \"npm run hash-assets:watch\" \"nx storybook common-ui\"",
     "build": "nx build",
     "test": "yarn nx run-many --target=test --all",

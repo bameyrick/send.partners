@@ -5,4 +5,5 @@ export enum Authority {
   CreateModerator = 'users.create.moderator',
   CreateAdmin = 'users.create.admin',
   CreateSysadmin = 'users.create.sysadmin',
+  ManageActivityConfigs = 'activity_configs.manage',
 }

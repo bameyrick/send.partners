@@ -5,8 +5,6 @@
  * Checksum: Bzk0DiYXTxvGZhPXJlQ80e3NvllKDFHaOkByQqYQmZ7zb4tDTeSjU5HQnWWGTFS0HXGYruHpTn2bg/EKn0Zk6g==
  */
 
-// tslint:disable
-
 import Users from './users';
 
 interface EmailVerificationCodes {

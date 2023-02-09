@@ -35,6 +35,10 @@ const routes: Routes = [
         path: AppPath.Users,
         loadChildren: () => import('../pages/users/users.module').then(m => m.UsersModule),
       },
+      {
+        path: AppPath.ActivityConfigs,
+        loadChildren: () => import('../pages/activity-configs/activity-configs.module').then(m => m.ActivityConfigsModule),
+      },
       { path: '**', redirectTo: AppPath.Root },
     ],
   },

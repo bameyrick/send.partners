@@ -17,7 +17,9 @@ export default async function applyMigration(db: Connection) {
       refresh_hash TEXT,
       name TEXT,
       created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-      updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      created_by UUID REFERENCES users(id),
+      last_updated_by UUID REFERENCES users(id)
     )
   `);
 
@@ -27,7 +29,9 @@ export default async function applyMigration(db: Connection) {
       user_id UUID NOT NULL REFERENCES users(id),
       location GEOGRAPHY(POINT, 4326) NOT NULL,
       created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-      updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      created_by UUID NOT NULL REFERENCES users(id),
+      last_updated_by UUID NOT NULL REFERENCES users(id)
     )
   `);
 
@@ -44,7 +48,8 @@ export default async function applyMigration(db: Connection) {
       code TEXT PRIMARY KEY NOT NULL,
       user_id UUID NOT NULL REFERENCES users(id),
       generated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-      unique(user_id)
+      unique(user_id),
+      created_by UUID REFERENCES users(id)
     )
   `);
 }

@@ -1,7 +1,7 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AppPath, getRouterLinkForAppPath } from '@common';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { AuthActions } from './auth.actions';
@@ -82,8 +82,7 @@ export class AuthEffects {
         tap(() => {
           const url = this.router.routerState.snapshot.url;
 
-          const queryParams =
-            this.logoutRedirectPath === AppPath.Login && getRouterLinkForAppPath(AppPath.Root) !== url ? { redirect: url } : undefined;
+          const queryParams = this.logoutRedirectPath === AppPath.Login && AppPath.Root !== url ? { redirect: url } : undefined;
 
           this.router.navigate([this.logoutRedirectPath], { queryParams });
         })

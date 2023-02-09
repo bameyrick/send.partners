@@ -6,7 +6,7 @@ import { asyncEvery, isNullOrUndefined } from '@qntm-code/utils';
 import { firstValueFrom, skipWhile } from 'rxjs';
 import { AppRouteAuthorities, AppTreeRoute } from '../../interfaces';
 import { AuthorityService } from '../../services';
-import { selectAuthenticated, selectInitialRefreshCompleted, selectAuthUser, AuthActions } from '../store';
+import { AuthActions, selectAuthenticated, selectAuthUser, selectInitialRefreshCompleted } from '../store';
 
 export const APP_ROUTING_TREE = new InjectionToken<AppTreeRoute[]>('APP_ROUTING_TREE');
 
@@ -74,7 +74,7 @@ export class AuthGuard implements CanActivateChild {
 
         return false;
       }
-    } else if (!isLoginUrl) {
+    } else if (!isLoginUrl && !url.includes(getRouterLinkForAppPath(AppPath.ResetPassword))) {
       this.store.dispatch(AuthActions.logout());
 
       return false;
