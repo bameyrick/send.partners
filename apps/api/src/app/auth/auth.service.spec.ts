@@ -1,4 +1,4 @@
-import { APIErrorCode, EmailVerificationCodes, FullUser, ResetPasswordCodes, User } from '@common';
+import { APIErrorCode, FullUser, ResetPasswordCodes, User } from '@common';
 import { createMock } from '@golevelup/ts-jest';
 import { mockDatabaseService, mockUser } from '@mocks';
 import { ForbiddenException } from '@nestjs/common';
@@ -192,7 +192,7 @@ describe('AuthService', () => {
     it(`should throw a forbidden exception if a code exists and it has not expired`, async () => {
       jest
         .spyOn(databaseService.reset_password_codes(), 'findOne')
-        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ generated: new Date() }));
+        .mockResolvedValueOnce(createMock<ResetPasswordCodes>({ generated: new Date() }));
 
       await expect(service.sendEmailVerification('id')).rejects.toThrow(new ForbiddenException(APIErrorCode.WaitToResendVerificationEmail));
     });
@@ -211,7 +211,7 @@ describe('AuthService', () => {
 
       jest
         .spyOn(databaseService.reset_password_codes(), 'findOne')
-        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ generated: new Date(0) }));
+        .mockResolvedValueOnce(createMock<ResetPasswordCodes>({ generated: new Date(0) }));
 
       await expect(service.sendEmailVerification('id')).resolves.not.toThrow();
 
@@ -224,7 +224,7 @@ describe('AuthService', () => {
     it(`should throw an error if the code is invalid`, async () => {
       jest
         .spyOn(databaseService.reset_password_codes(), 'findOne')
-        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ code: '000000' }));
+        .mockResolvedValueOnce(createMock<ResetPasswordCodes>({ code: '000000' }));
 
       jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
 
@@ -244,7 +244,7 @@ describe('AuthService', () => {
     it(`should throw an error if code has expired`, async () => {
       jest
         .spyOn(databaseService.reset_password_codes(), 'findOne')
-        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ code: '000000', generated: new Date(0) }));
+        .mockResolvedValueOnce(createMock<ResetPasswordCodes>({ code: '000000', generated: new Date(0) }));
 
       jest.spyOn(usersService, 'markUserEmailAsValidated').mockImplementation(async () => createMock<User>());
 
@@ -259,7 +259,7 @@ describe('AuthService', () => {
 
       jest
         .spyOn(databaseService.reset_password_codes(), 'findOne')
-        .mockResolvedValueOnce(createMock<EmailVerificationCodes>({ generated: new Date(), code }));
+        .mockResolvedValueOnce(createMock<ResetPasswordCodes>({ generated: new Date(), code }));
 
       const user: User = { id: user_id, email: 'email', email_verified: true, language: 'en', role: 'user' };
 

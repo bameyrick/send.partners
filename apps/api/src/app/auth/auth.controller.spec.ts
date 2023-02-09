@@ -1,13 +1,13 @@
 import { JwtPayload, JwtPayloadWithRefreshToken } from '@common';
 import { createMock } from '@golevelup/ts-jest';
+import { mockDatabaseService, mockResponseObject } from '@mocks';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { mockDatabaseService, mockResponseObject } from '@mocks';
+import { DatabaseService } from '../db';
 import { MailService } from '../mail';
 import { UsersService } from '../users';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { DatabaseService } from '../db';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -105,7 +105,7 @@ describe('AuthController', () => {
     it('should call authService.requestPasswordReset', () => {
       jest.spyOn(authService, 'requestPasswordReset');
 
-      controller.requestPasswordReset({ email: 'email' });
+      controller.requestPasswordReset({ user: createMock<JwtPayloadWithRefreshToken>() }, { email: 'email' });
 
       expect(authService.requestPasswordReset).toHaveBeenCalled();
     });
