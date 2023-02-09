@@ -24,6 +24,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["common-ui"],
-  "name": "common-ui-e2e"
+  "implicitDependencies": ["common-ui"]
 }
