@@ -132,12 +132,6 @@ $navigation-transition-timing: $transition-timing ease;
     }
   }
 
-  // &__item:last-child & {
-  //   &__link:last-of-type {
-  //     padding-bottom: 0;
-  //   }
-  // }
-
   &__link {
     @include link-reset(true);
 
