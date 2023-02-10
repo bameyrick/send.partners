@@ -6,23 +6,27 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import {
+  AvatarComponent,
   ButtonComponent,
   CheckboxComponent,
   DropdownComponent,
   FieldComponent,
   FormComponent,
   LanguagesComponent,
+  NavigationComponent,
+  NotificationCountComponent,
   NumberInputComponent,
   OptionComponent,
   PanelComponent,
   PasswordStrengthComponent,
   TextInputComponent,
+  TotalGroupNotificationsPipe,
 } from './components';
+import { HasAuthorityDirective } from './directives';
 import { EmailVerificationComponent, LoginComponent } from './forms';
 import { IconModule } from './icon';
-import { TranslateModule } from './translate';
 import { KeysPipe, ReversePipe, ValuesPipe } from './pipes';
-import { HasAuthorityDirective } from './directives';
+import { TranslateModule } from './translate';
 
 const imports = [
   CommonModule,
@@ -35,46 +39,33 @@ const imports = [
   RouterModule,
 ];
 
+const declarations = [
+  AvatarComponent,
+  ButtonComponent,
+  CheckboxComponent,
+  DropdownComponent,
+  EmailVerificationComponent,
+  FieldComponent,
+  FormComponent,
+  HasAuthorityDirective,
+  LanguagesComponent,
+  LoginComponent,
+  KeysPipe,
+  TextInputComponent,
+  TotalGroupNotificationsPipe,
+  NavigationComponent,
+  NotificationCountComponent,
+  NumberInputComponent,
+  OptionComponent,
+  PanelComponent,
+  PasswordStrengthComponent,
+  ReversePipe,
+  ValuesPipe,
+];
+
 @NgModule({
   imports,
-  declarations: [
-    ButtonComponent,
-    CheckboxComponent,
-    TextInputComponent,
-    FormComponent,
-    FieldComponent,
-    PanelComponent,
-    LoginComponent,
-    PasswordStrengthComponent,
-    DropdownComponent,
-    OptionComponent,
-    LanguagesComponent,
-    EmailVerificationComponent,
-    ReversePipe,
-    ValuesPipe,
-    NumberInputComponent,
-    KeysPipe,
-    HasAuthorityDirective,
-  ],
-  exports: [
-    ...imports,
-    ButtonComponent,
-    CheckboxComponent,
-    TextInputComponent,
-    FormComponent,
-    FieldComponent,
-    PanelComponent,
-    LoginComponent,
-    PasswordStrengthComponent,
-    DropdownComponent,
-    OptionComponent,
-    LanguagesComponent,
-    EmailVerificationComponent,
-    ReversePipe,
-    ValuesPipe,
-    NumberInputComponent,
-    KeysPipe,
-    HasAuthorityDirective,
-  ],
+  declarations,
+  exports: [...imports, ...declarations],
 })
 export class CommonUiModule {}

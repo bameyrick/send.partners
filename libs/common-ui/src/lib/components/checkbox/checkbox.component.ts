@@ -18,4 +18,9 @@ import { AbstractControlComponent } from '../abstracts';
     },
   ],
 })
-export class CheckboxComponent extends AbstractControlComponent<boolean> {}
+export class CheckboxComponent extends AbstractControlComponent<boolean> {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Checkbox';
+}

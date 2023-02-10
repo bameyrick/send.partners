@@ -2,11 +2,11 @@
 @use 'sass:math';
 @import '../../styles/base';
 
-$panel-padding: math.div($element-spacing, 1);
+$panel-padding: math.div($element-spacing-desktop, 1);
 
 .Panel {
   display: block;
-  margin: 0 0 $element-spacing;
+  margin: 0 0 $element-spacing-desktop;
 
   &__title {
     margin: 0;

@@ -10,7 +10,7 @@
 
   /* stylelint-disable-next-line order/order */
   @if $small-size != $large-size {
-    @include media-query(m) {
+    @include desktop {
       font-size: rems($large-size, $base);
     }
   }

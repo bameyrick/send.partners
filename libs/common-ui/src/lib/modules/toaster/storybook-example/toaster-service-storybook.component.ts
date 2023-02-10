@@ -11,6 +11,11 @@ import { ToasterService } from '../toaster.service';
   providers: [CommonUiModule],
 })
 export class StorybookToasterServiceComponent extends AbstractComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'StorybookToasterService';
+
   @Input() public title?: string;
   @Input() public body?: string;
   @Input() public icon?: Icon;

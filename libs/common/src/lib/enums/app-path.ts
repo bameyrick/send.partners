@@ -10,8 +10,13 @@ export enum AppPath {
   ResetPassword = 'reset-password',
   ResetPasswordSuccess = 'reset-password/success',
   ResetPasswordCode = 'reset-password/:code',
+  MyProfile = 'my-profile',
   Users = 'users',
   ManageUser = 'users/:id',
   CreateUser = 'users/new',
   ActivityConfigs = 'activity-configs',
+  Activities = 'activities',
+  Activity = 'activities/:id',
+  Groups = 'groups',
+  Group = 'group/:id',
 }

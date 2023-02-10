@@ -15,6 +15,11 @@ interface DisplayLanguage extends Language {
   encapsulation: ViewEncapsulation.None,
 })
 export class LanguagesComponent extends AbstractComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Languages';
+
   public readonly currentLanguage$ = this.translateService.language$.pipe(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     map(current => this.mapLanguageForDisplay(this.translateService.languages.find(({ code }) => code === current)!))

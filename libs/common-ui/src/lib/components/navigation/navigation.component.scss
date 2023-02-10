@@ -1,0 +1,231 @@
+@use 'sass:math';
+@use 'sass:color';
+@import '../../styles/base';
+
+$navigation-transition-timing: $transition-timing ease;
+
+.Navigation {
+  @include desktop {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: $element-spacing-desktop;
+    width: 360px;
+    height: 100vh;
+    background: $colour-white;
+  }
+
+  @include mobile {
+    &--open & {
+      &__backdrop {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      &__expandable {
+        transform: translate(0, 0);
+      }
+    }
+  }
+
+  &__header {
+    @include desktop {
+      margin: 0 0 3em;
+    }
+
+    @include mobile {
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      padding: $element-spacing-mobile;
+      background: $colour-white;
+    }
+  }
+
+  &__logo {
+    margin: 0;
+  }
+
+  &__burger {
+    @include desktop {
+      display: none !important;
+    }
+  }
+
+  &__backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    backdrop-filter: blur(1px);
+    background: rgba($colour-black, 0.2);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity $navigation-transition-timing;
+  }
+
+  &__expandable {
+    @include mobile {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      transform: translate(0, 100%);
+      padding: $element-spacing-mobile;
+      width: 100vw;
+      height: calc(100vh - 5em);
+      border-top-left-radius: $radius-large;
+      border-top-right-radius: $radius-large;
+      background: $colour-white;
+      transition: transform $navigation-transition-timing;
+    }
+
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__nav {
+    position: relative;
+    overflow: auto;
+
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      position: sticky;
+      left: 0;
+      height: 2em;
+    }
+
+    &:before {
+      top: 0;
+      background: linear-gradient(to bottom, $colour-white, rgba($colour-white, 0));
+    }
+
+    &:after {
+      bottom: -2px;
+      border-bottom: 2px solid $colour-white;
+      background: linear-gradient(to bottom, rgba($colour-white, 0), $colour-white);
+    }
+  }
+
+  &__list {
+    @include list-reset;
+  }
+
+  &__item {
+    &:not(:last-child) {
+      border-bottom: 2px solid $colour-concrete;
+    }
+  }
+
+  &__item:first-child > & {
+    &__link {
+      padding-top: 0;
+    }
+  }
+
+  // &__item:last-child & {
+  //   &__link:last-of-type {
+  //     padding-bottom: 0;
+  //   }
+  // }
+
+  &__link {
+    @include link-reset(true);
+
+    &:hover {
+      color: $colour-primary;
+    }
+  }
+
+  &__group-title,
+  &__link {
+    @include font-size(fs-r);
+
+    display: flex;
+    padding: 1em 0;
+    font-weight: $font-weight-bold;
+
+    &--active {
+      color: $colour-primary;
+    }
+  }
+
+  &__group-summary,
+  &__group-title {
+    display: flex;
+
+    justify-content: space-between;
+
+    color: $colour-text;
+  }
+
+  &__group-summary {
+    align-items: center;
+  }
+
+  &__notification-count {
+    margin: 0.15em 0.5em 0;
+    font-size: 0.55em !important;
+  }
+
+  &__caret {
+    width: 1em;
+    height: 1em;
+  }
+
+  &__icon {
+    margin: 0 0.5em;
+    width: 1.2em;
+    height: 1.2em;
+  }
+
+  &__group & {
+    &__list &__link {
+      padding: 0.5em 0;
+    }
+  }
+
+  &__footer {
+    position: relative;
+    justify-self: flex-end;
+    margin: auto 0 0;
+    padding: $element-spacing-mobile 0;
+  }
+
+  &__account {
+    @include mobile {
+      font-size: 0.8em;
+    }
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__user {
+    @include link-reset(true);
+
+    display: flex;
+    align-items: center;
+    margin: 0 -0.5em;
+    font-weight: $font-weight-bold;
+  }
+
+  &__avatar,
+  &__logout {
+    margin: 0 0.5em;
+  }
+
+  &__logout {
+    @include font-size(fs-s);
+  }
+}

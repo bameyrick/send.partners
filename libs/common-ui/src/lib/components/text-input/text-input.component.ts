@@ -20,6 +20,11 @@ import { AbstractTextInputComponent } from '../abstracts';
 })
 export class TextInputComponent extends AbstractTextInputComponent implements OnChanges {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'TextInput';
+
+  /**
    * The type of the input
    */
   @Input() public type: 'text' | 'email' | 'password' | 'search' | 'tel' = 'text';

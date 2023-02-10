@@ -11,6 +11,11 @@ import { ButtonStyle } from './button-style';
 })
 export class ButtonComponent extends AbstractComponent implements OnChanges {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Button';
+
+  /**
    * The type of button we are displaying
    */
   @HostBinding('type') @Input() public type: 'button' | 'submit' = 'button';

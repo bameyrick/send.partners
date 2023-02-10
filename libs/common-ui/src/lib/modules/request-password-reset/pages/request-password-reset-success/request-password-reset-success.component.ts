@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AbstractComponent } from '../../../../components';
 import { map } from 'rxjs';
+import { AbstractComponent } from '../../../../components';
 
 @Component({
   selector: 'common-request-password-reset-success',
@@ -10,6 +10,11 @@ import { map } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
 })
 export class RequestPasswordResetSuccessComponent extends AbstractComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'RequestPasswordResetSuccess';
+
   public readonly email$ = this.activatedRoute.queryParams.pipe(map(params => params['email']));
 
   constructor(elementRef: ElementRef, private readonly activatedRoute: ActivatedRoute) {

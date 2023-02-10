@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { isEmpty, isNullOrUndefined } from '@qntm-code/utils';
 import { APIErrorCode, APIErrorCodeTranslation, AppPath, getRouterLinkForAppPath } from '@common';
+import { isEmpty, isNullOrUndefined } from '@qntm-code/utils';
 import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Icon } from '../../enums';
@@ -22,7 +22,7 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
   /**
    * The BEM block name class
    */
-  public readonly bemBlockClass: string = this.constructor.name.replace('Component', '');
+  public abstract readonly bemBlockClass: string;
 
   /**
    * Cache the initial host element classes

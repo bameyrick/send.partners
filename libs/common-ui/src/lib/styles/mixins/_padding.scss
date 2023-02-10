@@ -1,0 +1,7 @@
+@mixin padding($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    padding: $desktop;
+  }
+
+  padding: $mobile;
+}

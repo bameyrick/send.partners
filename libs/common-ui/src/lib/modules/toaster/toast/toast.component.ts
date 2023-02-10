@@ -13,6 +13,11 @@ import { ToasterService } from '../toaster.service';
 })
 export class ToastComponent extends AbstractComponent implements AfterContentInit {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Toast';
+
+  /**
    * The toast message to display
    */
   @Input() public toast!: ToastInternal;

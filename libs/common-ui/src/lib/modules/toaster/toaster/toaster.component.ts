@@ -1,5 +1,5 @@
-import { Component, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Component, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { AbstractComponent } from '../../../components';
 import { ToasterService } from '../toaster.service';
 
@@ -19,6 +19,11 @@ import { ToasterService } from '../toaster.service';
   ],
 })
 export class ToasterComponent extends AbstractComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Toaster';
+
   /**
    * Whether the mouse is over the toaster
    */

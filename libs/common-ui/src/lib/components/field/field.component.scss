@@ -40,7 +40,7 @@ $field-horizontal-label-spacing: 0.3rem;
   }
 
   &__button {
-    font-size: 1em !important;
+    @include font-size('fs-r');
   }
 
   &--horizontal & {

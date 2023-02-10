@@ -1,11 +1,11 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { passwordRegex, ResetPasswordCredentials } from '@common';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../../../auth';
-import { TranslateService } from '../../../../translate';
 import { AbstractAuthFormComponent } from '../../../../forms/abstracts';
+import { TranslateService } from '../../../../translate';
 
 @Component({
   selector: 'common-reset-password',
@@ -14,6 +14,11 @@ import { AbstractAuthFormComponent } from '../../../../forms/abstracts';
   encapsulation: ViewEncapsulation.None,
 })
 export class ResetPasswordComponent extends AbstractAuthFormComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'ResetPassword';
+
   /**
    * Expose the password regex to the view
    */

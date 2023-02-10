@@ -1,0 +1,13 @@
+@use 'sass:math';
+@import '../../styles/base';
+
+.Avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  background: $colour-concrete;
+  font-weight: $font-weight-bold;
+}

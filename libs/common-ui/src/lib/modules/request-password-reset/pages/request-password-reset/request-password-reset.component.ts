@@ -1,11 +1,11 @@
 import { Component, ElementRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RequestPasswordResetCredentials } from '@common';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../../../auth';
-import { TranslateService } from '../../../../translate';
 import { AbstractAuthFormComponent } from '../../../../forms/abstracts';
-import { RequestPasswordResetCredentials } from '@common';
+import { TranslateService } from '../../../../translate';
 
 @Component({
   selector: 'common-request-password-reset',
@@ -13,6 +13,11 @@ import { RequestPasswordResetCredentials } from '@common';
   styleUrls: ['./request-password-reset.component.scss'],
 })
 export class RequestPasswordResetComponent extends AbstractAuthFormComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'RequestPasswordReset';
+
   /**
    * The form controls
    */

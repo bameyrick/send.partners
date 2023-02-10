@@ -12,6 +12,11 @@ import { AbstractAuthFormComponent } from '../abstracts';
 })
 export class LoginComponent extends AbstractAuthFormComponent {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Login';
+
+  /**
    * The form controls
    */
   public readonly form = new FormGroup({

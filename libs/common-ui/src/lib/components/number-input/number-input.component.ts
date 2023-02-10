@@ -20,6 +20,11 @@ import { AbstractControlComponent } from '../abstracts';
 })
 export class NumberInputComponent extends AbstractControlComponent<number> {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'NumberInput';
+
+  /**
    * The minimum value allowed
    */
   @Input() public min: number | string | null = null;

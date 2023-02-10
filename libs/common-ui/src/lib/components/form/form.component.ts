@@ -13,6 +13,11 @@ import { AbstractComponent } from '../abstracts/component.abstract';
 })
 export class FormComponent extends AbstractComponent {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Form';
+
+  /**
    * Reference to the provided form group
    */
   @Input() public formGroup?: UntypedFormGroup;

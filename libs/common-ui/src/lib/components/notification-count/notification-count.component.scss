@@ -1,0 +1,21 @@
+@use 'sass:math';
+@import '../../styles/base';
+
+.NotificationCount {
+  @include font-size(fs-s);
+
+  display: block;
+  padding: 0.45em;
+  min-width: 2em;
+  height: 2em;
+  border-radius: 1em;
+  background: $colour-red;
+  color: $colour-white;
+  font-weight: $font-weight-heavy;
+  text-align: center;
+  transition: transform $transition-timing $ease-out-back;
+
+  &--hidden {
+    transform: scale(0);
+  }
+}

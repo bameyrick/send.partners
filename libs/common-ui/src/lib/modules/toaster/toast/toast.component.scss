@@ -5,8 +5,8 @@
   display: flex;
   align-items: center;
   position: relative;
-  padding: math.div($element-spacing, 2);
-  width: calc(100vw - #{$element-spacing * 2});
+  padding: math.div($element-spacing-desktop, 2);
+  width: calc(100vw - #{$element-spacing-desktop * 2});
   max-width: 360px;
   overflow: hidden;
   border-radius: 0.5em;
@@ -17,7 +17,7 @@
   &__content,
   &__dismiss {
     flex: 0 0 auto;
-    margin: math.div($element-spacing, 2);
+    margin: math.div($element-spacing-desktop, 2);
   }
 
   &__content {

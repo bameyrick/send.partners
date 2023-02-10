@@ -22,6 +22,11 @@ import { OptionComponent } from '../option/option.component';
 })
 export class DropdownComponent extends AbstractControlComponent<OptionValue | Array<OptionValue>> {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Dropdown';
+
+  /**
    * The options available for selection
    */
   @ContentChildren(OptionComponent) public readonly options?: QueryList<OptionComponent>;

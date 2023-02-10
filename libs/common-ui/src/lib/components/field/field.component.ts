@@ -10,6 +10,11 @@ import { AbstractComponent, AbstractControlComponent } from '../abstracts';
 })
 export class FieldComponent extends AbstractComponent implements OnInit {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Field';
+
+  /**
    * The provided parent. This will be an extention of AbstractControlComponent
    */
   @Input() public parent?: unknown;

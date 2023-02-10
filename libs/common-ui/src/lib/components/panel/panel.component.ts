@@ -12,6 +12,11 @@ import { PanelType } from './panel-type';
 })
 export class PanelComponent extends AbstractComponent implements OnChanges {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Panel';
+
+  /**
    * The type of panel to render
    */
   @Input() public type = PanelType.Info;

@@ -16,6 +16,7 @@
 @import 'settings/keyframes';
 @import 'settings/grid';
 @import 'settings/layout';
+@import 'settings/transitions';
 @import 'settings/typography';
 @import 'settings/input';
 
@@ -38,4 +39,5 @@
 @import 'mixins/focus';
 @import 'mixins/font-size';
 @import 'mixins/media-query';
+@import 'mixins/padding';
 @import 'mixins/spinner';

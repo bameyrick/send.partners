@@ -9,6 +9,11 @@ import { AbstractComponent } from '../abstracts';
 })
 export class PasswordStrengthComponent extends AbstractComponent implements OnChanges {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'PasswordStrength';
+
+  /**
    * The password to analyze
    */
   @Input() public password?: string | null;

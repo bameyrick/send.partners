@@ -47,3 +47,15 @@
     @warn 'Breakpoint #{$name} wasn\'t found in $breakpoints.';
   }
 }
+
+@mixin mobile {
+  @include media-query($to: m, $to-operator: '<') {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @include media-query($from: m) {
+    @content;
+  }
+}

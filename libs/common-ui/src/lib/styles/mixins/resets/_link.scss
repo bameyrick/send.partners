@@ -1,4 +1,10 @@
-@mixin link-reset {
+@mixin link-reset($noHover: false) {
+  @if $noHover == true {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   color: inherit;
   text-decoration: none;
 

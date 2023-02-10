@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { convertTimeUnit, TimeUnit } from '@qntm-code/utils';
 import { combineLatest, interval, map, shareReplay } from 'rxjs';
-import { selectResendEmailTime, AuthActions } from '../../auth';
+import { AuthActions, selectResendEmailTime } from '../../auth';
 import { AbstractAuthFormComponent } from '../abstracts';
 
 @Component({
@@ -12,6 +12,11 @@ import { AbstractAuthFormComponent } from '../abstracts';
   encapsulation: ViewEncapsulation.None,
 })
 export class EmailVerificationComponent extends AbstractAuthFormComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'EmailVerification';
+
   public readonly resendSeconds$ = combineLatest([this.store.select(selectResendEmailTime), interval(1000)]).pipe(
     map(([time]) =>
       time

@@ -31,7 +31,12 @@ import { AbstractControlComponent } from './control-component.abstract';
     },
   ],
 })
-class TestComponent extends AbstractControlComponent<unknown> {}
+class TestComponent extends AbstractControlComponent<unknown> {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Test';
+}
 
 @Component({
   selector: 'test-wrapper',

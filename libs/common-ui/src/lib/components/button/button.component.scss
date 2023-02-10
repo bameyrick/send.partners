@@ -91,12 +91,14 @@
   }
 
   &--icon-only {
+    @include font-size(fs-xl);
+
     padding: 0;
     width: 1em;
     height: 1em;
+    border-radius: 0;
     background: transparent;
     color: $colour-text;
-    font-size: 1.5rem;
 
     &:before,
     &:after {

@@ -7,4 +7,9 @@ import { AbstractComponent } from '../../../../components';
   styleUrls: ['./reset-password-success.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ResetPasswordSuccessComponent extends AbstractComponent {}
+export class ResetPasswordSuccessComponent extends AbstractComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'ResetPasswordSuccess';
+}
