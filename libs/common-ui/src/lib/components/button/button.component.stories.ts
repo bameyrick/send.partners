@@ -1,7 +1,7 @@
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { mapComponentPropsForTemplate } from '../../../../.storybook/map-props';
+import { CommonUiStorybookModule } from '../../common-ui.storybook.module';
 import { Icon } from '../../enums';
-import { CommonUiModule } from '../../common-ui.module';
 import { ButtonStyle } from './button-style';
 import { ButtonComponent } from './button.component';
 
@@ -14,7 +14,7 @@ export default {
   component: ButtonComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonUiModule],
+      imports: [CommonUiStorybookModule],
     }),
   ],
   argTypes: {
@@ -39,10 +39,12 @@ const Template: Story<ButtonWithContent> = (props: ButtonWithContent) => ({
 });
 
 export const Primary = Template.bind({});
+
 Primary.args = {
   content: 'Button',
   style: ButtonStyle.Primary,
   disabled: false,
   loading: false,
   iconOnly: false,
+  small: false,
 };

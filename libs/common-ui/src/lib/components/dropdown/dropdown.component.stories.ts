@@ -1,6 +1,6 @@
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { mapComponentPropsForTemplate } from '../../../../.storybook/map-props';
-import { CommonUiModule } from '../../common-ui.module';
+import { CommonUiStorybookModule } from '../../common-ui.storybook.module';
 import { DropdownComponent } from './dropdown.component';
 
 export default {
@@ -8,7 +8,7 @@ export default {
   component: DropdownComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonUiModule],
+      imports: [CommonUiStorybookModule],
     }),
   ],
 } as Meta<DropdownComponent>;

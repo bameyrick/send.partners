@@ -17,17 +17,37 @@ export class EmailVerificationComponent extends AbstractAuthFormComponent {
    */
   public readonly bemBlockClass: string = 'EmailVerification';
 
-  public readonly resendSeconds$ = combineLatest([this.store.select(selectResendEmailTime), interval(1000)]).pipe(
-    map(([time]) =>
-      time
-        ? Math.max(0, Math.ceil(convertTimeUnit(time.getTime() - new Date().getTime(), TimeUnit.Milliseconds, TimeUnit.Seconds)))
-        : undefined
-    ),
+  public readonly resendTime$ = combineLatest([this.store.select(selectResendEmailTime), interval(1000)]).pipe(
+    map(([time]) => {
+      if (time) {
+        const remainingTime = time.getTime() - new Date().getTime();
+
+        const minutes = Math.max(0, Math.floor(convertTimeUnit(remainingTime, TimeUnit.Milliseconds, TimeUnit.Minutes)));
+
+        const seconds = Math.max(
+          0,
+          Math.floor(
+            convertTimeUnit(
+              remainingTime - convertTimeUnit(minutes, TimeUnit.Minutes, TimeUnit.Milliseconds),
+              TimeUnit.Milliseconds,
+              TimeUnit.Seconds
+            )
+          )
+        );
+
+        return {
+          minutes,
+          seconds,
+        };
+      }
+
+      return undefined;
+    }),
     shareReplay(1)
   );
 
-  public readonly canResend$ = this.resendSeconds$.pipe(
-    map(seconds => !seconds || seconds === 0),
+  public readonly canResend$ = this.resendTime$.pipe(
+    map(time => !time || (time.minutes === 0 && time.seconds === 0)),
     shareReplay(1)
   );
 

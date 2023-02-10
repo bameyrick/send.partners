@@ -1,5 +1,9 @@
-<router-outlet></router-outlet>
-<footer>
+<navigation *ngIf="authenticated$ | async"></navigation>
+
+<main class="Main">
+  <router-outlet></router-outlet>
+</main>
+
+<footer *ngIf="(authenticated$ | async) === false" class="App__footer">
   <ul app-languages></ul>
-  <button *ngIf="authenticated$ | async" (click)="logout()">{{ 'common.logout' | translate }}</button>
 </footer>

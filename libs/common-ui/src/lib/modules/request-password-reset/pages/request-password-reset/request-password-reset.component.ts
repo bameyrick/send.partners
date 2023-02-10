@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestPasswordResetCredentials } from '@common';
@@ -11,6 +11,7 @@ import { TranslateService } from '../../../../translate';
   selector: 'common-request-password-reset',
   templateUrl: './request-password-reset.component.html',
   styleUrls: ['./request-password-reset.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class RequestPasswordResetComponent extends AbstractAuthFormComponent {
   /**

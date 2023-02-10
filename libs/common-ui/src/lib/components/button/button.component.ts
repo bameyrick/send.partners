@@ -36,9 +36,14 @@ export class ButtonComponent extends AbstractComponent implements OnChanges {
   @Input() public loading?: boolean | null;
 
   /**
-   * Whether this is am icon only button
+   * Whether this is an icon only button
    */
   @Input() public iconOnly?: boolean;
+
+  /**
+   * Whether this should be a small button
+   */
+  @Input() public small?: boolean;
 
   /**
    * Whether to mark the button as disabled
@@ -75,6 +80,10 @@ export class ButtonComponent extends AbstractComponent implements OnChanges {
 
     if (this.loading) {
       classes.push(`${this.bemBlockClass}--loading`);
+    }
+
+    if (this.small) {
+      classes.push(`${this.bemBlockClass}--small`);
     }
 
     return classes;

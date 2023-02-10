@@ -1,0 +1,20 @@
+@use 'sass:math';
+@import '../../styles/base';
+
+.EmailVerification {
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  &__retry {
+    @include font-size(fs-s);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5em;
+    width: 100%;
+  }
+}

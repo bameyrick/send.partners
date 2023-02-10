@@ -11,6 +11,11 @@ import { SignupActions } from '../../store';
 })
 export class SignupNameFormComponent extends AbstractAuthFormComponent {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'SignupNameForm';
+
+  /**
    * The form controls
    */
   public readonly form = new FormGroup({

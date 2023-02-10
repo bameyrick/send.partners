@@ -1,4 +1,5 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { mapComponentPropsForTemplate } from '../../../../.storybook/map-props';
 import { CommonUiStorybookModule } from '../../common-ui.storybook.module';
 import { NotificationCountComponent } from './notification-count.component';
 
@@ -13,7 +14,7 @@ export default {
 } as Meta<NotificationCountComponent>;
 
 const Template: Story<NotificationCountComponent> = (props: NotificationCountComponent) => ({
-  template: `<notification-count ${Object.keys(props).reduce((result, key) => `${result} [${key}]="${key}"`, '')}></notification-count>`,
+  template: `<notification-count ${mapComponentPropsForTemplate(props)}></notification-count>`,
   props,
 });
 

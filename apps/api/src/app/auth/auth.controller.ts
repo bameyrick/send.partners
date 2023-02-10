@@ -9,7 +9,6 @@ import {
   User,
 } from '@common';
 import { Body, Controller, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
-import { isNullOrUndefined } from '@qntm-code/utils';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { JWT_COOKIE_KEY } from './constants';
@@ -46,10 +45,6 @@ export class AuthController {
 
   @Get(removeParentUrlParts(APIEndpoint.Auth, APIEndpoint.Logout))
   public logout(@Request() { user }: { user: JwtPayload }): Promise<void> {
-    if (isNullOrUndefined(user)) {
-      return Promise.resolve();
-    }
-
     return this.authService.logout(user.id);
   }
 

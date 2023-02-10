@@ -1,0 +1,6 @@
+@use 'sass:math';
+@import '../../../../../../../libs/common-ui/src/lib/styles/base';
+
+.SignUpVerify {
+  @include full-screen-form;
+}

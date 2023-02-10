@@ -1,0 +1,14 @@
+@use 'sass:math';
+@import '../../styles/base';
+
+.Card {
+  @include padding;
+
+  display: block;
+  border-radius: $radius-large;
+  background: $colour-white;
+
+  &:not(&--no-shadow) {
+    box-shadow: 1px 2px 3px rgba($colour-black, 0.2);
+  }
+}

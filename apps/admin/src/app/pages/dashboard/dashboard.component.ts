@@ -7,4 +7,9 @@ import { AbstractComponent } from '@common-ui';
   styleUrls: ['./dashboard.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DashboardComponent extends AbstractComponent {}
+export class DashboardComponent extends AbstractComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Dashboard';
+}

@@ -4,9 +4,9 @@
   padding: $input-padding;
   border: 0;
   border-radius: $radius;
-  background: $colour-concrete;
+  outline: 1px solid $colour-concrete;
+  background: $colour-alabaster;
 
-  // box-shadow: 0 0 3px darken($colour-concrete, 40%);
   font-size: rems($input-font-size);
   line-height: 1;
 

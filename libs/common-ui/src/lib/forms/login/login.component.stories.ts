@@ -1,7 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { CommonUiModule } from '../../common-ui.module';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { CommonUiStorybookModule } from '../../common-ui.storybook.module';
 import { ENABLE_LOGGING } from '../../tokens';
 import { DEFAULT_LANGUAGE, LANGUAGES, USE_DEFAULT_LANGUAGE } from '../../translate';
 import { LoginComponent } from './login.component';
@@ -11,7 +11,7 @@ export default {
   component: LoginComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonUiModule, StoreModule.forRoot({}), RouterTestingModule],
+      imports: [CommonUiStorybookModule, StoreModule.forRoot({}), RouterTestingModule],
       providers: [
         {
           provide: LANGUAGES,

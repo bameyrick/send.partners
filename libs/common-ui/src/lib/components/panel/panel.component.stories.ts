@@ -1,4 +1,5 @@
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { mapComponentPropsForTemplate } from '../../../../.storybook/map-props';
 import { PanelType } from './panel-type';
 import { PanelComponent } from './panel.component';
 
@@ -24,14 +25,13 @@ export default {
   },
 } as Meta<PanelComponent>;
 
-const Template: Story<PanelWithContent> = (args: PanelWithContent) => ({
-  props: args,
-  template: `<common-panel ${Object.keys(args)
-    .filter(key => key !== 'content')
-    .reduce((result, key) => `${result} [${key}]="${key}"`, '')}>{{ content }}</common-panel>`,
+const Template: Story<PanelWithContent> = (props: PanelWithContent) => ({
+  props,
+  template: `<common-panel ${mapComponentPropsForTemplate(props)}>{{ content }}</common-panel>`,
 });
 
 export const Primary = Template.bind({});
+
 Primary.args = {
   title: '',
   type: PanelType.Info,

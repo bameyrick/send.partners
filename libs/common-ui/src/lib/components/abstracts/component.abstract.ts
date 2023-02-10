@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Icon } from '../../enums';
 import { IconPlacement } from '../../icon';
+import { ButtonStyle } from '../button/button-style';
 import { PanelType } from '../panel/panel-type';
 
 @Directive()
@@ -48,6 +49,11 @@ export abstract class AbstractComponent implements OnInit, OnDestroy {
    * Expose the PanelType enum to the view
    */
   public readonly PanelType = PanelType;
+
+  /**
+   * Expose the ButtonStyle enum to the view
+   */
+  public readonly ButtonStyle = ButtonStyle;
 
   /**
    * Expose the APIErrorCode enum to the view

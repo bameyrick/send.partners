@@ -19,7 +19,7 @@ export class NavigationComponent extends AbstractComponent {
   /**
    * The navigation groups
    */
-  @Input() public navigationGroups?: NavigationGroup[];
+  @Input() public navigationGroups?: NavigationGroup[] | null;
 
   /**
    * The current logged in user

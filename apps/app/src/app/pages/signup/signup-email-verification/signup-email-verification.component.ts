@@ -9,5 +9,10 @@ import { AbstractSignupStepComponent } from '../signup.abstract.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class SignupEmailVerificationComponent extends AbstractSignupStepComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'SignUpVerify';
+
   protected readonly path = AppPath.SignupVerify;
 }

@@ -1,0 +1,20 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: $colour-concrete;
+}
+
+.Main {
+  flex: 1 0 auto;
+}
+
+.Navigation + .Main {
+  @include desktop {
+    margin-left: $navigation-width;
+  }
+}

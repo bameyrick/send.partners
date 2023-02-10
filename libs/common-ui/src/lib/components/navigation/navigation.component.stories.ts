@@ -1,5 +1,6 @@
 import { AppPath } from '@common';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { mapComponentPropsForTemplate } from '../../../../.storybook/map-props';
 import { CommonUiStorybookModule } from '../../common-ui.storybook.module';
 import { Colour, Icon } from '../../enums';
 import { NavigationComponent } from './navigation.component';
@@ -22,7 +23,7 @@ export default {
 
 const Template: Story<NavigationComponent> = (props: NavigationComponent) => ({
   template: `
-    <navigation ${Object.keys(props).reduce((result, key) => `${result} [${key}]="${key}"`, '')}></navigation>
+    <navigation ${mapComponentPropsForTemplate(props)}></navigation>
     <main>
       <h2>Dashboard</h2>
     </main>

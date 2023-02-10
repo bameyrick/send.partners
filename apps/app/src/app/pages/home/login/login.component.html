@@ -1,0 +1,12 @@
+<div>
+  <h1>{{ 'common.send_partners' | translate }}</h1>
+
+  <p class="AppLogin__tagline">{{ 'home.tagline' | translate }}</p>
+</div>
+
+<div class="AppLogin__card">
+  <common-login></common-login>
+
+  <p>{{ 'login.dont_have_account' | translate }}</p>
+  <a [routerLink]="AppPath.Signup">{{ 'signup.signup' | translate }}</a>
+</div>

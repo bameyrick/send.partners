@@ -1,0 +1,6 @@
+@use 'sass:math';
+@import '../../../../../../libs/common-ui/src/lib/styles/base';
+
+.AdminLogin {
+  @include full-screen-form;
+}

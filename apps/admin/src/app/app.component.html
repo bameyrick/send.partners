@@ -1,13 +1,5 @@
-<header *ngIf="authenticated$ | async">
-  <button (click)="logout()">{{ 'common.logout' | translate }}</button>
-</header>
+<navigation *ngIf="authenticated$ | async" [navigationGroups]="navLinks$ | async"></navigation>
 
-<nav *ngIf="authenticated$ | async">
-  <ul>
-    <li *ngFor="let link of navLinks$ | async">
-      <a [routerLink]="link.path">{{ link.translationKey| translate }}</a>
-    </li>
-  </ul>
-</nav>
-
-<router-outlet></router-outlet>
+<main class="Main">
+  <router-outlet></router-outlet>
+</main>

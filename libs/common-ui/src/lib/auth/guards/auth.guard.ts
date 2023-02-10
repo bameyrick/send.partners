@@ -74,7 +74,10 @@ export class AuthGuard implements CanActivateChild {
 
         return false;
       }
-    } else if (!isLoginUrl && !url.includes(getRouterLinkForAppPath(AppPath.ResetPassword))) {
+    } else if (
+      !isLoginUrl &&
+      [AppPath.RequestPasswordReset, AppPath.ResetPassword].every(path => !url.includes(getRouterLinkForAppPath(path)))
+    ) {
       this.store.dispatch(AuthActions.logout());
 
       return false;

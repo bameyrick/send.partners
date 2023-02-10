@@ -7,4 +7,9 @@ import { AbstractComponent } from '@common-ui';
   styleUrls: ['./users.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class UsersComponent extends AbstractComponent {}
+export class UsersComponent extends AbstractComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Users';
+}

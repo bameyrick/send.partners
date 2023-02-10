@@ -1,9 +1,9 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
 import { AppPath } from '@common';
-import { AbstractComponent, AuthActions, AuthGuard, selectAuthenticated } from '@common-ui';
+import { AbstractComponent, AuthActions, AuthGuard, Icon, NavigationGroup, selectAuthenticated } from '@common-ui';
 import { Store } from '@ngrx/store';
 import { asyncFilter } from '@qntm-code/utils';
-import { concatMap, filter } from 'rxjs';
+import { concatMap, filter, Observable } from 'rxjs';
 
 @Component({
   selector: 'admin-root',
@@ -13,6 +13,11 @@ import { concatMap, filter } from 'rxjs';
 })
 export class AppComponent extends AbstractComponent {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'App';
+
+  /**
    * Whether the current user is authenticated
    */
   public readonly authenticated$ = this.store.select(selectAuthenticated);
@@ -20,26 +25,50 @@ export class AppComponent extends AbstractComponent {
   /**
    * Links to show in the navigation bar
    */
-  public readonly navLinks$ = this.authenticated$.pipe(
+  public readonly navLinks$: Observable<NavigationGroup[]> = this.authenticated$.pipe(
     filter(authenticated => !!authenticated),
     concatMap(
       async () =>
         await asyncFilter(
           [
             {
-              path: AppPath.Root,
-              translationKey: 'admin.dashboard',
+              items: [
+                {
+                  url: AppPath.Root,
+                  translationKey: 'admin.dashboard',
+                  icon: Icon.TableLayout,
+                },
+              ],
             },
             {
-              path: AppPath.Users,
-              translationKey: 'admin.users',
+              items: [
+                {
+                  url: AppPath.Users,
+                  translationKey: 'admin.users',
+                  icon: Icon.Users,
+                },
+              ],
             },
             {
-              path: AppPath.ActivityConfigs,
-              translationKey: 'admin.activity_configs',
+              items: [
+                {
+                  url: AppPath.Groups,
+                  translationKey: 'groups.groups',
+                  icon: Icon.Group,
+                },
+              ],
             },
-          ],
-          async link => await this.authGuard.hasAuthorityForRoute(link.path)
+            {
+              items: [
+                {
+                  url: AppPath.ActivityConfigs,
+                  translationKey: 'admin.activity_configs',
+                  icon: Icon.SettingsSliders,
+                },
+              ],
+            },
+          ] as NavigationGroup[],
+          async group => !group.url || (await this.authGuard.hasAuthorityForRoute(group.url))
         )
     )
   );

@@ -1,5 +1,6 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { CommonUiModule } from '../../common-ui.module';
+import { mapComponentPropsForTemplate } from '../../../../.storybook/map-props';
+import { CommonUiStorybookModule } from '../../common-ui.storybook.module';
 import { NumberInputComponent } from './number-input.component';
 
 export default {
@@ -7,16 +8,13 @@ export default {
   component: NumberInputComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonUiModule],
+      imports: [CommonUiStorybookModule],
     }),
   ],
 } as Meta<NumberInputComponent>;
 
 const Template: Story<NumberInputComponent> = (props: NumberInputComponent) => ({
-  template: `<number-input ${Object.keys(props).reduce(
-    (result, key) => `${result} [${key}]="${key}"`,
-    ''
-  )} [ngModel]="false"></number-input>`,
+  template: `<number-input ${mapComponentPropsForTemplate(props)} [ngModel]="false"></number-input>`,
   props,
 });
 

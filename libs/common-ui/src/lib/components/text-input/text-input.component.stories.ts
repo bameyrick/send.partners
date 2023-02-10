@@ -1,5 +1,6 @@
-import { moduleMetadata, Story, Meta } from '@storybook/angular';
-import { CommonUiModule } from '../../common-ui.module';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { mapComponentPropsForTemplate } from '../../../../.storybook/map-props';
+import { CommonUiStorybookModule } from '../../common-ui.storybook.module';
 import { TextInputComponent } from './text-input.component';
 
 export default {
@@ -7,7 +8,7 @@ export default {
   component: TextInputComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonUiModule],
+      imports: [CommonUiStorybookModule],
     }),
   ],
   argTypes: {
@@ -20,9 +21,9 @@ export default {
   },
 } as Meta<TextInputComponent>;
 
-const Template: Story<TextInputComponent> = (args: TextInputComponent) => ({
-  template: `<text-input ${Object.keys(args).reduce((result, key) => `${result} [${key}]="${key}"`, '')} [ngModel]="''"></text-input>`,
-  props: args,
+const Template: Story<TextInputComponent> = (props: TextInputComponent) => ({
+  template: `<text-input ${mapComponentPropsForTemplate(props)} [ngModel]="''"></text-input>`,
+  props,
 });
 
 export const Primary = Template.bind({});

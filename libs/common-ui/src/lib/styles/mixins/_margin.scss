@@ -1,0 +1,39 @@
+@mixin margin($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    margin: $desktop !important;
+  }
+
+  margin: $mobile !important;
+}
+
+@mixin margin-top($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    margin-top: $desktop !important;
+  }
+
+  margin-top: $mobile !important;
+}
+
+@mixin margin-right($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    margin-right: $desktop !important;
+  }
+
+  margin-right: $mobile !important;
+}
+
+@mixin margin-bottom($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    margin-bottom: $desktop !important;
+  }
+
+  margin-bottom: $mobile !important;
+}
+
+@mixin margin-left($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    margin-left: $desktop !important;
+  }
+
+  margin-left: $mobile !important;
+}

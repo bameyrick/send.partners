@@ -1,0 +1,10 @@
+@use 'sass:math';
+@import '../../../../../libs/common-ui/src/lib/styles/base';
+
+.App {
+  &__footer {
+    @include font-size(fs-s);
+
+    background: $colour-white;
+  }
+}

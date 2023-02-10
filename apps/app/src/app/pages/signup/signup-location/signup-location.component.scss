@@ -1,0 +1,6 @@
+@use 'sass:math';
+@import '../../../../../../../libs/common-ui/src/lib/styles/base';
+
+.SignUpLocation {
+  @include full-screen-form;
+}

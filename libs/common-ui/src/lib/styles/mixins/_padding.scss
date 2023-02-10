@@ -5,3 +5,35 @@
 
   padding: $mobile;
 }
+
+@mixin padding-top($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    padding-top: $desktop;
+  }
+
+  padding-top: $mobile;
+}
+
+@mixin padding-right($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    padding-right: $desktop;
+  }
+
+  padding-right: $mobile;
+}
+
+@mixin padding-bottom($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    padding-bottom: $desktop;
+  }
+
+  padding-bottom: $mobile;
+}
+
+@mixin padding-left($mobile: $element-spacing-mobile, $desktop: $element-spacing-desktop) {
+  @include desktop {
+    padding-left: $desktop;
+  }
+
+  padding-left: $mobile;
+}

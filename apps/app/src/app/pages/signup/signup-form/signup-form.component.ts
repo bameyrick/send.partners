@@ -13,6 +13,11 @@ import { firstValueFrom } from 'rxjs';
 })
 export class SignupFormComponent extends AbstractAuthFormComponent implements OnInit, OnDestroy {
   /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'SignupForm';
+
+  /**
    * Id for the password control
    */
   public readonly passwordId = 'new-password';

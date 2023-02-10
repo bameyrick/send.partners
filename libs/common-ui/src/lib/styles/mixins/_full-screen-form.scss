@@ -1,0 +1,26 @@
+@mixin full-screen-form($includeForm: true) {
+  @if $includeForm == true {
+    &__form {
+      @include margin;
+      @include padding;
+
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      border-radius: $radius-large;
+      background: $colour-white;
+    }
+
+    &__actions {
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}

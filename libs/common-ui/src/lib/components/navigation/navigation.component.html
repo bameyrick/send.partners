@@ -60,6 +60,7 @@
 <ng-template #navigationLink let-item>
   <a
     [routerLinkActive]="['Navigation__link--active']"
+    [routerLinkActiveOptions]="{ exact: item.url === AppPath.Root }"
     [routerLink]="item.url"
     class="Navigation__link"
     [iconClass]="'Navigation__icon'"

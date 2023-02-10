@@ -1,11 +1,11 @@
 {
-  "signup": "Sign Up",
+  "create_an_account": "Create an account",
   "or": "Or",
   "verification_code": "Verification Code",
   "verify_email": "Verify Email",
   "resend": "Resend",
-  "retry_wait": "Please wait {seconds}s before retrying",
-  "login_instead": "Login instead",
+  "resend_wait": "{minutes,plural, =0 {Please wait {seconds}s before resending} other {Please wait {minutes}m {seconds}s before resending}}",
+  "login_instead": "Log in instead",
   "get_my_location": "Get my location",
   "location_error": {
     "code_1": "Please allow location permissions in your browser",

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { AbstractComponent, selectAuthenticated } from '@common-ui';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +9,11 @@ import { AbstractComponent, selectAuthenticated } from '@common-ui';
   encapsulation: ViewEncapsulation.None,
 })
 export class HomeComponent extends AbstractComponent implements OnDestroy {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Home';
+
   /**
    * Whether to show login or signup
    */

@@ -1,5 +1,6 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { CommonUiModule } from '../../common-ui.module';
+import { mapComponentPropsForTemplate } from '../../../../.storybook/map-props';
+import { CommonUiStorybookModule } from '../../common-ui.storybook.module';
 import { CheckboxComponent } from './checkbox.component';
 
 export default {
@@ -7,13 +8,13 @@ export default {
   component: CheckboxComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonUiModule],
+      imports: [CommonUiStorybookModule],
     }),
   ],
 } as Meta<CheckboxComponent>;
 
 const Template: Story<CheckboxComponent> = (props: CheckboxComponent) => ({
-  template: `<checkbox ${Object.keys(props).reduce((result, key) => `${result} [${key}]="${key}"`, '')} [ngModel]="false"></checkbox>`,
+  template: `<checkbox ${mapComponentPropsForTemplate(props)} [ngModel]="false"></checkbox>`,
   props,
 });
 

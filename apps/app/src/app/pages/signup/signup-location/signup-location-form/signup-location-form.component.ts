@@ -11,6 +11,11 @@ import { SignupActions } from '../../store';
   encapsulation: ViewEncapsulation.None,
 })
 export class SignupLocationFormComponent extends AbstractAuthFormComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'SignupLocationForm';
+
   public gettingLocation = false;
 
   public errorKey?: string;

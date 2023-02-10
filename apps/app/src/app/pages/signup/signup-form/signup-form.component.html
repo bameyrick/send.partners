@@ -55,7 +55,9 @@
     }"
   ></text-input>
 
-  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'send_partners.signup' | translate }}</button>
+  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">
+    {{ 'send_partners.create_an_account' | translate }}
+  </button>
 </form>
 
-{{ 'send_partners.or' | translate }} <a [routerLink]="loginLink">{{ 'common.login' | translate }}</a>
+{{ 'signup.already_have_an_account' | translate }} <a [routerLink]="loginLink">{{ 'common.login' | translate }}</a>

@@ -1,9 +1,9 @@
 <form class="SignupName__form" [formGroup]="form" (submit)="submit()">
+  <h2>{{ 'signup.whats_your_name' | translate }}</h2>
+
   <common-panel *ngIf="error$ | async" [type]="PanelType.Error">
     <p>{{ error$ | async | translate }}</p>
   </common-panel>
-
-  {{ error$ | async | translate }}
 
   <text-input
     class="SignupName__field"
@@ -17,5 +17,9 @@
     }"
   ></text-input>
 
-  <button [type]="'submit'" class="SignupName__button" [loading]="form.disabled">{{ 'common.next' | translate }}</button>
+  <footer>
+    <button [type]="'submit'" class="SignupName__button" [loading]="form.disabled">
+      {{ 'common.next' | translate }}
+    </button>
+  </footer>
 </form>

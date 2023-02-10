@@ -1,0 +1,15 @@
+@use 'sass:math';
+@import '../../../../../../../libs/common-ui/src/lib/styles/base';
+
+.AppLogin {
+  @include desktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    &__card {
+      padding: $element-spacing-desktop;
+      border-radius: $radius-large;
+      background: $colour-white;
+    }
+  }
+}

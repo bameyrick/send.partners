@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import {
   AvatarComponent,
   ButtonComponent,
+  CardComponent,
   CheckboxComponent,
   DropdownComponent,
   FieldComponent,
@@ -42,6 +43,7 @@ const imports = [
 const declarations = [
   AvatarComponent,
   ButtonComponent,
+  CardComponent,
   CheckboxComponent,
   DropdownComponent,
   EmailVerificationComponent,

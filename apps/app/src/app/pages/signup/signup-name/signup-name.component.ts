@@ -9,5 +9,10 @@ import { AbstractSignupStepComponent } from '../signup.abstract.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class SignupNameComponent extends AbstractSignupStepComponent implements OnDestroy {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'SignUpName';
+
   protected readonly path = AppPath.SignupName;
 }

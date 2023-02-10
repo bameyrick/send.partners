@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewEncapsulation } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { AbstractComponent, AuthActions, selectAuthenticated } from '@common-ui';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +9,11 @@ import { AbstractComponent, AuthActions, selectAuthenticated } from '@common-ui'
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent extends AbstractComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'App';
+
   /**
    * Whether to show login or signup
    */

@@ -10,11 +10,29 @@
     [required]="true"
   ></text-input>
 
-  <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">{{ 'send_partners.verify_email' | translate }}</button>
+  <footer class="EmailVerification__actions">
+    <button [type]="'submit'" class="SignupForm__button" [loading]="form.disabled">
+      {{ 'send_partners.verify_email' | translate }}
+    </button>
 
-  <p *ngIf="(canResend$ | async) === false">{{ 'send_partners.retry_wait' | translate: { seconds: resendSeconds$ | async } }}</p>
+    <div class="EmailVerification__retry">
+      <div>
+        <p *ngIf="(canResend$ | async) === false">
+          {{
+            'send_partners.resend_wait' | translate : { minutes: (resendTime$ | async)?.minutes, seconds: (resendTime$ | async)?.seconds }
+          }}
+        </p>
+      </div>
 
-  <button [disabled]="form.disabled" (click)="resend()" [disabled]="(canResend$ | async) === false">
-    {{ 'send_partners.resend' | translate }}
-  </button>
+      <button
+        [style]="ButtonStyle.Secondary"
+        [small]="true"
+        [disabled]="form.disabled"
+        (click)="resend()"
+        [disabled]="(canResend$ | async) === false"
+      >
+        {{ 'send_partners.resend' | translate }}
+      </button>
+    </div>
+  </footer>
 </form>

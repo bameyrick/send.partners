@@ -134,4 +134,14 @@
       opacity: 1;
     }
   }
+
+  &--small {
+    @include font-size(fs-s);
+
+    padding: math.div(math.div($input-height - $input-font-size, 2) * 0.75em, $base-font-size);
+  }
+
+  &--full-width {
+    width: 100%;
+  }
 }
