@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonUiTestingModule } from '../../common-ui-testing.module';
 
 import { NotificationCountComponent } from './notification-count.component';
 
@@ -8,6 +9,7 @@ describe('NotificationCountComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [CommonUiTestingModule],
       declarations: [NotificationCountComponent],
     }).compileComponents();
 

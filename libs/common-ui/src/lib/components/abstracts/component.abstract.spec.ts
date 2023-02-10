@@ -6,7 +6,12 @@ import { AbstractComponent } from './component.abstract';
   selector: 'test-component',
   template: '',
 })
-class TestComponent extends AbstractComponent {}
+class TestComponent extends AbstractComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Test';
+}
 
 @Component({
   selector: 'test-wrapper',

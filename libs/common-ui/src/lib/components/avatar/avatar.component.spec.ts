@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonUiTestingModule } from '../../common-ui-testing.module';
 
 import { AvatarComponent } from './avatar.component';
 
@@ -8,6 +9,7 @@ describe('AvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [CommonUiTestingModule],
       declarations: [AvatarComponent],
     }).compileComponents();
 

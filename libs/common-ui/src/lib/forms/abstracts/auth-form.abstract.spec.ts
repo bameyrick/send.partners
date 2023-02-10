@@ -12,6 +12,11 @@ import { AbstractAuthFormComponent } from './auth-form.abstract';
   template: ``,
 })
 class TestComponent extends AbstractAuthFormComponent {
+  /**
+   * The BEM block name class
+   */
+  public readonly bemBlockClass: string = 'Test';
+
   public readonly control = new FormControl();
 
   public readonly form = new FormGroup({ control: this.control });
